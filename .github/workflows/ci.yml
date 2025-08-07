@@ -17,15 +17,14 @@ jobs:
         with:
           xcode-version: 'latest-stable'
           xcode-command-line-tools: true
-      - name: Run unit tests
-        run: |
-          # Get the latest available iOS Simulator device with proper formatting
-          DEVICE=$(xcrun simctl list devices | grep -E 'iPhone.*\([0-9A-F-]+\)' | grep -v unavailable | sort -r | head -1 | sed -n 's/^[[:space:]]*\(.*\) (.*)$/\1/p')
-          
-          echo "Using device: $DEVICE"
-          
-          xcodebuild test \
-            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
-            -scheme Marvelous-iOS \
-            -destination "platform=iOS Simulator,name=$DEVICE" \
-            -quiet
+      - name: Install SwiftLint
+        run: brew install swiftlint
+      
+      - name: Run SwiftLint
+        run: swiftlint
+      
+      - name: Build
+        run: xcodebuild -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' build
+
+      - name: Run Tests
+        run: xcodebuild -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' test
