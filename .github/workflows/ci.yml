@@ -19,8 +19,11 @@ jobs:
           xcode-command-line-tools: true
       - name: Run unit tests
         run: |
+          # Get the latest available iOS Simulator device
+          DEVICE=$(xcrun simctl list devices | grep -E 'iPhone.*\([0-9A-F-]+\)' | grep -v unavailable | sort -r | head -1 | awk -F '[()]' '{print $1}')
+          
           xcodebuild test \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination generic/platform=iOS \
+            -destination "platform=iOS Simulator,name=$DEVICE" \
             -quiet
