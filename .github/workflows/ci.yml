@@ -19,9 +19,11 @@ jobs:
           xcode-command-line-tools: true
       - name: Run tests
         run: |
-          xcodebuild test \
-            -workspace Marvelous-iOS.xcworkspace \
+          xcodebuild \
+            test \
+            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
             -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.4' \
             -quiet
+
 
