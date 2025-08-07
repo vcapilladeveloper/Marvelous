@@ -24,16 +24,8 @@ jobs:
         
       - name: Run SwiftLint
         run: swiftlint
-        
-      - name: Verify project structure
-        run: |
-          ls -la
-          ls -la Marvelous-iOS
-          
-      - name: Run unit tests
-        run: |
-          xcodebuild test \
-            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
-            -scheme Marvelous-iOS \
-            -destination "platform=iOS Simulator,id=iPhone 16" \
-            -quiet
+      - name: Build
+        run: xcodebuild -project Marvelous-iOS/Marvelous-iOS.xcodeproj -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' build
+
+      - name: Run Tests
+        run: xcodebuild -project Marvelous-iOS/Marvelous-iOS.xcodeproj -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' test
