@@ -17,13 +17,10 @@ jobs:
         with:
           xcode-version: 'latest-stable'
           xcode-command-line-tools: true
-      - name: Run tests
+      - name: Run unit tests
         run: |
-          xcodebuild \
-            test \
+          xcodebuild test \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.4' \
+            -destination 'platform=iOS Simulator,name=iPhone 14' \
             -quiet
-
-
