@@ -22,5 +22,5 @@ jobs:
           xcodebuild test \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            -destination generic/platform=iOS \
             -quiet
