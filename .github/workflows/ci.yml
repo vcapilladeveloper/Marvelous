@@ -12,25 +12,36 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
       - name: Select Xcode Version
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable'
           xcode-command-line-tools: true
+          
       - name: Install SwiftLint
         run: brew install swiftlint
-      
+        
       - name: Run SwiftLint
         run: swiftlint
+        
       - name: Verify project structure
         run: |
           ls -la
           ls -la Marvelous-iOS
+          
       - name: Run unit tests
         run: |
-          # Use fixed device name and specify project path
+          # Get the newest available iPhone simulator
+          DEVICE=$(xcrun simctl list devices | grep -E 'iPhone.*\([0-9A-F-]+\)' | grep -v unavailable | sort -r | head -1 | sed -n 's/.*(\(.*\)) (.*/\1/p')
+          
+          # Use fallback if no device found
+          [ -z "$DEVICE" ] && DEVICE="iPhone 14"
+          
+          echo "Using device: $DEVICE"
+          
           xcodebuild test \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination "platform=iOS Simulator,name=iPhone 15" \
+            -destination "platform=iOS Simulator,id=$DEVICE" \
             -quiet
