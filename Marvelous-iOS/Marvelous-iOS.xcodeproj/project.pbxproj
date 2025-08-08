@@ -21,10 +21,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F700B80C2E45EAE3007153ED /* Marvelous-iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Marvelous-iOS.xctestplan"; sourceTree = "<group>"; };
 		F70E67F12E44E75800024654 /* Marvelous-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Marvelous-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F70E67FE2E44E75900024654 /* Marvelous-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Marvelous-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F78C02932E45DE08002BB01D /* Config */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Config; sourceTree = "<group>"; };
 		F7B555BC2E44F3030024CE04 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		F7FECE092E45ECB400690D81 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -75,6 +77,8 @@
 		F70E67E82E44E75800024654 = {
 			isa = PBXGroup;
 			children = (
+				F7FECE092E45ECB400690D81 /* TestPlan.xctestplan */,
+				F700B80C2E45EAE3007153ED /* Marvelous-iOS.xctestplan */,
 				F78C02932E45DE08002BB01D /* Config */,
 				F70E67F32E44E75800024654 /* Marvelous-iOS */,
 				F70E68012E44E75900024654 /* Marvelous-iOSTests */,
