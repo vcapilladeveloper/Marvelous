@@ -1,11 +1,11 @@
 import XCTest
-@testable import Marvelous_iOS
+@testable import Config
 
 final class SecretsTests: XCTestCase {
     func testSecretsLoadsValues() {
         let fakeInfo: [String: Any] = [
-            "MarvelPublicKey": "testPublic",
-            "MarvelPrivateKey": "testPrivate"
+            SecretsKeys.marvelPublicKey: "testPublic",
+            SecretsKeys.marvelPrivateKey: "testPrivate"
         ]
 
         do {

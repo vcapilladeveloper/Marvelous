@@ -1,5 +1,12 @@
 import Foundation
 
+/// I'm using enum in order to group the keys together.
+/// I decided to use an enum instead of a struct to avoid possible instances
+enum SecretsKeys {
+    static let marvelPublicKey = "MarvelPublicKey"
+    static let marvelPrivateKey = "MarvelPrivateKey"
+}
+
 public struct Secrets: SecretsProvider {
     public let marvelPublicKey: String
     public let marvelPrivateKey: String
@@ -15,8 +22,8 @@ public struct Secrets: SecretsProvider {
             return raw.replacingOccurrences(of: "\\", with: "")
         }
         
-        self.marvelPublicKey  = try load("MarvelPublicKey")
-        self.marvelPrivateKey = try load("MarvelPrivateKey")
+        self.marvelPublicKey  = try load(SecretsKeys.marvelPublicKey)
+        self.marvelPrivateKey = try load(SecretsKeys.marvelPrivateKey)
     }
 }
 

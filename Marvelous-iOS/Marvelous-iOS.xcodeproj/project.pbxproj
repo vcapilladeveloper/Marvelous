@@ -14,19 +14,12 @@
 			remoteGlobalIDString = F70E67F02E44E75800024654;
 			remoteInfo = "Marvelous-iOS";
 		};
-		F70E68092E44E75900024654 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F70E67E92E44E75800024654 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F70E67F02E44E75800024654;
-			remoteInfo = "Marvelous-iOS";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F70E67F12E44E75800024654 /* Marvelous-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Marvelous-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F70E67FE2E44E75900024654 /* Marvelous-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Marvelous-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F70E68082E44E75900024654 /* Marvelous-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Marvelous-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F78C02932E45DE08002BB01D /* Config */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Config; sourceTree = "<group>"; };
 		F7B555BC2E44F3030024CE04 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,11 +47,6 @@
 			path = "Marvelous-iOSTests";
 			sourceTree = "<group>";
 		};
-		F70E680B2E44E75900024654 /* Marvelous-iOSUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Marvelous-iOSUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,22 +64,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F70E68052E44E75900024654 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		F70E67E82E44E75800024654 = {
 			isa = PBXGroup;
 			children = (
+				F78C02932E45DE08002BB01D /* Config */,
 				F70E67F32E44E75800024654 /* Marvelous-iOS */,
 				F70E68012E44E75900024654 /* Marvelous-iOSTests */,
-				F70E680B2E44E75900024654 /* Marvelous-iOSUITests */,
 				F70E67F22E44E75800024654 /* Products */,
 				F7587CFA2E44F6F4006DB957 /* Recovered References */,
 			);
@@ -102,7 +83,6 @@
 			children = (
 				F70E67F12E44E75800024654 /* Marvelous-iOS.app */,
 				F70E67FE2E44E75900024654 /* Marvelous-iOSTests.xctest */,
-				F70E68082E44E75900024654 /* Marvelous-iOSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -164,29 +144,6 @@
 			productReference = F70E67FE2E44E75900024654 /* Marvelous-iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		F70E68072E44E75900024654 /* Marvelous-iOSUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F70E68182E44E75900024654 /* Build configuration list for PBXNativeTarget "Marvelous-iOSUITests" */;
-			buildPhases = (
-				F70E68042E44E75900024654 /* Sources */,
-				F70E68052E44E75900024654 /* Frameworks */,
-				F70E68062E44E75900024654 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F70E680A2E44E75900024654 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				F70E680B2E44E75900024654 /* Marvelous-iOSUITests */,
-			);
-			name = "Marvelous-iOSUITests";
-			packageProductDependencies = (
-			);
-			productName = "Marvelous-iOSUITests";
-			productReference = F70E68082E44E75900024654 /* Marvelous-iOSUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -205,10 +162,6 @@
 						LastSwiftMigration = 1640;
 						TestTargetID = F70E67F02E44E75800024654;
 					};
-					F70E68072E44E75900024654 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = F70E67F02E44E75800024654;
-					};
 				};
 			};
 			buildConfigurationList = F70E67EC2E44E75800024654 /* Build configuration list for PBXProject "Marvelous-iOS" */;
@@ -222,7 +175,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F70E681B2E44E80F00024654 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
-				F70E681C2E44E82200024654 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F70E67F22E44E75800024654 /* Products */;
@@ -231,7 +183,6 @@
 			targets = (
 				F70E67F02E44E75800024654 /* Marvelous-iOS */,
 				F70E67FD2E44E75900024654 /* Marvelous-iOSTests */,
-				F70E68072E44E75900024654 /* Marvelous-iOSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -245,13 +196,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F70E67FC2E44E75900024654 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F70E68062E44E75900024654 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -297,13 +241,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F70E68042E44E75900024654 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -311,11 +248,6 @@
 			isa = PBXTargetDependency;
 			target = F70E67F02E44E75800024654 /* Marvelous-iOS */;
 			targetProxy = F70E67FF2E44E75900024654 /* PBXContainerItemProxy */;
-		};
-		F70E680A2E44E75900024654 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F70E67F02E44E75800024654 /* Marvelous-iOS */;
-			targetProxy = F70E68092E44E75900024654 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -552,42 +484,6 @@
 			};
 			name = Release;
 		};
-		F70E68192E44E75900024654 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N7AZRND92Z;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vcapilladeveloper.Marvelous-iOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Marvelous-iOS";
-			};
-			name = Debug;
-		};
-		F70E681A2E44E75900024654 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N7AZRND92Z;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vcapilladeveloper.Marvelous-iOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Marvelous-iOS";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -618,15 +514,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F70E68182E44E75900024654 /* Build configuration list for PBXNativeTarget "Marvelous-iOSUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F70E68192E44E75900024654 /* Debug */,
-				F70E681A2E44E75900024654 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -636,14 +523,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.59.1;
-			};
-		};
-		F70E681C2E44E82200024654 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.21.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
