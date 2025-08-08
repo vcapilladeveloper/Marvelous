@@ -12,20 +12,36 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Select Xcode Version
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable'
           xcode-command-line-tools: true
-          
+
       - name: Install SwiftLint
         run: brew install swiftlint
-        
+
       - name: Run SwiftLint
         run: swiftlint
-      - name: Build
-        run: xcodebuild -project Marvelous-iOS/Marvelous-iOS.xcodeproj -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' build
 
-      - name: Run Tests
-        run: xcodebuild -project Marvelous-iOS/Marvelous-iOS.xcodeproj -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' -only-testing:Marvelous-iOSTests test
+      # Si tu proyecto depende de Pods, descomenta:
+      # - name: Install CocoaPods
+      #   run: pod install
+
+      - name: Build for testing
+        run: |
+          xcodebuild build-for-testing \
+            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
+            -scheme Marvelous-iOS \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run tests
+        run: |
+          xcodebuild test-without-building \
+            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
+            -scheme Marvelous-iOS \
+            -destination 'platform=iOS Simulator,name=iPhone 16'
