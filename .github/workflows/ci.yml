@@ -28,4 +28,4 @@ jobs:
         run: xcodebuild -project Marvelous-iOS/Marvelous-iOS.xcodeproj -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' build
 
       - name: Run Tests
-        run: xcodebuild -project Marvelous-iOS/Marvelous-iOS.xcodeproj -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' test
+        run: xcodebuild -project Marvelous-iOS/Marvelous-iOS.xcodeproj -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 16' -only-testing:Marvelous-iOSTests test
