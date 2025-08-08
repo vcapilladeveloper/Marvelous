@@ -26,6 +26,7 @@
 		F78C02932E45DE08002BB01D /* Config */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Config; sourceTree = "<group>"; };
 		F7B555BC2E44F3030024CE04 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		F7D79DBB2E46389A00490179 /* CoreModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CoreModels; sourceTree = "<group>"; };
+		F7D79DBC2E463E4D00490179 /* CoreNetworking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CoreNetworking; sourceTree = "<group>"; };
 		F7FECE092E45ECB400690D81 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +78,7 @@
 		F70E67E82E44E75800024654 = {
 			isa = PBXGroup;
 			children = (
+				F7D79DBC2E463E4D00490179 /* CoreNetworking */,
 				F7D79DBB2E46389A00490179 /* CoreModels */,
 				F7FECE092E45ECB400690D81 /* TestPlan.xctestplan */,
 				F78C02932E45DE08002BB01D /* Config */,

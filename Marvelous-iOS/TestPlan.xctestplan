@@ -13,13 +13,6 @@
   },
   "testTargets" : [
     {
-      "target" : {
-        "containerPath" : "container:Config",
-        "identifier" : "ConfigTests",
-        "name" : "ConfigTests"
-      }
-    },
-    {
       "enabled" : false,
       "target" : {
         "containerPath" : "container:Marvelous-iOS.xcodeproj",
@@ -32,6 +25,20 @@
         "containerPath" : "container:CoreModels",
         "identifier" : "CoreModelsTests",
         "name" : "CoreModelsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:CoreNetworking",
+        "identifier" : "CoreNetworkingTests",
+        "name" : "CoreNetworkingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Config",
+        "identifier" : "ConfigTests",
+        "name" : "ConfigTests"
       }
     }
   ],
