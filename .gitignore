@@ -62,3 +62,4 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 Marvelous-iOS/.DS_Store
 .DS_Store
+Marvelous-iOS/Marvelous-iOS/Config/Secrets.xcconfig
