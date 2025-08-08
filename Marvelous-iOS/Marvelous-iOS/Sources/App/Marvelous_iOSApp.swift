@@ -1,4 +1,5 @@
 import SwiftUI
+import Config
 
 @main
 struct MarvelousiOSApp: App {

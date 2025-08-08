@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F71428B62E45E1C6002601AA /* Config in Frameworks */ = {isa = PBXBuildFile; productRef = F71428B52E45E1C6002601AA /* Config */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F70E67FF2E44E75900024654 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -54,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F71428B62E45E1C6002601AA /* Config in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +121,7 @@
 			);
 			name = "Marvelous-iOS";
 			packageProductDependencies = (
+				F71428B52E45E1C6002601AA /* Config */,
 			);
 			productName = "Marvelous-iOS";
 			productReference = F70E67F12E44E75800024654 /* Marvelous-iOS.app */;
@@ -175,6 +181,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F70E681B2E44E80F00024654 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				F71428B42E45E1C6002601AA /* XCLocalSwiftPackageReference "Config" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F70E67F22E44E75800024654 /* Products */;
@@ -516,6 +523,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		F71428B42E45E1C6002601AA /* XCLocalSwiftPackageReference "Config" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Config;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		F70E681B2E44E80F00024654 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -526,6 +540,13 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F71428B52E45E1C6002601AA /* Config */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Config;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F70E67E92E44E75800024654 /* Project object */;
 }
