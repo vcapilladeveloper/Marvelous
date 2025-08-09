@@ -35,7 +35,16 @@ final class APIClientTests: XCTestCase {
         let data = Data(json.utf8)
         let url = URL(string: "https://example.com")!
 
-        let mockSession = URLSessionMock(data: data, response: HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!, error: nil)
+        let mockSession = URLSessionMock(
+            data: data,
+            response: HTTPURLResponse(
+                url: url,
+                statusCode: 200,
+                httpVersion: nil,
+                headerFields: nil
+            )!,
+            error: nil
+        )
 
         let client = APIClient(session: mockSession)
         let response = try await client.fetch(APIResponse<Hero>.self, from: url)

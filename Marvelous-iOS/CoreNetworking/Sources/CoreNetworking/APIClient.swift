@@ -1,11 +1,11 @@
 import Foundation
 import CoreModels
 
-public protocol APIRequestable {
+public protocol APIRequestable: Sendable {
     func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws -> T
 }
 
-public final class APIClient: APIRequestable {
+public final class APIClient: APIRequestable, @unchecked Sendable {
     private let session: URLSessionProtocol
 
     public init(session: URLSessionProtocol = URLSession.shared) {

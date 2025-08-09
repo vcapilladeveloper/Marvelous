@@ -14,12 +14,13 @@ public struct MarvelAPI {
     }
 
     private func authQueryItems() -> [URLQueryItem] {
-        let timestamp = "\(Date().timeIntervalSince1970)"
-        let hash = "\(timestamp)\(privateKey)\(publicKey)".md5
+        let timestamp = String(Int(Date().timeIntervalSince1970))
+        let privateKey = privateKey
+        let publicKey = publicKey
         return [
             URLQueryItem(name: "ts", value: timestamp),
             URLQueryItem(name: "apikey", value: publicKey),
-            URLQueryItem(name: "hash", value: hash)
+            URLQueryItem(name: "hash", value: "\(timestamp)\(privateKey)\(publicKey)".md5)
         ]
     }
 

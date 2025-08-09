@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F71428B62E45E1C6002601AA /* Config in Frameworks */ = {isa = PBXBuildFile; productRef = F71428B52E45E1C6002601AA /* Config */; };
+		F7C3A9262E4648750007175C /* CoreNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A9252E4648750007175C /* CoreNetworking */; };
+		F7C3A9292E4648920007175C /* CoreNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A9282E4648920007175C /* CoreNetworking */; };
+		F7C3A92C2E4648A30007175C /* CoreModels in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A92B2E4648A30007175C /* CoreModels */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F71428B62E45E1C6002601AA /* Config in Frameworks */,
+				F7C3A9262E4648750007175C /* CoreNetworking in Frameworks */,
+				F7C3A9292E4648920007175C /* CoreNetworking in Frameworks */,
+				F7C3A92C2E4648A30007175C /* CoreModels in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +134,9 @@
 			name = "Marvelous-iOS";
 			packageProductDependencies = (
 				F71428B52E45E1C6002601AA /* Config */,
+				F7C3A9252E4648750007175C /* CoreNetworking */,
+				F7C3A9282E4648920007175C /* CoreNetworking */,
+				F7C3A92B2E4648A30007175C /* CoreModels */,
 			);
 			productName = "Marvelous-iOS";
 			productReference = F70E67F12E44E75800024654 /* Marvelous-iOS.app */;
@@ -188,6 +197,8 @@
 			packageReferences = (
 				F70E681B2E44E80F00024654 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				F71428B42E45E1C6002601AA /* XCLocalSwiftPackageReference "Config" */,
+				F7C3A9272E4648920007175C /* XCLocalSwiftPackageReference "CoreNetworking" */,
+				F7C3A92A2E4648A30007175C /* XCLocalSwiftPackageReference "CoreModels" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F70E67F22E44E75800024654 /* Products */;
@@ -534,6 +545,14 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Config;
 		};
+		F7C3A9272E4648920007175C /* XCLocalSwiftPackageReference "CoreNetworking" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = CoreNetworking;
+		};
+		F7C3A92A2E4648A30007175C /* XCLocalSwiftPackageReference "CoreModels" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = CoreModels;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -551,6 +570,18 @@
 		F71428B52E45E1C6002601AA /* Config */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Config;
+		};
+		F7C3A9252E4648750007175C /* CoreNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreNetworking;
+		};
+		F7C3A9282E4648920007175C /* CoreNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreNetworking;
+		};
+		F7C3A92B2E4648A30007175C /* CoreModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreModels;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
