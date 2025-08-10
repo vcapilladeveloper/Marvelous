@@ -2,7 +2,7 @@ import XCTest
 @testable import CoreModels
 
 final class HeroDecodingTests: XCTestCase {
-    
+
     func testHeroDecoding() throws {
         let json = """
         {
@@ -54,7 +54,7 @@ final class HeroDecodingTests: XCTestCase {
         """
         let data = Data(json.utf8)
         let decoded = try JSONDecoder().decode(APIResponse<Hero>.self, from: data)
-        
+
         XCTAssertEqual(decoded.code, 200)
         XCTAssertEqual(decoded.data.results.count, 1)
         XCTAssertEqual(decoded.data.results.first?.name, "3-D Man")

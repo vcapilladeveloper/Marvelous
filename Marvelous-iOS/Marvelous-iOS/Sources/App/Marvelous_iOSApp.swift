@@ -61,7 +61,7 @@ struct MarvelousiOSApp: App {
             }
         }
     }
-    
+
     @MainActor
     private func loadHeroes() async {
         guard let publicKey = secrets?.marvelPublicKey,

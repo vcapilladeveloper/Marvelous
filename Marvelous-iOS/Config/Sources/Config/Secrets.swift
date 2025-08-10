@@ -10,7 +10,7 @@ enum SecretsKeys {
 public struct Secrets: SecretsProvider {
     public let marvelPublicKey: String
     public let marvelPrivateKey: String
-    
+
     public init(infoDictionary: [String: Any] = Bundle.main.infoDictionary ?? [:]) throws {
         func load(_ key: String) throws -> String {
             guard
@@ -21,9 +21,8 @@ public struct Secrets: SecretsProvider {
             }
             return raw.replacingOccurrences(of: "\\", with: "")
         }
-        
+
         self.marvelPublicKey  = try load(SecretsKeys.marvelPublicKey)
         self.marvelPrivateKey = try load(SecretsKeys.marvelPrivateKey)
     }
 }
-

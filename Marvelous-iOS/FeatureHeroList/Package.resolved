@@ -1,5 +1,5 @@
 {
-  "originHash" : "35f85a36489430c23f1cf4496966bc383e8bdb3fa6c3c7093b13fc78a4f94cfe",
+  "originHash" : "0bc355305f4738e875770266421f2d4c5b937f3e8f3f57d5f166e849590063a9",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -123,26 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-syntax",
       "state" : {
-        "revision" : "1103c45ece4f7fe160b8f75b4ea1ee2e5fac1841",
-        "version" : "601.0.0"
-      }
-    },
-    {
-      "identity" : "swiftlintplugins",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
-      "state" : {
-        "revision" : "8545ddf4de043e6f2051c5cf204f39ef778ebf6b",
-        "version" : "0.59.1"
-      }
-    },
-    {
-      "identity" : "viewinspector",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nalexn/ViewInspector.git",
-      "state" : {
-        "revision" : "a6fcac8485bc8f57b2d2b55bb6d97138e8659e4b",
-        "version" : "0.10.2"
+        "revision" : "f99ae8aa18f0cf0d53481901f88a0991dc3bd4a2",
+        "version" : "601.0.1"
       }
     },
     {

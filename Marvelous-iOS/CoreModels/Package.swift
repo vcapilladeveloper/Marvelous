@@ -4,15 +4,16 @@ import PackageDescription
 let package = Package(
     name: "CoreModels",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v16)
     ],
     products: [
         .library(
             name: "CoreModels",
             targets: ["CoreModels"]
-        ),
+        )
     ],
-    dependencies: [],
+    dependencies: [
+    ],
     targets: [
         .target(
             name: "CoreModels",
@@ -21,6 +22,6 @@ let package = Package(
         .testTarget(
             name: "CoreModelsTests",
             dependencies: ["CoreModels"]
-        ),
+        )
     ]
 )

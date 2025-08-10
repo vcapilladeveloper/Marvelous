@@ -1,16 +1,16 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
     name: "DesignSystem",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v16)],
     products: [
         .library(name: "DesignSystem", targets: ["DesignSystem"])
     ],
     dependencies: [
         // Lottie (Airbnb)
         .package(url: "https://github.com/airbnb/lottie-ios.git", from: "4.4.0"),
-        // ViewInspector only for tests
+        // ViewInspector (tests only)
         .package(url: "https://github.com/nalexn/ViewInspector.git", from: "0.9.10")
     ],
     targets: [
@@ -20,7 +20,6 @@ let package = Package(
                 .product(name: "Lottie", package: "lottie-ios")
             ],
             resources: [
-                // Include animations and optional color assets
                 .process("Resources/Animations")
             ]
         ),

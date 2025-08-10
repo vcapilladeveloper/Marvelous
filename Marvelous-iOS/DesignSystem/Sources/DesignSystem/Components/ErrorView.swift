@@ -12,7 +12,7 @@ public struct ErrorView: View {
     }
 
     public var body: some View {
-        VStack(spacing: DSSpacing.lg) {
+        VStack(spacing: DSSpacing.large) {
             Text(message)
                 .font(DSTypography.body)
                 .foregroundColor(DSPalette.error)

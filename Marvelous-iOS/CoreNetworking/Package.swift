@@ -5,13 +5,13 @@ import PackageDescription
 let package = Package(
     name: "CoreNetworking",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v16)
     ],
     products: [
         .library(
             name: "CoreNetworking",
             targets: ["CoreNetworking"]
-        ),
+        )
     ],
     dependencies: [
         .package(path: "../CoreModels")
@@ -24,6 +24,6 @@ let package = Package(
         .testTarget(
             name: "CoreNetworkingTests",
             dependencies: ["CoreNetworking"]
-        ),
+        )
     ]
 )

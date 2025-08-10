@@ -5,8 +5,12 @@ public struct Shimmer: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .overlay(
-                LinearGradient(gradient:
-                    Gradient(colors: [.white.opacity(0), .white.opacity(0.35), .white.opacity(0)]),
+                LinearGradient(
+                    gradient:
+                        Gradient(colors: [
+                            .white.opacity(0), .white.opacity(0.35),
+                            .white.opacity(0)
+                        ]),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -15,7 +19,9 @@ public struct Shimmer: ViewModifier {
                 .offset(x: phase)
             )
             .onAppear {
-                withAnimation(.linear(duration: 1.2).repeatForever(autoreverses: false)) {
+                withAnimation(
+                    .linear(duration: 1.2).repeatForever(autoreverses: false)
+                ) {
                     phase = 180
                 }
             }

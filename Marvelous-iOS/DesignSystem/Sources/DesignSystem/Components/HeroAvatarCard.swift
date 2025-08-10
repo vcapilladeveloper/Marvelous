@@ -11,7 +11,7 @@ public struct HeroAvatarCard: View, Identifiable {
     }
 
     public var body: some View {
-        VStack(alignment: .center, spacing: DSSpacing.sm) {
+        VStack(alignment: .center, spacing: DSSpacing.small) {
             AsyncRemoteImage(url: imageURL, width: 110, height: 130, cornerRadius: 12)
             Text(name)
                 .font(DSTypography.heroName)

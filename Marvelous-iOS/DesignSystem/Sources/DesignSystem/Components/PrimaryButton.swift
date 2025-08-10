@@ -14,7 +14,7 @@ public struct PrimaryButton: View {
             Text(title)
                 .font(DSTypography.body)
                 .foregroundColor(.white)
-                .padding(.vertical, DSSpacing.sm)
+                .padding(.vertical, DSSpacing.small)
                 .frame(maxWidth: .infinity)
                 .background(DSPalette.brand)
                 .cornerRadius(12)

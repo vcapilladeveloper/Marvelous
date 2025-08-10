@@ -33,16 +33,26 @@ final class APIClientTests: XCTestCase {
         }
         """
         let data = Data(json.utf8)
-        let url = URL(string: "https://example.com")!
+        guard let url = URL(string: "https://example.com") else {
+            XCTFail("Invalid URL")
+            return
+        }
 
-        let mockSession = URLSessionMock(
-            data: data,
-            response: HTTPURLResponse(
+        guard
+            let mockResponse = HTTPURLResponse(
                 url: url,
                 statusCode: 200,
                 httpVersion: nil,
                 headerFields: nil
-            )!,
+            )
+        else {
+            XCTFail("Failed to create mock session")
+            return
+        }
+
+        let mockSession = URLSessionMock(
+            data: data,
+            response: mockResponse,
             error: nil
         )
 
