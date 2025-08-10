@@ -31,7 +31,7 @@ jobs:
       - name: Build for testing
         run: |
           xcodebuild build-for-testing \
-            -workspace Marvelous-iOS/Marvelous-iOS.xcworkspace \
+            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -skipMacroValidation \
@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           xcodebuild test-without-building \
-            -workspace Marvelous-iOS/Marvelous-iOS.xcworkspace \
+            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -skipMacroValidation
