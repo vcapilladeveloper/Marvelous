@@ -34,7 +34,8 @@ jobs:
           xcodebuild build-for-testing \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -testPlan TestPlan \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO
@@ -44,4 +45,5 @@ jobs:
           xcodebuild test-without-building \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 16'
+            -testPlan TestPlan \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest'
