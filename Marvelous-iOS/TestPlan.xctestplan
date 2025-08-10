@@ -42,7 +42,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:FeatureHeroList",
         "identifier" : "FeatureHeroListTests",
