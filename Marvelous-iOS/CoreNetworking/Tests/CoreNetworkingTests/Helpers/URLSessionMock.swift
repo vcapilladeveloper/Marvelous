@@ -12,7 +12,7 @@ struct URLSessionMock: URLSessionProtocol {
         self.mockError = error
     }
 
-    func data(from url: URL) async throws -> (Data, URLResponse) {
+    func data(for request: URLRequest) async throws -> (Data, URLResponse) {
         if let error = mockError { throw error }
         return (mockData, mockResponse)
     }

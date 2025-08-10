@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		F71428B62E45E1C6002601AA /* Config in Frameworks */ = {isa = PBXBuildFile; productRef = F71428B52E45E1C6002601AA /* Config */; };
+		F77813A02E4901AF00B76C6D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = F778139F2E4901AF00B76C6D /* DesignSystem */; };
+		F77813A32E4901BA00B76C6D /* FeatureArticleList in Frameworks */ = {isa = PBXBuildFile; productRef = F77813A22E4901BA00B76C6D /* FeatureArticleList */; };
 		F7C3A9262E4648750007175C /* CoreNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A9252E4648750007175C /* CoreNetworking */; };
 		F7C3A9292E4648920007175C /* CoreNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A9282E4648920007175C /* CoreNetworking */; };
 		F7C3A92C2E4648A30007175C /* CoreModels in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A92B2E4648A30007175C /* CoreModels */; };
+		F7F36A592E49049E0060A070 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F7F36A582E49049E0060A070 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,7 +30,7 @@
 		F70E67F12E44E75800024654 /* Marvelous-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Marvelous-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F70E67FE2E44E75900024654 /* Marvelous-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Marvelous-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75887E02E474A45007C35BF /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
-		F76924C92E475A15008B950C /* FeatureHeroList */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FeatureHeroList; sourceTree = "<group>"; };
+		F778139D2E48FEE000B76C6D /* FeatureArticleList */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FeatureArticleList; sourceTree = "<group>"; };
 		F78C02932E45DE08002BB01D /* Config */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Config; sourceTree = "<group>"; };
 		F7B555BC2E44F3030024CE04 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		F7D79DBB2E46389A00490179 /* CoreModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CoreModels; sourceTree = "<group>"; };
@@ -66,6 +69,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F77813A32E4901BA00B76C6D /* FeatureArticleList in Frameworks */,
+				F77813A02E4901AF00B76C6D /* DesignSystem in Frameworks */,
+				F7F36A592E49049E0060A070 /* ComposableArchitecture in Frameworks */,
 				F71428B62E45E1C6002601AA /* Config in Frameworks */,
 				F7C3A9262E4648750007175C /* CoreNetworking in Frameworks */,
 				F7C3A9292E4648920007175C /* CoreNetworking in Frameworks */,
@@ -86,7 +92,7 @@
 		F70E67E82E44E75800024654 = {
 			isa = PBXGroup;
 			children = (
-				F76924C92E475A15008B950C /* FeatureHeroList */,
+				F778139D2E48FEE000B76C6D /* FeatureArticleList */,
 				F75887E02E474A45007C35BF /* DesignSystem */,
 				F7D79DBC2E463E4D00490179 /* CoreNetworking */,
 				F7D79DBB2E46389A00490179 /* CoreModels */,
@@ -141,6 +147,9 @@
 				F7C3A9252E4648750007175C /* CoreNetworking */,
 				F7C3A9282E4648920007175C /* CoreNetworking */,
 				F7C3A92B2E4648A30007175C /* CoreModels */,
+				F778139F2E4901AF00B76C6D /* DesignSystem */,
+				F77813A22E4901BA00B76C6D /* FeatureArticleList */,
+				F7F36A582E49049E0060A070 /* ComposableArchitecture */,
 			);
 			productName = "Marvelous-iOS";
 			productReference = F70E67F12E44E75800024654 /* Marvelous-iOS.app */;
@@ -203,6 +212,9 @@
 				F71428B42E45E1C6002601AA /* XCLocalSwiftPackageReference "Config" */,
 				F7C3A9272E4648920007175C /* XCLocalSwiftPackageReference "CoreNetworking" */,
 				F7C3A92A2E4648A30007175C /* XCLocalSwiftPackageReference "CoreModels" */,
+				F778139E2E4901AF00B76C6D /* XCLocalSwiftPackageReference "DesignSystem" */,
+				F77813A12E4901BA00B76C6D /* XCLocalSwiftPackageReference "FeatureArticleList" */,
+				F7F36A572E49049E0060A070 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F70E67F22E44E75800024654 /* Products */;
@@ -549,6 +561,14 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Config;
 		};
+		F778139E2E4901AF00B76C6D /* XCLocalSwiftPackageReference "DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = DesignSystem;
+		};
+		F77813A12E4901BA00B76C6D /* XCLocalSwiftPackageReference "FeatureArticleList" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = FeatureArticleList;
+		};
 		F7C3A9272E4648920007175C /* XCLocalSwiftPackageReference "CoreNetworking" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = CoreNetworking;
@@ -568,12 +588,28 @@
 				minimumVersion = 0.59.1;
 			};
 		};
+		F7F36A572E49049E0060A070 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.21.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		F71428B52E45E1C6002601AA /* Config */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Config;
+		};
+		F778139F2E4901AF00B76C6D /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
+		F77813A22E4901BA00B76C6D /* FeatureArticleList */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureArticleList;
 		};
 		F7C3A9252E4648750007175C /* CoreNetworking */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -586,6 +622,11 @@
 		F7C3A92B2E4648A30007175C /* CoreModels */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreModels;
+		};
+		F7F36A582E49049E0060A070 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7F36A572E49049E0060A070 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

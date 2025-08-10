@@ -5,11 +5,13 @@ import Foundation
 enum SecretsKeys {
     static let marvelPublicKey = "MarvelPublicKey"
     static let marvelPrivateKey = "MarvelPrivateKey"
+    static let newsAPIKey = "NewsAPiKey"
 }
 
 public struct Secrets: SecretsProvider {
-    public let marvelPublicKey: String
-    public let marvelPrivateKey: String
+//    public let marvelPublicKey: String
+//    public let marvelPrivateKey: String
+    public let newsAPIKey: String
 
     public init(infoDictionary: [String: Any] = Bundle.main.infoDictionary ?? [:]) throws {
         func load(_ key: String) throws -> String {
@@ -22,7 +24,8 @@ public struct Secrets: SecretsProvider {
             return raw.replacingOccurrences(of: "\\", with: "")
         }
 
-        self.marvelPublicKey  = try load(SecretsKeys.marvelPublicKey)
-        self.marvelPrivateKey = try load(SecretsKeys.marvelPrivateKey)
+//        self.marvelPublicKey  = try load(SecretsKeys.marvelPublicKey)
+//        self.marvelPrivateKey = try load(SecretsKeys.marvelPrivateKey)
+        self.newsAPIKey = try load(SecretsKeys.newsAPIKey)
     }
 }

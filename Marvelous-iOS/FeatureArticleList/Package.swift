@@ -2,10 +2,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "FeatureHeroList",
+    name: "FeatureArticleList",
     platforms: [.iOS(.v16)],
     products: [
-        .library(name: "FeatureHeroList", targets: ["FeatureHeroList"])
+        .library(name: "FeatureArticleList", targets: ["FeatureArticleList"])
     ],
     dependencies: [
         .package(path: "../CoreModels"),
@@ -15,7 +15,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FeatureHeroList",
+            name: "FeatureArticleList",
             dependencies: [
                 "CoreModels",
                 "CoreNetworking",
@@ -24,9 +24,10 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "FeatureHeroListTests",
+            name: "FeatureArticleListTests",
             dependencies: [
-                "FeatureHeroList",
+                "FeatureArticleList",
+                "CoreModels",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         )
