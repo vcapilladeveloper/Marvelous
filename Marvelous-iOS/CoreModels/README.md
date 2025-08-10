@@ -1,58 +1,85 @@
 # CoreModels Module
 
 ## Overview
-The CoreModels module contains the core data models for the Marvel API integration in the Marvelous iOS app. It provides type-safe, `Sendable`-compliant models for Marvel characters and related data structures.
+The CoreModels module contains the core data models for the Marvelous News iOS app. It provides type-safe, `Sendable`-compliant models for news articles and related data structures, following SOLID and Clean Architecture principles.
 
 ## Architecture
+
 
 ### 🏗 Structure
 ```
 CoreModels/
 ├── Sources/
 │   └── CoreModels/
-│       ├── APIResponse.swift
-│       ├── Hero.swift
+│       ├── NewsAPIResponse.swift
+│       ├── Article.swift
 │       └── Thumbnail.swift
 └── Tests/
     └── CoreModelsTests/
-        └── HeroDecodingTests.swift
+        └── ArticleDecodingTests.swift
 ```
 
 ### 📦 Key Components
 
 #### 1. Core Models
-- **Hero**: The main character model representing Marvel heroes
+- **Article**: The main model representing a news article
 - **Thumbnail**: Image handling model with HTTPS URL conversion
-- **APIResponse**: Generic wrapper for Marvel API responses
+- **NewsAPIResponse**: Generic wrapper for News API responses
+
+#### Example Usage
+```swift
+import CoreModels
+
+let article = Article(id: 1, title: "Breaking News", url: "https://news.com/article", urlToImage: "https://news.com/image.jpg")
+print(article.title)
+```
+
 
 #### 2. Response Containers
 ```swift
-public struct APIResponse<T: Decodable & Sendable>
-public struct APIDataContainer<T: Decodable & Sendable>
+public struct NewsAPIResponse<T: Decodable & Sendable>
+public struct NewsAPIDataContainer<T: Decodable & Sendable>
 ```
 - Generic response wrappers
 - Support for pagination
 - Type-safe data containers
 
+
 #### 3. Related Models
-- Comics, Series, Stories, and Events
-- Each with their respective List and Summary types
+- Source, Author, and other metadata
 - All conform to `Decodable` and `Sendable`
+
+## Principles & Patterns
+- SOLID: Cada modelo tiene una única responsabilidad y se puede extender sin modificar el código existente.
+- Clean Architecture: Los modelos no dependen de frameworks externos.
+
+## Dependencies
+No external dependencies.
+
+## Testing
+To run tests for this module:
+```sh
+xcodebuild test -scheme CoreModels
+```
+
+## Good Practices
+- All models are documented.
+- No force unwraps in production code.
+- All models conform to `Sendable` for concurrency safety.
 
 ## Implementation Details
 
-### Hero Model
+### Article Model
 ```swift
-public struct Hero: Decodable, Identifiable, Sendable {
+public struct Article: Decodable, Identifiable, Sendable {
     public let id: Int
-    public let name: String
-    public let description: String
-    public let thumbnail: Thumbnail
-    public let resourceURI: String
-    public let comics: ComicList
-    public let series: SeriesList
-    public let stories: StoryList
-    public let events: EventList
+    public let title: String
+    public let url: String
+    public let urlToImage: String?
+    public let source: String?
+    public let author: String?
+    public let publishedAt: Date?
+    public let content: String?
 }
 ```
 
@@ -60,7 +87,7 @@ public struct Hero: Decodable, Identifiable, Sendable {
 1. ✅ All types are `Sendable` for concurrent operations
 2. ✅ Immutable properties prevent state inconsistencies
 3. ✅ Efficient memory usage with value types
-4. ✅ HTTPS enforcement in thumbnail URLs
+4. ✅ HTTPS enforcement in image URLs
 
 ### Best Practices
 1. ✅ Clear model separation

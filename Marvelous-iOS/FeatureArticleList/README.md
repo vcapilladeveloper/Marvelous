@@ -1,27 +1,28 @@
-# FeatureHeroList Module
+# FeatureArticleList Module
 
 ## Overview
-The FeatureHeroList module implements the character list feature using The Composable Architecture (TCA). It provides a scalable and maintainable implementation for displaying and managing Marvel character data.
+The FeatureArticleList module implements the news article list feature using The Composable Architecture (TCA). It provides a scalable and maintainable implementation for displaying and managing news article data, siguiendo Clean Architecture y SOLID.
 
 ## Architecture
 
+
 ### 🏗 Structure
 ```
-FeatureHeroList/
+FeatureArticleList/
 ├── Sources/
-│   └── FeatureHeroList/
+│   └── FeatureArticleList/
 │       ├── Feature/
-│       │   ├── HeroListFeature.swift
-│       │   └── HeroListView.swift
+│       │   ├── ArticleListFeature.swift
+│       │   └── ArticleListView.swift
 │       ├── Components/
-│       │   └── HeroListCell.swift
+│       │   └── ArticleListCell.swift
 │       └── Client/
-│           └── HeroListClient.swift
+│           └── ArticleListClient.swift
 └── Tests/
-    └── FeatureHeroListTests/
-        ├── HeroListFeatureTests.swift
-        └── Helpers/
-            └── MockHeroListClient.swift
+   └── FeatureArticleListTests/
+      ├── ArticleListFeatureTests.swift
+      └── Helpers/
+         └── MockArticleListClient.swift
 ```
 
 ### 📦 Key Components
@@ -29,25 +30,54 @@ FeatureHeroList/
 #### 1. Feature
 ```swift
 @Reducer
-public struct HeroListFeature {
-    public struct State { }
-    public enum Action { }
-    public var body: some ReducerOf<Self> { }
+public struct ArticleListFeature {
+   public struct State { }
+   public enum Action { }
+   public var body: some ReducerOf<Self> { }
 }
 ```
 - TCA-based feature implementation
 - Clean separation of state and actions
 - Side effect management
 
+#### Example Usage
+```swift
+import FeatureArticleList
+import ComposableArchitecture
+
+let store = Store(initialState: ArticleListFeature.State()) {
+   ArticleListFeature()
+}
+ArticleListView(store: store)
+```
+
+
 #### 2. View Layer
 - SwiftUI views with TCA store integration
 - Reusable components
 - Design System integration
 
+
 #### 3. Client Layer
-- Protocol-based API client
+- Protocol-based API client for News
 - Testable dependencies
 - Clean data flow
+
+## Principles & Patterns
+- TCA: Reducer, State, Action, Environment.
+- SOLID: Cada feature y cliente tiene una única responsabilidad y se puede extender.
+- Clean Architecture: Separación clara entre presentación, dominio y datos.
+
+## Testing
+To run tests for this module:
+```sh
+xcodebuild test -scheme FeatureHeroList
+```
+
+## Good Practices
+- Tests unitarios y de integración.
+- Uso de mocks para dependencias.
+- Documentación en los features y clientes.
 
 ## Implementation Details
 

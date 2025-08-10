@@ -24,7 +24,7 @@ public struct ArticleCard: View, Identifiable {
     }
 }
 
-#Preview("HeroAvatarCard") {
+#Preview("ArticleCard") {
     ArticleCard(title: "Amazing sun", imageURL: URL(string: "https://picsum.photos/200"))
         .padding()
         .background(DSPalette.background)

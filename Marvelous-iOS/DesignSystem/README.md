@@ -1,9 +1,10 @@
 # DesignSystem Module
 
 ## Overview
-The DesignSystem module provides a comprehensive set of UI components, styles, and animations for the Marvelous iOS app. It implements a consistent design language using SwiftUI and follows atomic design principles.
+The DesignSystem module provides a comprehensive set of UI components, styles, and animations for the Marvelous News iOS app. It implements a consistent design language using SwiftUI, follows atomic design principles, y promueve accesibilidad y buenas prácticas.
 
 ## Architecture
+
 
 ### 🏗 Structure
 ```
@@ -12,7 +13,7 @@ DesignSystem/
 │   └── DesignSystem/
 │       ├── Components/
 │       │   ├── PrimaryButton.swift
-│       │   ├── HeroAvatarCard.swift
+│       │   ├── ArticleCard.swift
 │       │   ├── ErrorView.swift
 │       │   ├── LoadingView.swift
 │       │   ├── LottieView.swift
@@ -26,8 +27,8 @@ DesignSystem/
 │           └── Animations/
 │               └── Loading.json
 └── Tests/
-    └── DesignSystemTests/
-        └── LoadingViewTests.swift
+   └── DesignSystemTests/
+      └── LoadingViewTests.swift
 ```
 
 ### 📦 Key Components
@@ -40,10 +41,34 @@ DesignSystem/
 
 #### 2. Components
 - **PrimaryButton**: Main action button component
-- **HeroAvatarCard**: Character display card
+- **ArticleCard**: News article display card
 - **ErrorView**: Error state handling
 - **LoadingView**: Loading state with Lottie animation
 - **Shimmer**: Loading state animation effect
+
+#### Example Usage
+```swift
+import DesignSystem
+
+ArticleCard(article: article)
+   .accessibilityLabel(article.title)
+```
+
+## Accessibility
+- Todos los componentes incluyen `accessibilityLabel` y `accessibilityHint`.
+- Colores y tipografía cumplen contraste mínimo recomendado.
+- Se recomienda testear con VoiceOver y Dynamic Type.
+
+## Good Practices
+- Componentes reutilizables y documentados.
+- Sin force unwraps en producción.
+- Tests visuales y de accesibilidad.
+
+## Testing
+To run tests for this module:
+```sh
+xcodebuild test -scheme DesignSystem
+```
 
 #### 3. Resources
 - Lottie animations for enhanced loading states

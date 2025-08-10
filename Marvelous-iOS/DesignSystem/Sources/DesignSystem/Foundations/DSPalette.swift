@@ -3,7 +3,7 @@ import SwiftUI
 public enum DSPalette {
     // If you include Colors.xcassets, these will resolve from assets.
     // Otherwise, these hex fallbacks keep things working.
-    public static let brand = Color("Brand", bundle: .module).fallback(hex: 0xEC1D24) // Marvel red
+    public static let brand = Color("Brand", bundle: .module).fallback(hex: 0xEC1D24) // Brand color
     public static let textPrimary = Color("TextPrimary", bundle: .module).fallback(hex: 0x111111)
     public static let textSecondary = Color("TextSecondary", bundle: .module).fallback(hex: 0x666666)
     public static let background = Color("Background", bundle: .module).fallback(hex: 0xFFFFFF)

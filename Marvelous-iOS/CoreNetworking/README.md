@@ -1,9 +1,10 @@
 # CoreNetworking Module
 
 ## Overview
-The CoreNetworking module provides a robust networking layer for the Marvelous iOS app, specifically handling Marvel API communication. It implements a clean, protocol-oriented architecture with proper error handling and testability.
+The CoreNetworking module provides a robust networking layer for the Marvelous News iOS app, handling News API communication. It follows Clean Architecture, SOLID, and TCA principles, with protocol-oriented design, error handling, and testability.
 
 ## Architecture
+
 
 ### 🏗 Structure
 ```
@@ -11,7 +12,7 @@ CoreNetworking/
 ├── Sources/
 │   └── CoreNetworking/
 │       ├── APIClient.swift
-│       ├── MarvelAPI.swift
+│       ├── NewsAPI.swift
 │       ├── NetworkError.swift
 │       └── Helpers/
 │           ├── String+MD5.swift
@@ -36,10 +37,19 @@ public protocol APIRequestable: Sendable {
 - Async/await implementation
 - Error handling
 
-#### 2. Marvel API Client
-- Handles Marvel-specific authentication
-- Manages API endpoints
-- Implements hash generation for API security
+#### Example Usage
+```swift
+import CoreNetworking
+
+let client: APIRequestable = APIClient()
+let url = URL(string: "https://newsapi.org/v2/top-headlines")!
+let response = try await client.fetch(NewsAPIResponse<Article>.self, from: url)
+```
+
+
+#### 2. News API Client
+- Handles News API authentication (API key)
+- Manages API endpoints for articles, sources, etc.
 
 #### 3. Error Handling
 ```swift
