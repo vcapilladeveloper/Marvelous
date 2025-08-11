@@ -25,7 +25,7 @@ final class NewsAPITests: XCTestCase {
         let session = URLSessionMock(data: data, response: resp, error: nil)
 
         let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-        let result = try await api.everything(page: 1, pageSize: 20)
+        let result = try await api.everything(page: 1)
         XCTAssertEqual(result.status, "ok")
         XCTAssertEqual(result.articles?.count, 1)
         XCTAssertEqual(result.articles?.first?.title, "Hello")
