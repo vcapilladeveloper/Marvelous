@@ -2,6 +2,7 @@ import SwiftUI
 import DesignSystem
 import CoreModels
 import ComposableArchitecture
+import FeatureArticleDetails
 
 public struct ArticleListView: View {
     let store: StoreOf<ArticleListFeature>
@@ -20,6 +21,21 @@ public struct ArticleListView: View {
                     )
                     .onAppear { viewStore.send(.onAppear) }
                     .overlay { errorOverlay(viewStore: viewStore) }
+                    .sheet(
+                        isPresented: viewStore.binding(
+                            get: { $0.selected != nil },
+                            send: { $0 ? .onAppear : .dismissDetail } // opening handled by didSelect; closing dismisses
+                        ),
+                        content: {
+                            if let article = viewStore.selected {
+                                ArticleDetailsView(
+                                    store: Store(initialState: .init(article: article)) {
+                                        ArticleDetailsFeature()
+                                    }
+                                )
+                            }
+                        }
+                    )
             }
         })
     }
@@ -44,6 +60,7 @@ public struct ArticleListView: View {
         LazyVGrid(columns: columns, spacing: DSSpacing.large) {
             ForEach(viewStore.items) { article in
                 articleCell(article, viewStore: viewStore)
+                    .onTapGesture { viewStore.send(.didSelect(article)) }
                     .onAppear {
                         if article.id == viewStore.items.last?.id {
                             viewStore.send(.loadMore)

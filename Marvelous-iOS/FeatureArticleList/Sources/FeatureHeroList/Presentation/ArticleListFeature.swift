@@ -9,6 +9,7 @@ public struct ArticleListFeature: Reducer {
         public var searchQuery: String = ""
         public var page = 1
         public var total = 0
+        public var selected: Article?
         public init() {}
     /// Only allow loading more if we have less than both the API total and 100 articles
     public var canLoadMore: Bool { items.count < min(total, 100) }
@@ -19,6 +20,8 @@ public struct ArticleListFeature: Reducer {
         case searchQueryChanged(String)
         case retry
         case articlesResponse(Result<([Article], total: Int), Error>)
+        case didSelect(Article)
+        case dismissDetail
     }
 
     public var fetch: @Sendable (String, Int) async throws -> ([Article], Int)
@@ -92,6 +95,14 @@ public struct ArticleListFeature: Reducer {
             case let .articlesResponse(.failure(err)):
                 state.isLoading = false
                 state.errorMessage = err.localizedDescription
+                return .none
+
+            case let .didSelect(article):
+                state.selected = article
+                return .none
+
+            case .dismissDetail:
+                state.selected = nil
                 return .none
             }
         }
