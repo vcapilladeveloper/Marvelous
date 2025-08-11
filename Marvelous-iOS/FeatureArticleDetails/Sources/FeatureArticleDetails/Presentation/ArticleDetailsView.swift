@@ -86,7 +86,9 @@ public struct ArticleDetailsView: View {
     }
 }
 
-// UIKit share sheet wrapper
+// UIKit share sheet wrapper -> Maybe should be moved to a separate file?
+// This allows us to present a share sheet for sharing URLs or other items.
+// It uses UIViewControllerRepresentable to bridge UIKit's UIActivityViewController into SwiftUI.
 private struct ActivityView: UIViewControllerRepresentable {
     let activityItems: [Any]
     func makeUIViewController(context: Context) -> UIActivityViewController {
