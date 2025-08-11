@@ -1,18 +1,22 @@
-# Marvelous iOS
 
-A modern iOS application for Marvel lovers, showcasing clean architecture, modular design, and best practices in iOS development.
+# Marvelous News iOS
+
+A modern iOS application for tech news lovers, showcasing clean architecture, modular design, and best practices in iOS development. The app now uses the News API and features articles, search, pagination, error handling, and a modular architecture.
+
 
 ## 🏗 Project Structure
 
 ```
 Marvelous-iOS/
 ├── App/                  # Main iOS app target
-├── Config/              # Configuration and secrets management
-├── CoreModels/          # Core data models and types
-├── CoreNetworking/      # Networking and API layer
-├── DesignSystem/        # UI components and styles
-└── FeatureHeroList/     # Character list feature module
+├── Config/               # Configuration and secrets management
+├── CoreModels/           # Core data models and types
+├── CoreNetworking/       # Networking and API layer
+├── DesignSystem/         # UI components and styles
+├── FeatureArticleList/   # Article list feature module
+├── FeatureArticleDetails/# Article details feature module
 ```
+
 
 ## 🛠 Technical Stack
 
@@ -25,20 +29,23 @@ Marvelous-iOS/
   - [Lottie](https://github.com/airbnb/lottie-ios)
   - [ViewInspector](https://github.com/nalexn/ViewInspector) (Testing)
 
+
 ## 📱 Features
 
-- Display Marvel characters with images and details
+- Display tech news articles with images and details
 - Search functionality
-- Infinite scrolling
+- Pagination (infinite scrolling, up to 100 articles)
 - Error handling with retry capability
-- Loading states with animations
-- Offline support (coming soon)
+- Loading states with shimmer and Lottie animations
+- Navigation to article details via sheet
+- Accessibility support
+
 
 ## 🏛 Architecture
 
 ### Modular Design
 - **Core Modules**: Reusable foundation libraries
-- **Feature Modules**: Isolated feature implementations
+- **Feature Modules**: Isolated feature implementations (Article List, Article Details)
 - **Design System**: Consistent UI components
 - **Configuration**: Environment and secrets management
 
@@ -50,6 +57,7 @@ Marvelous-iOS/
 - Modular development
 - Comprehensive testing
 
+
 ## 🔍 Code Quality
 
 ### SwiftLint Configuration
@@ -59,13 +67,15 @@ Each module has its own SwiftLint configuration tailored to its specific needs:
 - **CoreModels**: Type safety focused rules
 - **CoreNetworking**: Network-specific rules
 - **DesignSystem**: UI-focused rules
-- **FeatureHeroList**: Feature-specific rules
+- **FeatureArticleList**: Article list feature rules
+- **FeatureArticleDetails**: Article details feature rules
 
 ### Testing Strategy
 - Unit tests for business logic
 - UI tests using ViewInspector
 - Network layer mocking
 - Test plans for different scenarios
+
 
 ## 🚀 Getting Started
 
@@ -86,23 +96,24 @@ git clone https://github.com/vcapilladeveloper/Marvelous.git
 brew install swiftlint
 ```
 
-3. Set up Marvel API keys:
-   - Create `Secrets.xcconfig` in `Config/`
-   - Add your Marvel API keys:
+3. Set up News API key:
+  - Create `Secrets.xcconfig` in `Config/`
+  - Add your News API key:
 ```
-MARVEL_PUBLIC_KEY=your_public_key
-MARVEL_PRIVATE_KEY=your_private_key
+NEWS_API_KEY=your_news_api_key
 ```
 
 4. Open `Marvelous-iOS.xcodeproj`
 
 5. Build and run
 
+
 ## 🧪 Testing
 
 Run tests using:
 - Xcode's Test Navigator
 - Command line: `xcodebuild test -scheme Marvelous-iOS`
+
 
 ## 📚 Module Documentation
 
@@ -112,7 +123,9 @@ Each module contains its own README with detailed documentation:
 - [CoreModels](CoreModels/README.md): Data models and types
 - [CoreNetworking](CoreNetworking/README.md): Networking layer
 - [DesignSystem](DesignSystem/README.md): UI components
-- [FeatureHeroList](FeatureHeroList/README.md): Character list feature
+- [FeatureArticleList](FeatureArticleList/README.md): Article list feature
+- [FeatureArticleDetails](FeatureArticleDetails/README.md): Article details feature
+
 
 ## 👥 Contributing
 
@@ -122,13 +135,15 @@ Each module contains its own README with detailed documentation:
 4. Push to the branch
 5. Create a Pull Request
 
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+
 ## 🙏 Acknowledgements
 
-- [Marvel API](https://developer.marvel.com/)
+- [News API](https://newsapi.org/)
 - [TCA](https://github.com/pointfreeco/swift-composable-architecture)
 - [Lottie](https://github.com/airbnb/lottie-ios)
 - [ViewInspector](https://github.com/nalexn/ViewInspector)
