@@ -12,23 +12,44 @@ public struct NewsAPI: Sendable {
     }
 
     public func everything(
-        query: String,
-        page: Int = 1,
-        pageSize: Int = 20,
-        language: String? = "en",
-        sortBy: String? = nil // "relevancy" | "popularity" | "publishedAt"
+        page: Int = 1
     ) async throws -> NewsAPIResponse {
         guard let base, let compsBase = URLComponents(url: base.appending(path: "everything"), resolvingAgainstBaseURL: false) else {
             throw NetworkError.invalidURL
         }
         var comps = compsBase
-        var items: [URLQueryItem] = [
-            .init(name: "q", value: query),
-            .init(name: "page", value: String(max(1, page))),
-            .init(name: "pageSize", value: String(min(100, max(1, pageSize))))
+        let items: [URLQueryItem] = [
+            .init(name: "page", value: String(page)),
+            .init(name: "pageSize", value: "20"),
+            .init(name: "language", value: "en"),
+            .init(name: "domains", value: "techcrunch.com")
         ]
-        if let language { items.append(.init(name: "language", value: language)) }
-        if let sortBy { items.append(.init(name: "sortBy", value: sortBy)) }
+
+        comps.queryItems = items
+
+        guard let url = comps.url else { throw NetworkError.invalidURL }
+        var req = URLRequest(url: url)
+        req.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
+        req.httpMethod = "GET"
+        return try await client.fetch(NewsAPIResponse.self, from: req)
+    }
+
+    public func search(
+        query: String,
+        page: Int = 1
+    ) async throws -> NewsAPIResponse {
+        guard let base, let compsBase = URLComponents(url: base.appending(path: "everything"), resolvingAgainstBaseURL: false) else {
+            throw NetworkError.invalidURL
+        }
+        var comps = compsBase
+        let items: [URLQueryItem] = [
+            .init(name: "q", value: query),
+            .init(name: "page", value: String(page)),
+            .init(name: "pageSize", value: "20"),
+            .init(name: "language", value: "en"),
+            .init(name: "domains", value: "techcrunch.com")
+        ]
+
         comps.queryItems = items
 
         guard let url = comps.url else { throw NetworkError.invalidURL }

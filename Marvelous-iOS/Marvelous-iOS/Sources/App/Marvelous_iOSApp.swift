@@ -27,8 +27,8 @@ struct MarvelousiOSApp: App {
             let repo = NewsArticlesRepository(api: api)
 
             // Wire the TCA feature with a closure dependency
-            let feature = ArticleListFeature { query, page, pageSize in
-                try await repo.fetchArticles(query: query, page: page, pageSize: pageSize)
+            let feature = ArticleListFeature { query, page in
+                try await repo.fetchArticles(query: query, page: page)
             }
 
             self.store = Store(initialState: .init(), reducer: { feature })
