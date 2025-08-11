@@ -44,8 +44,6 @@ public struct AsyncRemoteImage: View {
         }
         // Dark shadow bottom-right
         .shadow(color: DSPalette.shadow.opacity(0.4), radius: 4, x: 4, y: 4)
-        // Light shadow top-left
-        .shadow(color: .white.opacity(0.7), radius: 4, x: -4, y: -4)
         .accessibilityHidden(true)
     }
 }
