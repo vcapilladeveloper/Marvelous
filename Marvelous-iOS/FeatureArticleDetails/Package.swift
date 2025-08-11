@@ -2,34 +2,29 @@
 import PackageDescription
 
 let package = Package(
-    name: "FeatureArticleList",
+    name: "FeatureArticleDetails",
     platforms: [.iOS(.v16)],
     products: [
-        .library(name: "FeatureArticleList", targets: ["FeatureArticleList"])
+        .library(name: "FeatureArticleDetails", targets: ["FeatureArticleDetails"])
     ],
     dependencies: [
         .package(path: "../CoreModels"),
-        .package(path: "../CoreNetworking"),
         .package(path: "../DesignSystem"),
-        .package(path: "../FeatureArticleDetails"),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.21.1")
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.10.0")
     ],
     targets: [
         .target(
-            name: "FeatureArticleList",
+            name: "FeatureArticleDetails",
             dependencies: [
                 "CoreModels",
-                "CoreNetworking",
                 "DesignSystem",
-                "FeatureArticleDetails",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .testTarget(
-            name: "FeatureArticleListTests",
+            name: "FeatureArticleDetailsTests",
             dependencies: [
-                "FeatureArticleList",
-                "CoreModels",
+                "FeatureArticleDetails",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         )

@@ -20,6 +20,14 @@
       }
     },
     {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:Marvelous-iOS.xcodeproj",
+        "identifier" : "F70E67FD2E44E75900024654",
+        "name" : "Marvelous-iOSTests"
+      }
+    },
+    {
       "target" : {
         "containerPath" : "container:CoreModels",
         "identifier" : "CoreModelsTests",
@@ -41,11 +49,10 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
-        "containerPath" : "container:Marvelous-iOS.xcodeproj",
-        "identifier" : "F70E67FD2E44E75900024654",
-        "name" : "Marvelous-iOSTests"
+        "containerPath" : "container:FeatureArticleDetails",
+        "identifier" : "FeatureArticleDetailsTests",
+        "name" : "FeatureArticleDetailsTests"
       }
     }
   ],

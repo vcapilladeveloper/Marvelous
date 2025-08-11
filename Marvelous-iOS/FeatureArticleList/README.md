@@ -27,18 +27,41 @@ FeatureArticleList/
 
 ### 📦 Key Components
 
+
 #### 1. Feature
 ```swift
 @Reducer
 public struct ArticleListFeature {
-   public struct State { }
-   public enum Action { }
-   public var body: some ReducerOf<Self> { }
+   public struct State {
+      public var items: [Article] = []
+      public var isLoading = false
+      public var errorMessage: String?
+      public var searchQuery: String = ""
+      public var page = 1
+      public var total = 0
+      public var selected: Article?
+      public var canLoadMore: Bool { items.count < min(total, 100) }
+   }
+   public enum Action {
+      case onAppear
+      case loadMore
+      case searchQueryChanged(String)
+      case retry
+      case articlesResponse(Result<([Article], total: Int), Error>)
+      case didSelect(Article)
+      case dismissDetail
+   }
+   // ...existing code...
 }
 ```
 - TCA-based feature implementation
 - Clean separation of state and actions
 - Side effect management
+- Pagination limited to 100 articles (`canLoadMore`)
+- Search resets collection and reloads
+- Retry clears state and reloads articles
+- Navigation to detail via sheet using `selected` article
+
 
 #### Example Usage
 ```swift
@@ -46,7 +69,7 @@ import FeatureArticleList
 import ComposableArchitecture
 
 let store = Store(initialState: ArticleListFeature.State()) {
-   ArticleListFeature()
+   ArticleListFeature(fetch: myFetchClosure)
 }
 ArticleListView(store: store)
 ```
@@ -56,6 +79,7 @@ ArticleListView(store: store)
 - SwiftUI views with TCA store integration
 - Reusable components
 - Design System integration
+- Navigation to detail via sheet
 
 
 #### 3. Client Layer
@@ -67,6 +91,7 @@ ArticleListView(store: store)
 - TCA: Reducer, State, Action, Environment.
 - SOLID: Cada feature y cliente tiene una única responsabilidad y se puede extender.
 - Clean Architecture: Separación clara entre presentación, dominio y datos.
+- Robust error handling and retry logic
 
 ## Testing
 To run tests for this module:

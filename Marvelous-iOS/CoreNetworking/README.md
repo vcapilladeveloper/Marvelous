@@ -26,14 +26,16 @@ CoreNetworking/
 
 ### 📦 Key Components
 
+
 #### 1. API Client
 ```swift
 public protocol APIRequestable: Sendable {
-    func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws -> T
+    func fetch<T: Decodable & Sendable>(_ type: T.Type, from request: URLRequest) async throws -> T
 }
 ```
 - Protocol-based design for testability
-- Generic type support
+- Generic type support (Decodable & Sendable)
+- Uses URLRequest for flexibility
 - Async/await implementation
 - Error handling
 
@@ -42,8 +44,9 @@ public protocol APIRequestable: Sendable {
 import CoreNetworking
 
 let client: APIRequestable = APIClient()
-let url = URL(string: "https://newsapi.org/v2/top-headlines")!
-let response = try await client.fetch(NewsAPIResponse<Article>.self, from: url)
+var request = URLRequest(url: URL(string: "https://newsapi.org/v2/top-headlines")!)
+request.setValue("YOUR_API_KEY", forHTTPHeaderField: "X-Api-Key")
+let response = try await client.fetch(NewsAPIResponse.self, from: request)
 ```
 
 

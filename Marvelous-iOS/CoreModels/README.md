@@ -26,12 +26,25 @@ CoreModels/
 - **Thumbnail**: Image handling model with HTTPS URL conversion
 - **NewsAPIResponse**: Generic wrapper for News API responses
 
+
 #### Example Usage
 ```swift
 import CoreModels
 
-let article = Article(id: 1, title: "Breaking News", url: "https://news.com/article", urlToImage: "https://news.com/image.jpg")
+let article = Article(
+    source: Source(id: "techcrunch", name: "TechCrunch"),
+    author: "Jane Doe",
+    title: "Breaking News",
+    description: "Latest tech news...",
+    url: "https://news.com/article",
+    urlToImage: "https://news.com/image.jpg",
+    publishedAt: "2025-08-11T12:00:00Z",
+    content: "Full article content..."
+)
 print(article.title)
+print(article.id) // Derived from url or UUID
+print(article.imageURL) // Computed property for image URL
+print(article.webURL)   // Computed property for web URL
 ```
 
 
@@ -71,13 +84,20 @@ xcodebuild test -scheme CoreModels
 
 ### Article Model
 ```swift
-public struct Article: Decodable, Identifiable, Sendable {
-    public let id: Int
-    public let title: String
-    public let url: String
-    public let urlToImage: String?
-    public let source: String?
+public struct Article: Decodable, Identifiable, Sendable, Equatable {
+    public var id: String { url ?? UUID().uuidString } // stable enough for UI lists
+    public let source: Source?
     public let author: String?
+    public let title: String?
+    public let description: String?
+    public let url: String?
+    public let urlToImage: String?
+    public let publishedAt: String?
+    public let content: String?
+
+    public var imageURL: URL? { URL(string: urlToImage ?? "") }
+    public var webURL: URL? { URL(string: url ?? "") }
+}
     public let publishedAt: Date?
     public let content: String?
 }

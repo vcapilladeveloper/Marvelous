@@ -11,6 +11,7 @@ included:
 - CoreNetworking
 - DesignSystem
 - FeatureArticleList
+- FeatureArticleDetails
 
 excluded:
 - Config/.build
@@ -23,6 +24,8 @@ excluded:
 - DesignSystem/.swiftpm
 - FeatureArticleList/.build
 - FeatureArticleList/.swiftpm
+- FeatureArticleDetails/.build
+- FeatureArticleDetails/.swiftpm
 
 
 line_length:
