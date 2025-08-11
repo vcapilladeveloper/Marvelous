@@ -81,7 +81,7 @@ Each module has its own SwiftLint configuration tailored to its specific needs:
 
 ### Prerequisites
 - Xcode 15.0+
-- iOS 15.0+
+- iOS 16.6+
 - Swift 6.0+
 - SwiftLint (`brew install swiftlint`)
 
