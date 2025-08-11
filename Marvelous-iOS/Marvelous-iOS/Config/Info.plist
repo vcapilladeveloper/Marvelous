@@ -6,5 +6,7 @@
 	<string>$(MARVEL_PRIVATE_KEY)</string>
 	<key>MarvelPublicKey</key>
 	<string>$(MARVEL_PUBLIC_KEY)</string>
+	<key>NewsAPIKey</key>
+	<string>$(NEWS_API_KEY)</string>
 </dict>
 </plist>

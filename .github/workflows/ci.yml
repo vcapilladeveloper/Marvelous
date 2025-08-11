@@ -2,13 +2,13 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   test:
     name: Run Unit Tests
     runs-on: macos-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,29 +19,28 @@ jobs:
           xcode-version: 'latest-stable'
           xcode-command-line-tools: true
 
+      - name: (Optional) Skip macro validation globally for this runner
+        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+
       - name: Install SwiftLint
         run: brew install swiftlint
 
       - name: Run SwiftLint
         run: swiftlint
 
-      # Si tu proyecto depende de Pods, descomenta:
-      # - name: Install CocoaPods
-      #   run: pod install
-
       - name: Build for testing
         run: |
           xcodebuild build-for-testing \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_ALLOWED=NO
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -skipMacroValidation \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
 
       - name: Run tests
         run: |
           xcodebuild test-without-building \
             -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
             -scheme Marvelous-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 16'
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -skipMacroValidation

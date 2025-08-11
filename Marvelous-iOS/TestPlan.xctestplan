@@ -20,6 +20,27 @@
       }
     },
     {
+      "target" : {
+        "containerPath" : "container:CoreModels",
+        "identifier" : "CoreModelsTests",
+        "name" : "CoreModelsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:DesignSystem",
+        "identifier" : "DesignSystemTests",
+        "name" : "DesignSystemTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:CoreNetworking",
+        "identifier" : "CoreNetworkingTests",
+        "name" : "CoreNetworkingTests"
+      }
+    },
+    {
       "enabled" : false,
       "target" : {
         "containerPath" : "container:Marvelous-iOS.xcodeproj",

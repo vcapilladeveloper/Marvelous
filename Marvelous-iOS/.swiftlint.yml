@@ -1,10 +1,29 @@
 opt_in_rules:
 - empty_count
 - empty_string
+- force_unwrapping
+- multiline_arguments_brackets
+
+included:
+- Marvelous-iOS
+- Config
+- CoreModels
+- CoreNetworking
+- DesignSystem
+- FeatureArticleList
 
 excluded:
-- Carthage
-- Pods
+- Config/.build
+- Config/.swiftpm
+- CoreModels/.build
+- CoreModels/.swiftpm
+- CoreNetworking/.build
+- CoreNetworking/.swiftpm
+- DesignSystem/.build
+- DesignSystem/.swiftpm
+- FeatureArticleList/.build
+- FeatureArticleList/.swiftpm
+
 
 line_length:
     warning: 150
@@ -33,5 +52,7 @@ file_length:
 cyclomatic_complexity:
     warning: 15
     error: 25
+
+indentation: 4
 
 reporter: "xcode"

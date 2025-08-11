@@ -4,14 +4,12 @@ import XCTest
 final class SecretsTests: XCTestCase {
     func testSecretsLoadsValues() {
         let fakeInfo: [String: Any] = [
-            SecretsKeys.marvelPublicKey: "testPublic",
-            SecretsKeys.marvelPrivateKey: "testPrivate"
+            SecretsKeys.newsAPIKey: "testPublic"
         ]
 
         do {
             let secrets = try Secrets(infoDictionary: fakeInfo)
-            XCTAssertEqual(secrets.marvelPublicKey, "testPublic")
-            XCTAssertEqual(secrets.marvelPrivateKey, "testPrivate")
+            XCTAssertEqual(secrets.newsAPIKey, "testPublic")
         } catch {
             XCTFail("Failed to load secrets: \(error)")
         }
