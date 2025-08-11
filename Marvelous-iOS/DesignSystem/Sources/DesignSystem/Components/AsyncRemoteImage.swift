@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct AsyncRemoteImage: View {
+    @Environment(\.colorScheme) private var colorScheme
     let url: URL?
     let width: CGFloat
     let height: CGFloat
@@ -42,7 +43,7 @@ public struct AsyncRemoteImage: View {
             }
         }
         // Dark shadow bottom-right
-        .shadow(color: .black.opacity(0.3), radius: 4, x: 4, y: 4)
+        .shadow(color: DSPalette.shadow.opacity(0.4), radius: 4, x: 4, y: 4)
         // Light shadow top-left
         .shadow(color: .white.opacity(0.7), radius: 4, x: -4, y: -4)
         .accessibilityHidden(true)
