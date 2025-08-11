@@ -1,5 +1,3 @@
 import XCTest
 
-final class ArticleListReducerTests: XCTestCase {
-    
-}
+final class ArticleListReducerTests: XCTestCase { }

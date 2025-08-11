@@ -32,34 +32,34 @@ public struct ArticleListFeature: Reducer {
             case .onAppear:
                 guard state.items.isEmpty else { return .none }
                 state.isLoading = true
-                let q = state.searchQuery
-                let p = state.page, s = state.pageSize
+                let query = state.searchQuery
+                let page = state.page, size = state.pageSize
                 let fetchClosure = fetch
                 return .run { [fetchClosure] send in
-                    await send(.articlesResponse(Result { try await fetchClosure(q, p, s) }))
+                    await send(.articlesResponse(Result { try await fetchClosure(query, page, size) }))
                 }
 
             case .loadMore:
                 guard !state.isLoading, state.canLoadMore else { return .none }
                 state.isLoading = true
                 state.page += 1
-                let q = state.searchQuery
-                let p = state.page, s = state.pageSize
+                let query = state.searchQuery
+                let page = state.page, size = state.pageSize
                 let fetchClosure = fetch
                 return .run { [fetchClosure] send in
-                    await send(.articlesResponse(Result { try await fetchClosure(q, p, s) }))
+                    await send(.articlesResponse(Result { try await fetchClosure(query, page, size) }))
                 }
 
-            case let .searchQueryChanged(q):
-                state.searchQuery = q
+            case let .searchQueryChanged(query):
+                state.searchQuery = query
                 state.page = 1
                 state.items = []
                 state.total = 0
                 state.isLoading = true
-                let s = state.pageSize
+                let size = state.pageSize
                 let fetchClosure = fetch
                 return .run { [fetchClosure] send in
-                    await send(.articlesResponse(Result { try await fetchClosure(q, 1, s) }))
+                    await send(.articlesResponse(Result { try await fetchClosure(query, 1, size) }))
                 }
 
             case let .articlesResponse(.success((newItems, total))):

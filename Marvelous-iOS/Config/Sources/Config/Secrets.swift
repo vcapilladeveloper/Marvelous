@@ -3,7 +3,7 @@ import Foundation
 /// I'm using enum in order to group the keys together.
 /// I decided to use an enum instead of a struct to avoid possible instances
 enum SecretsKeys {
-    static let newsAPIKey = "NewsAPiKey"
+    static let newsAPIKey = "NewsAPIKey"
 }
 
 public struct Secrets: SecretsProvider {

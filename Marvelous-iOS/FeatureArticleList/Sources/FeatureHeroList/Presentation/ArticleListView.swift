@@ -1,11 +1,3 @@
-//
-//  ArticleListView.swift
-//  FeatureArticleList
-//
-//  Created by Victor Capilla Borrego on 10/8/25.
-//
-
-
 import SwiftUI
 import DesignSystem
 import CoreModels
@@ -16,18 +8,18 @@ public struct ArticleListView: View {
     public init(store: StoreOf<ArticleListFeature>) { self.store = store }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }, content: { vs in
+        WithViewStore(store, observe: { $0 }, content: { viewStore in
             NavigationStack {
-                content(viewStore: vs)
+                content(viewStore: viewStore)
                     .navigationTitle("News")
                     .searchable(
-                        text: vs.binding(
+                        text: viewStore.binding(
                             get: \.searchQuery,
                             send: { .searchQueryChanged($0) }
                         )
                     )
-                    .onAppear { vs.send(.onAppear) }
-                    .overlay { errorOverlay(viewStore: vs) }
+                    .onAppear { viewStore.send(.onAppear) }
+                    .overlay { errorOverlay(viewStore: viewStore) }
             }
         })
     }
@@ -35,11 +27,11 @@ public struct ArticleListView: View {
     // MARK: - Subviews
 
     @ViewBuilder
-    private func content(viewStore vs: ViewStoreOf<ArticleListFeature>) -> some View {
+    private func content(viewStore: ViewStoreOf<ArticleListFeature>) -> some View {
         ScrollView {
-            grid(viewStore: vs)
+            grid(viewStore: viewStore)
                 .padding()
-            if vs.isLoading {
+            if viewStore.isLoading {
                 LoadingView()
                     .padding(.vertical)
             }
@@ -47,14 +39,14 @@ public struct ArticleListView: View {
     }
 
     @ViewBuilder
-    private func grid(viewStore vs: ViewStoreOf<ArticleListFeature>) -> some View {
+    private func grid(viewStore: ViewStoreOf<ArticleListFeature>) -> some View {
         let columns = DSGrid.threeColumns
         LazyVGrid(columns: columns, spacing: DSSpacing.large) {
-            ForEach(vs.items) { article in
-                articleCell(article, viewStore: vs)
+            ForEach(viewStore.items) { article in
+                articleCell(article, viewStore: viewStore)
                     .onAppear {
-                        if article.id == vs.items.last?.id {
-                            vs.send(.loadMore)
+                        if article.id == viewStore.items.last?.id {
+                            viewStore.send(.loadMore)
                         }
                     }
             }
@@ -70,9 +62,9 @@ public struct ArticleListView: View {
     }
 
     @ViewBuilder
-    private func errorOverlay(viewStore vs: ViewStoreOf<ArticleListFeature>) -> some View {
-        if let msg = vs.errorMessage {
-            ErrorView(message: msg, onRetry: { vs.send(.onAppear) })
+    private func errorOverlay(viewStore: ViewStoreOf<ArticleListFeature>) -> some View {
+        if let msg = viewStore.errorMessage {
+            ErrorView(message: msg, onRetry: { viewStore.send(.onAppear) })
         } else {
             EmptyView()
         }

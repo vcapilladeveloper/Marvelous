@@ -10,7 +10,7 @@ included:
 - CoreModels
 - CoreNetworking
 - DesignSystem
-- FeatureHeroList
+- FeatureArticleList
 
 excluded:
 - Config/.build
@@ -21,8 +21,8 @@ excluded:
 - CoreNetworking/.swiftpm
 - DesignSystem/.build
 - DesignSystem/.swiftpm
-- FeatureHeroList/.build
-- FeatureHeroList/.swiftpm
+- FeatureArticleList/.build
+- FeatureArticleList/.swiftpm
 
 
 line_length:
