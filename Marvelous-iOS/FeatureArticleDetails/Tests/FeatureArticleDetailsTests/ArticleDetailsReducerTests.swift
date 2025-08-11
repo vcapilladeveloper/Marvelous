@@ -5,11 +5,11 @@ import CoreModels
 
 final class ArticleDetailsReducerTests: XCTestCase {
     func testShareToggle() async {
-        guard let article = try JSONDecoder().decode(Article.self, from: Data(#"""
+        // swiftlint:disable force_try
+        let article = try! JSONDecoder().decode(Article.self, from: Data(#"""
         { "title":"title", "url":"https://ex.com" }
-        """#.utf8)) else {
-            XCTFail("ERROR: Failed to decode sample article")
-        }
+        """#.utf8))
+        // swiftlint:enable force_try
         let store = await TestStore(initialState: .init(article: article)) {
             ArticleDetailsFeature()
         }
