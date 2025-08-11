@@ -39,16 +39,40 @@ struct MarvelousiOSApp: App {
         }
     }
 
+    @State private var showSplash = true
+
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                if let errorMessage {
-                    ErrorView(message: errorMessage, onRetry: {})
-                        .padding()
-                } else if let store {
-                    ArticleListView(store: store)
-                } else {
-                    LoadingView() // Should not happen; included as a safety fallback
+            ZStack {
+                NavigationStack {
+                    if let errorMessage {
+                        ErrorView(message: errorMessage, onRetry: {})
+                            .padding()
+                    } else if let store {
+                        ArticleListView(store: store)
+                    } else {
+                        LoadingView() // Should not happen; included as a safety fallback
+                    }
+                }
+                if showSplash {
+                    Color(.systemBackground)
+                        .ignoresSafeArea()
+                    VStack {
+                        Spacer()
+                        Text("TechNews")
+                            .font(.system(size: 48, weight: .bold, design: .rounded))
+                            .foregroundColor(DSPalette.brand)
+                            .opacity(showSplash ? 1 : 0)
+                            .transition(.opacity)
+                        Spacer()
+                    }
+                }
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    withAnimation(.easeOut(duration: 0.8)) {
+                        showSplash = false
+                    }
                 }
             }
         }

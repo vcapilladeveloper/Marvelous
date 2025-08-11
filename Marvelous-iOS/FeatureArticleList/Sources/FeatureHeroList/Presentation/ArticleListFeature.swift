@@ -17,6 +17,7 @@ public struct ArticleListFeature: Reducer {
         case onAppear
         case loadMore
         case searchQueryChanged(String)
+        case retry
         case articlesResponse(Result<([Article], total: Int), Error>)
     }
 
@@ -37,6 +38,18 @@ public struct ArticleListFeature: Reducer {
                 let fetchClosure = fetch
                 return .run { [fetchClosure] send in
                     await send(.articlesResponse(Result { try await fetchClosure(query, page) }))
+                }
+
+            case .retry:
+                state.items = []
+                state.page = 1
+                state.total = 0
+                state.errorMessage = nil
+                state.isLoading = true
+                let query = state.searchQuery
+                let fetchClosure = fetch
+                return .run { [fetchClosure] send in
+                    await send(.articlesResponse(Result { try await fetchClosure(query, 1) }))
                 }
 
             case .loadMore:

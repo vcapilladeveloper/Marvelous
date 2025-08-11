@@ -64,7 +64,16 @@ public struct ArticleListView: View {
     @ViewBuilder
     private func errorOverlay(viewStore: ViewStoreOf<ArticleListFeature>) -> some View {
         if let msg = viewStore.errorMessage {
-            ErrorView(message: msg, onRetry: { viewStore.send(.onAppear) })
+            ZStack {
+                Color(.systemBackground)
+                    .ignoresSafeArea()
+                VStack {
+                    Spacer()
+                    ErrorView(message: msg, onRetry: { viewStore.send(.retry) })
+                        .padding()
+                    Spacer()
+                }
+            }
         } else {
             EmptyView()
         }
