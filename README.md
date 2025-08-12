@@ -30,6 +30,7 @@ Marvelous-iOS/
   - [ViewInspector](https://github.com/nalexn/ViewInspector) (Testing)
 
 
+
 ## 📱 Features
 
 - Display tech news articles with images and details
@@ -39,6 +40,17 @@ Marvelous-iOS/
 - Loading states with shimmer and Lottie animations
 - Navigation to article details via sheet
 - Accessibility support
+
+## 🎬 Demo & Screenshots
+
+| Feature                | Preview                                      |
+|------------------------|----------------------------------------------|
+| Article List (Light)   | ![Light Theme](DocResources/LightTheme.gif)  |
+| Article Details        | ![Details Screen](DocResources/DetailsScreen.gif) |
+| Search Functionality   | ![Search](DocResources/Search.gif)           |
+| Loading State          | ![Loading](DocResources/LoadingVideo.gif)    |
+| Shimmer Effect         | ![Shimmer](DocResources/Shimmer.gif)         |
+| Error Handling         | ![Error](DocResources/Error.PNG)             |
 
 
 ## 🏛 Architecture
@@ -141,7 +153,30 @@ Each module contains its own README with detailed documentation:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
-## 🙏 Acknowledgements
+## � Improvements & Lessons Learned
+
+- **Branching & Commits**: Branches and commits should be split more granularly. Avoid bundling multiple features or fixes into a single branch—this makes code review easier and safer.
+- **CI Configuration**: Enhance CI with more sophisticated workflows:
+  - Add runners for releases triggered by merges into `main` or by tags.
+  - Create beta releases when merging into a `develop` branch (not present yet).
+- **Testing**:
+  - Increase UI test coverage, focusing on meaningful tests rather than redundant unit tests.
+  - Add Pact (integration) tests to ensure API consistency.
+  - Consider snapshot testing for UI instead of only using ViewInspector.
+  - Add UI tests to verify UX flows.
+- **Documentation**:
+  - Clarify that `Config.Secrets` requires a valid `Secrets.xcconfig` file; without it, configuration will fail.
+- **SwiftLint**:
+  - SwiftLint is configured per module to avoid issues with dependencies like Lottie in the main target.
+- **Architecture**:
+  - Avoid unnecessary dependencies between feature modules (e.g., `FeatureArticleList` depending on `FeatureArticleDetails`).
+  - Sometimes, less elegant solutions (like loading models from JSON) are preferable to maintain proper access control.
+- **Feature Limitations**:
+  - The app currently limits to 100 articles.
+  - Default News API values: `pageSize=20`, `language=en`, `domain=TechCrunch.com`.
+  - Retry button for failed requests is not yet implemented.
+
+## �🙏 Acknowledgements
 
 - [News API](https://newsapi.org/)
 - [TCA](https://github.com/pointfreeco/swift-composable-architecture)
