@@ -1,5 +1,7 @@
 
-# Marvelous News iOS
+# ~~Marvelous~~ News iOS
+
+**IMPORTANT: This project began by using the Marvel API, but after four days of trying to get it to work, I decided to change the API, even though the name of the project may be misleading.**
 
 A modern iOS application for tech news lovers, showcasing clean architecture, modular design, and best practices in iOS development. The app now uses the News API and features articles, search, pagination, error handling, and a modular architecture.
 
