@@ -34,23 +34,6 @@ final class NewsAPITests: XCTestCase {
             return
         }
 
-        let session = URLSessionMock()
-        session.mockData = data
-        session.mockResponse = resp
-        session.mockError = mockError
-        
-        return session
-    }
-    
-    func testEverythingBuildsRequestAndParses() async throws {
-        let sample = NewsAPIResponse.mockJSONString
-        let data = Data(sample.utf8)
-        
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
-
         let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
         let result = try await api.everything(page: 1)
         XCTAssertEqual(result.status, "ok")
