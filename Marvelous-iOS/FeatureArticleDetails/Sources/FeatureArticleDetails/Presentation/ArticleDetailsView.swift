@@ -16,19 +16,41 @@ public struct ArticleDetailsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: DSSpacing.large) {
                     if let url = viewStore.article.imageURL {
-                        AsyncRemoteImage(url: url, width: UIScreen.main.bounds.width - 32, height: 180, cornerRadius: 12)
+                            AsyncRemoteImage(
+                                url: url,
+                                width: UIScreen.main.bounds.width - 32,
+                                height: 180,
+                                cornerRadius: 12,
+                                accessibilityLabel: viewStore.article.title
+                                    ?? "Article image"
+                            )
                             .frame(maxWidth: .infinity, alignment: .center)
-                    }
+                        }
 
-                    Text(viewStore.article.title ?? "(No title)")
+                        Text(viewStore.article.title ?? "(No title)")
                         .font(DSTypography.title)
                         .foregroundColor(DSPalette.textPrimary)
+                        .accessibilityLabel(viewStore.article.title ?? "Article title")
 
                     VStack(alignment: .leading, spacing: DSSpacing.extraSmall) {
-                        if let source = viewStore.article.source?.name { metaRow(icon: "newspaper", text: source) }
-                        if let author = viewStore.article.author, !author.isEmpty { metaRow(icon: "person.fill", text: author) }
+                            if let source = viewStore.article.source?.name {
+                                metaRow(
+                                    icon: "newspaper",
+                                    text: source,
+                                    hint: "Article source"
+                                )
+                            }
+                            if let author = viewStore.article.author,
+                                !author.isEmpty
+                            {
+                                metaRow(
+                                    icon: "person.fill",
+                                    text: author,
+                                    hint: "Article author"
+                                )
+                            }
                         if let iso = viewStore.article.publishedAt, let date = Date.iso8601(iso) {
-                            metaRow(icon: "calendar", text: date.formatted(date: .abbreviated, time: .shortened))
+                            metaRow(icon: "calendar", text: date.formatted(date: .abbreviated, time: .shortened), hint: "Published date")
                         }
                     }
 
@@ -36,19 +58,22 @@ public struct ArticleDetailsView: View {
                         Text(desc)
                             .font(DSTypography.body)
                             .foregroundColor(DSPalette.textSecondary)
+                            .accessibilityLabel(desc)
                     }
                     if let content = viewStore.article.content, !content.isEmpty {
                         Text(content)
                             .font(DSTypography.body)
                             .foregroundColor(DSPalette.textPrimary)
+                            .accessibilityLabel(content)
                     }
 
                     VStack(spacing: DSSpacing.medium) {
-                        PrimaryButton("Open in Browser") {
+                        PrimaryButton("Open in Browser", accessibilityHint: "Opens the full article in your default web browser.") {
                             store.send(.openInBrowserTapped)
                             if let url = viewStore.article.webURL { openURL(url) }
                         }
-                        PrimaryButton("Share") {
+
+                        PrimaryButton("Share", accessibilityHint: "Shares the article with other apps.") {
                             store.send(.shareTapped)
                         }
                     }
@@ -69,7 +94,7 @@ public struct ArticleDetailsView: View {
         })
     }
 
-    private func metaRow(icon: String, text: String) -> some View {
+    private func metaRow(icon: String, text: String, hint: String) -> some View {
         HStack(spacing: DSSpacing.small) {
             Image(systemName: icon)
             Text(text)
@@ -78,6 +103,7 @@ public struct ArticleDetailsView: View {
         .foregroundColor(DSPalette.textSecondary)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text(text))
+        .accessibilityHint(Text(hint))
     }
 }
 

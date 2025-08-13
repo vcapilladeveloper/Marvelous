@@ -12,7 +12,7 @@ public struct ArticleCard: View, Identifiable {
 
     public var body: some View {
         VStack(alignment: .center, spacing: DSSpacing.small) {
-            AsyncRemoteImage(url: imageURL, width: 110, height: 130, cornerRadius: 12)
+            AsyncRemoteImage(url: imageURL, width: 110, height: 130, cornerRadius: 12, accessibilityLabel: title)
             Text(title)
                 .font(DSTypography.articleTitle)
                 .foregroundColor(DSPalette.textPrimary)
