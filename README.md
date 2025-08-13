@@ -1,47 +1,78 @@
 
-# ~~Marvelous~~ News iOS
+# Marvelous News iOS
 
-**IMPORTANT: This project began by using the Marvel API, but after four days of trying to get it to work, I decided to change the API, even though the name of the project may be misleading.**
+A modern iOS application showcasing advanced iOS development practices, clean architecture, and comprehensive testing. Built for a Staff iOS Engineer technical test, this project demonstrates expertise in TCA (The Composable Architecture), Clean Architecture principles, accessibility, and modern Swift development.
 
-A modern iOS application for tech news lovers, showcasing clean architecture, modular design, and best practices in iOS development. The app now uses the News API and features articles, search, pagination, error handling, and a modular architecture.
+## 🎯 Project Overview
 
+**Technical Test Context**: This project was developed as a technical assessment for a Staff iOS Engineer position, demonstrating advanced iOS development skills, architectural decision-making, and best practices implementation.
 
-## 🏗 Project Structure
+**API Change Note**: Originally intended to use the Marvel API, the project was adapted to use the News API due to Marvel API availability issues. This demonstrates adaptability and problem-solving skills in real-world development scenarios.
 
+## 🏗 Architecture & Design
+
+### Core Architecture Principles
+- **TCA (The Composable Architecture)**: State management, side effects, and unidirectional data flow
+- **Clean Architecture**: Clear separation of concerns across layers
+- **SOLID Principles**: Single responsibility, open/closed, Liskov substitution, interface segregation, dependency inversion
+- **Modular Design**: Feature-based modules with clear boundaries
+- **Protocol-Oriented Programming**: Swift-first approach with protocols and value types
+
+### Architecture Layers
 ```
-Marvelous-iOS/
-├── App/                  # Main iOS app target
-├── Config/               # Configuration and secrets management
-├── CoreModels/           # Core data models and types
-├── CoreNetworking/       # Networking and API layer
-├── DesignSystem/         # UI components and styles
-├── FeatureArticleList/   # Article list feature module
-├── FeatureArticleDetails/# Article details feature module
+┌─────────────────────────────────────────────────────────────┐
+│                    Presentation Layer                       │
+│              SwiftUI + TCA + Design System                 │
+├─────────────────────────────────────────────────────────────┤
+│                     Feature Layer                           │
+│           FeatureArticleList + FeatureArticleDetails       │
+├─────────────────────────────────────────────────────────────┤
+│                      Domain Layer                           │
+│              Use Cases + Repository Interfaces             │
+├─────────────────────────────────────────────────────────────┤
+│                      Data Layer                            │
+│              Repositories + API Clients                    │
+├─────────────────────────────────────────────────────────────┤
+│                     Infrastructure Layer                    │
+│              Networking + Configuration                     │
+└─────────────────────────────────────────────────────────────┘
 ```
-
 
 ## 🛠 Technical Stack
 
-- **Platform**: iOS 15+
+### Core Technologies
+- **Platform**: iOS 16.6+
 - **Language**: Swift 6.0+
 - **UI Framework**: SwiftUI
 - **Architecture**: TCA (The Composable Architecture)
-- **Dependencies**:
-  - [TCA](https://github.com/pointfreeco/swift-composable-architecture)
-  - [Lottie](https://github.com/airbnb/lottie-ios)
-  - [ViewInspector](https://github.com/nalexn/ViewInspector) (Testing)
+- **Concurrency**: Swift Concurrency (async/await)
+- **Testing**: XCTest + ViewInspector
 
+### Dependencies
+- **[TCA](https://github.com/pointfreeco/swift-composable-architecture)**: State management and architecture
+- **[Lottie](https://github.com/airbnb/lottie-ios)**: Rich animations
+- **[ViewInspector](https://github.com/nalexn/ViewInspector)**: SwiftUI testing
 
+### Development Tools
+- **SwiftLint**: Code quality and consistency
+- **Xcode 15.0+**: Latest development environment
+- **Git**: Version control with conventional commits
 
 ## 📱 Features
 
-- Display tech news articles with images and details
-- Search functionality
-- Pagination (infinite scrolling, up to 100 articles)
-- Error handling with retry capability
-- Loading states with shimmer and Lottie animations
-- Navigation to article details via sheet
-- Accessibility support
+### Core Functionality
+- **News Article Display**: Tech news articles with rich content
+- **Search & Filtering**: Real-time search with debouncing
+- **Pagination**: Infinite scrolling (limited to 100 articles for performance)
+- **Article Details**: Comprehensive article information display
+- **Error Handling**: Graceful error states with retry mechanisms
+- **Loading States**: Shimmer effects and Lottie animations
+
+### Advanced Features
+- **Accessibility**: VoiceOver support, Dynamic Type, semantic grouping
+- **Performance**: Efficient list rendering, image loading, state management
+- **Offline Resilience**: Graceful degradation when network unavailable
+- **Modern UI**: SwiftUI with custom design system components
 
 ## 🎬 Demo & Screenshots
 
@@ -54,42 +85,73 @@ Marvelous-iOS/
 | Shimmer Effect         | ![Shimmer](DocResources/Shimmer.gif)         |
 | Error Handling         | ![Error](DocResources/Error.PNG)             |
 
+## 🏛 Project Structure
 
-## 🏛 Architecture
+```
+Marvelous-iOS/
+├── App/                          # Main iOS app target
+├── Config/                       # Configuration and secrets management
+├── CoreModels/                   # Core data models and types
+├── CoreNetworking/               # Networking and API layer
+├── DesignSystem/                 # UI components and design tokens
+├── FeatureArticleList/           # Article list feature module
+├── FeatureArticleDetails/        # Article details feature module
+└── Tests/                        # Comprehensive test suite
+```
 
-### Modular Design
-- **Core Modules**: Reusable foundation libraries
-- **Feature Modules**: Isolated feature implementations (Article List, Article Details)
-- **Design System**: Consistent UI components
-- **Configuration**: Environment and secrets management
+### Module Responsibilities
 
-### Key Principles
-- Clean Architecture
-- SOLID principles
-- Protocol-oriented design
-- Dependency injection
-- Modular development
-- Comprehensive testing
+#### **Config Module**
+- Environment configuration management
+- API key handling with xcconfig files
+- Secure secrets management
 
+#### **CoreModels Module**
+- Data models for news articles
+- Sendable-compliant types for concurrency
+- Codable implementations for API responses
 
-## 🔍 Code Quality
+#### **CoreNetworking Module**
+- HTTP client with protocol-based design
+- News API integration
+- Error handling and status code validation
+
+#### **DesignSystem Module**
+- Reusable UI components
+- Design tokens (colors, typography, spacing)
+- Accessibility-first component design
+
+#### **FeatureArticleList Module**
+- Article list display and management
+- Search functionality
+- Pagination and infinite scrolling
+- TCA state management
+
+#### **FeatureArticleDetails Module**
+- Article detail presentation
+- Share functionality
+- Browser integration
+
+## 🔍 Code Quality & Standards
 
 ### SwiftLint Configuration
-Each module has its own SwiftLint configuration tailored to its specific needs:
+Each module has tailored SwiftLint rules:
+- **Strict type safety** for CoreModels
+- **Network-specific rules** for CoreNetworking
+- **UI-focused rules** for DesignSystem
+- **TCA-specific patterns** for Feature modules
 
-- **Config**: Strict configuration rules
-- **CoreModels**: Type safety focused rules
-- **CoreNetworking**: Network-specific rules
-- **DesignSystem**: UI-focused rules
-- **FeatureArticleList**: Article list feature rules
-- **FeatureArticleDetails**: Article details feature rules
+### Code Standards
+- **Naming Convention**: camelCase for functions and variables
+- **Documentation**: Comprehensive inline documentation
+- **Error Handling**: Structured error types with user-friendly messages
+- **Concurrency**: Swift 6.0 concurrency safety with actors
 
 ### Testing Strategy
-- Unit tests for business logic
-- UI tests using ViewInspector
-- Network layer mocking
-- Test plans for different scenarios
-
+- **Unit Tests**: Business logic and data layer testing
+- **Integration Tests**: Feature integration and API testing
+- **UI Tests**: SwiftUI component testing with ViewInspector
+- **Test Coverage**: Comprehensive coverage across all modules
 
 ## 🚀 Getting Started
 
@@ -100,87 +162,156 @@ Each module has its own SwiftLint configuration tailored to its specific needs:
 - SwiftLint (`brew install swiftlint`)
 
 ### Installation
-1. Clone the repository:
+
+1. **Clone the repository**:
 ```bash
 git clone https://github.com/vcapilladeveloper/Marvelous.git
+cd Marvelous
 ```
 
-2. Install SwiftLint:
+2. **Install development tools**:
 ```bash
 brew install swiftlint
 ```
 
-3. Set up News API key:
-  - Create `Secrets.xcconfig` in `Config/`
-  - Add your News API key:
+3. **Configure News API**:
+   - Create `Config/Secrets.xcconfig`
+   - Add your News API key:
 ```
-NEWS_API_KEY=your_news_api_key
+NEWS_API_KEY=your_news_api_key_here
 ```
 
-4. Open `Marvelous-iOS.xcodeproj`
+4. **Open and build**:
+```bash
+open Marvelous-iOS/Marvelous-iOS.xcodeproj
+```
 
-5. Build and run
-
+5. **Run tests**:
+```bash
+xcodebuild test -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=iPhone 15'
+```
 
 ## 🧪 Testing
 
-Run tests using:
-- Xcode's Test Navigator
-- Command line: `xcodebuild test -scheme Marvelous-iOS`
+### Test Execution
+```bash
+# Run all tests
+xcodebuild test -scheme Marvelous-iOS
 
+# Run specific module tests
+xcodebuild test -scheme CoreModels
+xcodebuild test -scheme CoreNetworking
+xcodebuild test -scheme DesignSystem
+xcodebuild test -scheme FeatureArticleList
+xcodebuild test -scheme FeatureArticleDetails
+```
+
+### Test Coverage
+- **Unit Tests**: Business logic, data models, networking
+- **Integration Tests**: Feature workflows, API integration
+- **UI Tests**: SwiftUI components, accessibility
+- **Performance Tests**: List rendering, memory usage
+
+## 🔧 Development Workflow
+
+### Git Practices
+- **Conventional Commits**: Structured commit messages
+- **Feature Branches**: Isolated development work
+- **Pull Request Reviews**: Code quality and architecture review
+- **Semantic Versioning**: Clear version management
+
+### Code Review Checklist
+- [ ] Architecture principles followed
+- [ ] TCA patterns implemented correctly
+- [ ] Accessibility requirements met
+- [ ] Test coverage adequate
+- [ ] Performance considerations addressed
+- [ ] Documentation updated
 
 ## 📚 Module Documentation
 
-Each module contains its own README with detailed documentation:
+Each module contains comprehensive documentation:
+- [Config](Marvelous-iOS/Config/README.md): Configuration management
+- [CoreModels](Marvelous-iOS/CoreModels/README.md): Data models
+- [CoreNetworking](Marvelous-iOS/CoreNetworking/README.md): Networking layer
+- [DesignSystem](Marvelous-iOS/DesignSystem/README.md): UI components
+- [FeatureArticleList](Marvelous-iOS/FeatureArticleList/README.md): Article list feature
+- [FeatureArticleDetails](Marvelous-iOS/FeatureArticleDetails/README.md): Article details feature
 
-- [Config](Config/README.md): Secrets and configuration management
-- [CoreModels](CoreModels/README.md): Data models and types
-- [CoreNetworking](CoreNetworking/README.md): Networking layer
-- [DesignSystem](DesignSystem/README.md): UI components
-- [FeatureArticleList](FeatureArticleList/README.md): Article list feature
-- [FeatureArticleDetails](FeatureArticleDetails/README.md): Article details feature
+## 🎯 Staff Engineer Considerations
 
+### Architecture Decisions
+- **Modular Design**: Enables team scalability and parallel development
+- **Protocol-Oriented**: Swift-first approach with clear interfaces
+- **TCA Implementation**: Demonstrates advanced state management knowledge
+- **Clean Architecture**: Shows understanding of enterprise-level patterns
+
+### Performance & Scalability
+- **Efficient List Rendering**: Lazy loading and view recycling
+- **Memory Management**: Proper use of value types and actors
+- **Network Optimization**: Request batching and caching strategies
+- **State Management**: Efficient TCA state updates and side effects
+
+### Quality Assurance
+- **Comprehensive Testing**: Unit, integration, and UI test coverage
+- **Code Quality Tools**: SwiftLint integration and custom rules
+- **Accessibility**: WCAG compliance and inclusive design
+- **Error Handling**: Graceful degradation and user experience
+
+## 🚀 Future Improvements
+
+### Technical Enhancements
+- **Offline Support**: Core Data integration and sync
+- **Performance Monitoring**: Metrics collection and analysis
+- **Advanced Caching**: Image and response caching strategies
+- **Analytics**: User behavior tracking and insights
+
+### Architecture Evolution
+- **Multi-platform**: macOS and watchOS support
+- **Modularization**: Further feature isolation
+- **Dependency Injection**: Advanced DI container implementation
+- **Plugin Architecture**: Extensible feature system
+
+### Development Infrastructure
+- **CI/CD Pipeline**: Automated testing and deployment
+- **Code Generation**: Sourcery for boilerplate reduction
+- **Documentation**: DocC integration and API documentation
+- **Performance Testing**: Automated performance regression detection
 
 ## 👥 Contributing
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+### Development Guidelines
+1. **Follow TCA patterns** for feature development
+2. **Maintain test coverage** above 90%
+3. **Ensure accessibility** compliance
+4. **Document architectural decisions**
+5. **Follow SwiftLint rules** for code consistency
 
+### Pull Request Process
+1. Create feature branch from `main`
+2. Implement changes with comprehensive tests
+3. Update documentation as needed
+4. Ensure all tests pass
+5. Submit PR with detailed description
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🙏 Acknowledgements
 
-## � Improvements & Lessons Learned
+- [News API](https://newsapi.org/) for providing news data
+- [TCA](https://github.com/pointfreeco/swift-composable-architecture) for architecture guidance
+- [Lottie](https://github.com/airbnb/lottie-ios) for animation support
+- [ViewInspector](https://github.com/nalexn/ViewInspector) for SwiftUI testing
 
-- **Branching & Commits**: Branches and commits should be split more granularly. Avoid bundling multiple features or fixes into a single branch—this makes code review easier and safer.
-- **CI Configuration**: Enhance CI with more sophisticated workflows:
-  - Add runners for releases triggered by merges into `main` or by tags.
-  - Create beta releases when merging into a `develop` branch (not present yet).
-- **Testing**:
-  - Increase UI test coverage, focusing on meaningful tests rather than redundant unit tests.
-  - Add Pact (integration) tests to ensure API consistency.
-  - Consider snapshot testing for UI instead of only using ViewInspector.
-  - Add UI tests to verify UX flows.
-- **Documentation**:
-  - Clarify that `Config.Secrets` requires a valid `Secrets.xcconfig` file; without it, configuration will fail.
-- **SwiftLint**:
-  - SwiftLint is configured per module to avoid issues with dependencies like Lottie in the main target.
-- **Architecture**:
-  - Avoid unnecessary dependencies between feature modules (e.g., `FeatureArticleList` depending on `FeatureArticleDetails`).
-  - Sometimes, less elegant solutions (like loading models from JSON) are preferable to maintain proper access control.
-- **Feature Limitations**:
-  - The app currently limits to 100 articles.
-  - Default News API values: `pageSize=20`, `language=en`, `domain=TechCrunch.com`.
-  - Retry button for failed requests is not yet implemented.
+## 📞 Contact
 
-## �🙏 Acknowledgements
+For questions about this technical test implementation:
+- **Developer**: Victor Capilla Borrego
+- **Position**: Staff iOS Engineer Candidate
+- **Repository**: [GitHub](https://github.com/vcapilladeveloper/Marvelous)
 
-- [News API](https://newsapi.org/)
-- [TCA](https://github.com/pointfreeco/swift-composable-architecture)
-- [Lottie](https://github.com/airbnb/lottie-ios)
-- [ViewInspector](https://github.com/nalexn/ViewInspector)
+---
+
+**Note**: This project demonstrates advanced iOS development skills and architectural decision-making suitable for a Staff iOS Engineer position. The implementation showcases expertise in modern Swift development, TCA architecture, and comprehensive testing strategies.

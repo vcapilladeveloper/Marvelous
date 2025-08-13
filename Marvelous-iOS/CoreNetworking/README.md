@@ -5,7 +5,6 @@ The CoreNetworking module provides a robust networking layer for the Marvelous N
 
 ## Architecture
 
-
 ### 🏗 Structure
 ```
 CoreNetworking/
@@ -26,7 +25,6 @@ CoreNetworking/
 
 ### 📦 Key Components
 
-
 #### 1. API Client
 ```swift
 public protocol APIRequestable: Sendable {
@@ -44,15 +42,15 @@ public protocol APIRequestable: Sendable {
 import CoreNetworking
 
 let client: APIRequestable = APIClient()
-var request = URLRequest(url: URL(string: "https://newsapi.org/v2/top-headlines")!)
+var request = URLRequest(url: URL(string: "https://newsapi.org/v2/everything")!)
 request.setValue("YOUR_API_KEY", forHTTPHeaderField: "X-Api-Key")
 let response = try await client.fetch(NewsAPIResponse.self, from: request)
 ```
 
-
 #### 2. News API Client
 - Handles News API authentication (API key)
-- Manages API endpoints for articles, sources, etc.
+- Manages API endpoints for articles and search
+- Supports pagination and query parameters
 
 #### 3. Error Handling
 ```swift
@@ -67,7 +65,7 @@ public enum NetworkError: Error, LocalizedError {
 ## Implementation Details
 
 ### Security Features
-1. ✅ Secure hash generation for Marvel API
+1. ✅ API key authentication via HTTP headers
 2. ✅ HTTPS enforcement
 3. ✅ Proper error handling
 4. ✅ Status code validation
@@ -79,17 +77,36 @@ public enum NetworkError: Error, LocalizedError {
 4. ✅ Comprehensive error handling
 5. ✅ Unit test coverage with mocks
 
-### Marvel API Integration
-- Timestamp-based authentication
-- MD5 hash generation
+### News API Integration
+- API key authentication
 - Query parameter handling
 - Pagination support
+- Search functionality
+
+## API Endpoints
+
+### Everything Endpoint
+```swift
+public func everything(page: Int = 1) async throws -> NewsAPIResponse
+```
+- Fetches all articles with pagination
+- Default page size: 20 articles
+- Language: English
+- Domain: TechCrunch.com
+
+### Search Endpoint
+```swift
+public func search(query: String, page: Int = 1) async throws -> NewsAPIResponse
+```
+- Searches articles by query string
+- Supports pagination
+- Same default parameters as everything endpoint
 
 ## Testing
 
 The module includes comprehensive tests:
 - API client functionality
-- Marvel API authentication
+- News API integration
 - Error scenarios
 - Mock URL session implementation
 
@@ -98,16 +115,24 @@ The module includes comprehensive tests:
 ```swift
 // Initialize the API client
 let apiClient = APIClient()
-let marvelAPI = MarvelAPI(
-    publicKey: publicKey,
-    privateKey: privateKey,
-    apiClient: apiClient
+let newsAPI = NewsAPI(
+    apiKey: apiKey,
+    client: apiClient
 )
 
-// Fetch characters
+// Fetch articles
 do {
-    let response = try await marvelAPI.getCharacters(limit: 20, offset: 0)
-    let heroes = response.data.results
+    let response = try await newsAPI.everything(page: 1)
+    let articles = response.articles ?? []
+    let totalResults = response.totalResults ?? 0
+} catch {
+    print(error.localizedDescription)
+}
+
+// Search articles
+do {
+    let response = try await newsAPI.search(query: "technology", page: 1)
+    let articles = response.articles ?? []
 } catch {
     print(error.localizedDescription)
 }
@@ -125,7 +150,7 @@ do {
 
 ## Dependencies
 - CoreModels module
-- Requires iOS 15.0+
+- Requires iOS 16.6+
 - Swift 6.0+
 
 ## Advanced Features to Consider
@@ -142,6 +167,31 @@ do {
 - Response transformation
 - Logging
 - Analytics
+
+## Configuration
+
+### API Key Setup
+The News API requires an API key to be set in the HTTP headers:
+```swift
+request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
+```
+
+### Base URL
+The module uses the News API v2 base URL:
+```
+https://newsapi.org/v2
+```
+
+## Error Handling
+
+### Network Errors
+- **Invalid URL**: Malformed request URLs
+- **Request Failed**: HTTP status code errors
+- **Decoding Error**: JSON parsing failures
+- **Unknown Error**: Unexpected errors
+
+### Status Code Handling
+The module validates HTTP status codes and throws appropriate errors for non-success responses.
 
 ## Integration
 The module is integrated as a local Swift Package and depends on the CoreModels module for data structures.

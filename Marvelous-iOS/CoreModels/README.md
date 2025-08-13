@@ -5,15 +5,12 @@ The CoreModels module contains the core data models for the Marvelous News iOS a
 
 ## Architecture
 
-
 ### 🏗 Structure
 ```
 CoreModels/
 ├── Sources/
 │   └── CoreModels/
-│       ├── NewsAPIResponse.swift
-│       ├── Article.swift
-│       └── Thumbnail.swift
+│       └── NewsAPIResponse.swift
 └── Tests/
     └── CoreModelsTests/
         └── ArticleDecodingTests.swift
@@ -23,9 +20,8 @@ CoreModels/
 
 #### 1. Core Models
 - **Article**: The main model representing a news article
-- **Thumbnail**: Image handling model with HTTPS URL conversion
+- **Source**: Information about the news source
 - **NewsAPIResponse**: Generic wrapper for News API responses
-
 
 #### Example Usage
 ```swift
@@ -47,24 +43,26 @@ print(article.imageURL) // Computed property for image URL
 print(article.webURL)   // Computed property for web URL
 ```
 
-
 #### 2. Response Containers
 ```swift
-public struct NewsAPIResponse<T: Decodable & Sendable>
-public struct NewsAPIDataContainer<T: Decodable & Sendable>
+public struct NewsAPIResponse: Codable, Sendable, Equatable {
+    public let status: String
+    public let totalResults: Int?
+    public let articles: [Article]?
+}
 ```
 - Generic response wrappers
 - Support for pagination
 - Type-safe data containers
 
-
 #### 3. Related Models
 - Source, Author, and other metadata
-- All conform to `Decodable` and `Sendable`
+- All conform to `Codable`, `Sendable`, and `Equatable`
 
 ## Principles & Patterns
-- SOLID: Cada modelo tiene una única responsabilidad y se puede extender sin modificar el código existente.
-- Clean Architecture: Los modelos no dependen de frameworks externos.
+- **SOLID**: Each model has a single responsibility and can be extended without modifying existing code
+- **Clean Architecture**: Models don't depend on external frameworks
+- **Protocol-Oriented**: Swift-first approach with value types
 
 ## Dependencies
 No external dependencies.
@@ -76,15 +74,16 @@ xcodebuild test -scheme CoreModels
 ```
 
 ## Good Practices
-- All models are documented.
-- No force unwraps in production code.
-- All models conform to `Sendable` for concurrency safety.
+- All models are documented
+- No force unwraps in production code
+- All models conform to `Sendable` for concurrency safety
+- Comprehensive test coverage
 
 ## Implementation Details
 
 ### Article Model
 ```swift
-public struct Article: Decodable, Identifiable, Sendable, Equatable {
+public struct Article: Codable, Identifiable, Sendable, Equatable {
     public var id: String { url ?? UUID().uuidString } // stable enough for UI lists
     public let source: Source?
     public let author: String?
@@ -98,8 +97,13 @@ public struct Article: Decodable, Identifiable, Sendable, Equatable {
     public var imageURL: URL? { URL(string: urlToImage ?? "") }
     public var webURL: URL? { URL(string: url ?? "") }
 }
-    public let publishedAt: Date?
-    public let content: String?
+```
+
+### Source Model
+```swift
+public struct Source: Codable, Sendable, Equatable {
+    public let id: String?
+    public let name: String?
 }
 ```
 
@@ -107,46 +111,63 @@ public struct Article: Decodable, Identifiable, Sendable, Equatable {
 1. ✅ All types are `Sendable` for concurrent operations
 2. ✅ Immutable properties prevent state inconsistencies
 3. ✅ Efficient memory usage with value types
-4. ✅ HTTPS enforcement in image URLs
+4. ✅ URL safety handling with computed properties
 
 ### Best Practices
 1. ✅ Clear model separation
 2. ✅ Protocol conformance for SwiftUI integration
 3. ✅ Comprehensive test coverage
-4. ✅ Type-safe generic containers
+4. ✅ Type-safe containers
 5. ✅ URL safety handling
 
 ## Testing
 
-The module includes detailed tests in `HeroDecodingTests.swift`:
+The module includes detailed tests in `ArticleDecodingTests.swift`:
 - JSON decoding validation
 - URL conversion testing
 - Data structure integrity checks
+- Mock data consistency verification
 
 ## Usage Example
 
 ```swift
-// Decode a Hero from JSON
+// Decode a News API response from JSON
 let decoder = JSONDecoder()
-let hero = try decoder.decode(APIResponse<Hero>.self, from: jsonData)
+let response = try decoder.decode(NewsAPIResponse.self, from: jsonData)
 
-// Access hero properties
-let heroName = hero.data.results.first?.name
-let thumbnailURL = hero.data.results.first?.thumbnail.url
+// Access article properties
+let articles = response.articles ?? []
+let totalResults = response.totalResults ?? 0
+
+// Use articles in SwiftUI
+ForEach(articles) { article in
+    ArticleCard(article: article)
+}
+```
+
+## Mock Data
+
+The module provides mock data for testing:
+```swift
+// Use mock article for testing
+let mockArticle = Article.mock
+
+// Use mock response for testing
+let mockResponse = NewsAPIResponse.mock
 ```
 
 ## Areas for Improvement
 
 1. **Validation**: Add value validation for critical fields
-2. **Codable**: Implement custom encoding if needed
+2. **Date Handling**: Convert `publishedAt` to proper `Date` type
 3. **Documentation**: Add DocC documentation
-4. **Equatable**: Add Equatable conformance to all types
-5. **Property Wrappers**: Consider custom property wrappers for common transformations
+4. **Property Wrappers**: Consider custom property wrappers for common transformations
+5. **Coding Keys**: Add custom coding keys for API compatibility
 
 ## Dependencies
 - No external dependencies
-- Requires iOS 15.0+
+- Requires iOS 16.6+
 - Swift 6.0+
 
 ## Integration
-The module is integrated as a local Swift Package and used by both the main app and CoreNetworking module.
+The module is integrated as a local Swift Package and used by both the main app and CoreNetworking module for data structures.
