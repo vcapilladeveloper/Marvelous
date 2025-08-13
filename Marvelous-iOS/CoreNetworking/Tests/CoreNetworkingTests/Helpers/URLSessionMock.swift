@@ -1,19 +1,26 @@
 import Foundation
 @testable import CoreNetworking
 
-struct URLSessionMock: URLSessionProtocol {
-    let mockData: Data
-    let mockResponse: URLResponse
-    let mockError: Error?
+// Note: This mock is intentionally not Sendable for testing purposes
+final class URLSessionMock: URLSessionProtocol {
+    var mockData: Data?
+    var mockResponse: URLResponse?
+    var mockError: Error?
+    var requests: [URLRequest] = []
 
-    init(data: Data, response: URLResponse, error: Error?) {
-        self.mockData = data
-        self.mockResponse = response
-        self.mockError = error
-    }
+    init() {}
 
     func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+        requests.append(request)
         if let error = mockError { throw error }
-        return (mockData, mockResponse)
+
+        guard let data = mockData, let response = mockResponse else {
+            throw NetworkError.unknown(NSError(domain: "MockError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Mock data or response not set"]))
+        }
+
+        return (data, response)
     }
 }
+
+// Extension to make it Sendable for the protocol requirement
+extension URLSessionMock: @unchecked Sendable {}

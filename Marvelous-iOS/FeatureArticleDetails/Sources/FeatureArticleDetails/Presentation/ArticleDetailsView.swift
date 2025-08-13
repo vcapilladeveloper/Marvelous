@@ -15,18 +15,15 @@ public struct ArticleDetailsView: View {
         WithViewStore(store, observe: { $0 }, content: { viewStore in
             ScrollView {
                 VStack(alignment: .leading, spacing: DSSpacing.large) {
-                    // Image
                     if let url = viewStore.article.imageURL {
                         AsyncRemoteImage(url: url, width: UIScreen.main.bounds.width - 32, height: 180, cornerRadius: 12)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
 
-                    // Title
                     Text(viewStore.article.title ?? "(No title)")
                         .font(DSTypography.title)
                         .foregroundColor(DSPalette.textPrimary)
 
-                    // Meta
                     VStack(alignment: .leading, spacing: DSSpacing.extraSmall) {
                         if let source = viewStore.article.source?.name { metaRow(icon: "newspaper", text: source) }
                         if let author = viewStore.article.author, !author.isEmpty { metaRow(icon: "person.fill", text: author) }
@@ -35,7 +32,6 @@ public struct ArticleDetailsView: View {
                         }
                     }
 
-                    // Description / Content
                     if let desc = viewStore.article.description, !desc.isEmpty {
                         Text(desc)
                             .font(DSTypography.body)
@@ -47,7 +43,6 @@ public struct ArticleDetailsView: View {
                             .foregroundColor(DSPalette.textPrimary)
                     }
 
-                    // Actions
                     VStack(spacing: DSSpacing.medium) {
                         PrimaryButton("Open in Browser") {
                             store.send(.openInBrowserTapped)
@@ -98,20 +93,7 @@ private struct ActivityView: UIViewControllerRepresentable {
 }
 
 #Preview("Article Details") {
-    // swiftlint:disable force_try
-    let article = try! JSONDecoder().decode(Article.self, from: Data(#"""
-    {
-      "source": {"id": "techcrunch","name": "TechCrunch"},
-      "author": "Aria Alamalhodaei",
-      "title": "SpaceX is building a water pipeline to Starbase – but access comes with some conditions | TechCrunch",
-      "description": "The newest piece of infrastructure…",
-      "url": "https://techcrunch.com/2025/08/07/spacex-is-building-a-water-pipeline-to-starbase-but-access-comes-with-some-conditions/",
-      "urlToImage": "https://techcrunch.com/wp-content/uploads/2025/07/starbasec-city-spacex.jpg?resize=1200,510",
-      "publishedAt": "2025-08-07T17:33:05Z",
-      "content": "Full content…"
-    }
-    """#.utf8))
-    // swiftlint:enable force_try
+    let article = Article.mock
     return NavigationStack {
         ArticleDetailsView(store: Store(initialState: .init(article: article)) {
             ArticleDetailsFeature()

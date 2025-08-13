@@ -24,7 +24,7 @@ public struct ArticleListView: View {
                     .sheet(
                         isPresented: viewStore.binding(
                             get: { $0.selected != nil },
-                            send: { $0 ? .onAppear : .dismissDetail } // opening handled by didSelect; closing dismisses
+                            send: { $0 ? .onAppear : .dismissDetail }
                         ),
                         content: {
                             if let article = viewStore.selected {
@@ -39,8 +39,6 @@ public struct ArticleListView: View {
             }
         })
     }
-
-    // MARK: - Subviews
 
     @ViewBuilder
     private func content(viewStore: ViewStoreOf<ArticleListFeature>) -> some View {

@@ -80,11 +80,9 @@ public struct ArticleListFeature: Reducer {
             case let .articlesResponse(.success((newItems, total))):
                 state.isLoading = false
                 state.total = total
-                // If it's a new search (page == 1), reset the collection
                 if state.page == 1 {
                     state.items = Array(newItems.prefix(100))
                 } else {
-                    // Ensure we never exceed 100 articles
                     let remaining = max(0, 100 - state.items.count)
                     if remaining > 0 {
                         state.items.append(contentsOf: newItems.prefix(remaining))

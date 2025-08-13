@@ -1,34 +1,36 @@
 # FeatureArticleList Module
 
 ## Overview
-The FeatureArticleList module implements the news article list feature using The Composable Architecture (TCA). It provides a scalable and maintainable implementation for displaying and managing news article data, siguiendo Clean Architecture y SOLID.
+The FeatureArticleList module implements the news article list feature using The Composable Architecture (TCA). It provides a scalable and maintainable implementation for displaying and managing news article data, following Clean Architecture and SOLID principles.
 
 ## Architecture
-
 
 ### 🏗 Structure
 ```
 FeatureArticleList/
 ├── Sources/
-│   └── FeatureArticleList/
-│       ├── Feature/
-│       │   ├── ArticleListFeature.swift
-│       │   └── ArticleListView.swift
-│       ├── Components/
-│       │   └── ArticleListCell.swift
-│       └── Client/
-│           └── ArticleListClient.swift
+│   └── FeatureHeroList/
+│       ├── Data/
+│       │   └── Repositories/
+│       │       └── NewsArticlesRepository.swift
+│       ├── Domain/
+│       │   ├── Repositories/
+│       │   │   └── ArticlesRepository.swift
+│       │   └── UseCases/
+│       │       └── FetchArticlesUseCase.swift
+│       └── Presentation/
+│           ├── ArticleListFeature.swift
+│           ├── ArticleListView.swift
+│           └── Dependencies/
+│               └── FetchArticlesUseCaseKey.swift
 └── Tests/
    └── FeatureArticleListTests/
-      ├── ArticleListFeatureTests.swift
-      └── Helpers/
-         └── MockArticleListClient.swift
+      └── ArticleListIntegrationTests.swift
 ```
 
 ### 📦 Key Components
 
-
-#### 1. Feature
+#### 1. Feature (TCA)
 ```swift
 @Reducer
 public struct ArticleListFeature {
@@ -42,6 +44,7 @@ public struct ArticleListFeature {
       public var selected: Article?
       public var canLoadMore: Bool { items.count < min(total, 100) }
    }
+   
    public enum Action {
       case onAppear
       case loadMore
@@ -51,7 +54,6 @@ public struct ArticleListFeature {
       case didSelect(Article)
       case dismissDetail
    }
-   // ...existing code...
 }
 ```
 - TCA-based feature implementation
@@ -61,7 +63,6 @@ public struct ArticleListFeature {
 - Search resets collection and reloads
 - Retry clears state and reloads articles
 - Navigation to detail via sheet using `selected` article
-
 
 #### Example Usage
 ```swift
@@ -74,35 +75,39 @@ let store = Store(initialState: ArticleListFeature.State()) {
 ArticleListView(store: store)
 ```
 
-
 #### 2. View Layer
 - SwiftUI views with TCA store integration
-- Reusable components
-- Design System integration
+- Reusable components from DesignSystem
 - Navigation to detail via sheet
+- Accessibility support
 
+#### 3. Domain Layer
+- **ArticlesRepository**: Protocol for data access
+- **FetchArticlesUseCase**: Business logic for fetching articles
+- Clean separation of concerns
 
-#### 3. Client Layer
-- Protocol-based API client for News
-- Testable dependencies
-- Clean data flow
+#### 4. Data Layer
+- **NewsArticlesRepository**: Concrete implementation
+- API integration via CoreNetworking
+- Data transformation and caching
 
 ## Principles & Patterns
-- TCA: Reducer, State, Action, Environment.
-- SOLID: Cada feature y cliente tiene una única responsabilidad y se puede extender.
-- Clean Architecture: Separación clara entre presentación, dominio y datos.
-- Robust error handling and retry logic
+- **TCA**: Reducer, State, Action, Environment
+- **SOLID**: Each feature and client has a single responsibility and can be extended
+- **Clean Architecture**: Clear separation between presentation, domain, and data
+- **Robust error handling** and retry logic
 
 ## Testing
 To run tests for this module:
 ```sh
-xcodebuild test -scheme FeatureHeroList
+xcodebuild test -scheme FeatureArticleList
 ```
 
 ## Good Practices
-- Tests unitarios y de integración.
-- Uso de mocks para dependencias.
-- Documentación en los features y clientes.
+- Unit and integration tests
+- Use of mocks for dependencies
+- Documentation for features and clients
+- Accessibility compliance
 
 ## Implementation Details
 
@@ -110,17 +115,20 @@ xcodebuild test -scheme FeatureHeroList
 - Proper state isolation
 - Immutable data structures
 - Clear state transitions
+- Efficient state updates
 
 ### Actions
 - Well-defined action types
 - Side effect handling
 - Error management
+- Async operation support
 
 ### Testing
 - Comprehensive unit tests
 - Mock clients for testing
 - Action testing
 - State transition verification
+- Integration testing
 
 ## Best Practices
 
@@ -138,6 +146,11 @@ xcodebuild test -scheme FeatureHeroList
    - User-friendly errors
    - Retry mechanisms
    - Loading states
+
+4. ✅ Accessibility
+   - VoiceOver support
+   - Dynamic Type
+   - Semantic grouping
 
 ## Dependencies
 - The Composable Architecture
@@ -175,5 +188,50 @@ Custom rules for TCA-based code:
    - Image caching
    - State updates
 
+5. **Testing**
+   - Increase test coverage
+   - Add UI tests
+   - Performance testing
+
+## Feature Capabilities
+
+### Article Display
+- Grid layout for articles
+- Image loading with fallbacks
+- Article metadata display
+- Responsive design
+
+### Search Functionality
+- Real-time search input
+- Query debouncing
+- Search result highlighting
+- Empty state handling
+
+### Pagination
+- Load more on scroll
+- Progress indicators
+- Error handling for failed loads
+- Maximum article limit (100)
+
+### Error Handling
+- Network error states
+- Retry functionality
+- User-friendly error messages
+- Graceful degradation
+
 ## Integration
-The module is integrated as a local Swift Package in the main Marvelous iOS app target.
+The module is integrated as a local Swift Package in the main Marvelous iOS app target and coordinates with FeatureArticleDetails for navigation.
+
+## Performance Considerations
+
+### List Optimization
+- Lazy loading of views
+- Efficient state updates
+- Memory management
+- Image caching
+
+### State Management
+- Minimal state updates
+- Efficient side effects
+- Proper dependency management
+- Background task handling

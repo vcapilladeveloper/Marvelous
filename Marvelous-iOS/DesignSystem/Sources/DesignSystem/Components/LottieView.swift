@@ -2,7 +2,7 @@ import SwiftUI
 import Lottie
 
 public struct LottieView: UIViewRepresentable {
-    let name: String                 // "Loading"
+    let name: String
     var loopMode: LottieLoopMode = .loop
 
     public func makeUIView(context: Context) -> UIView {
@@ -20,14 +20,12 @@ public struct LottieView: UIViewRepresentable {
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = loopMode
 
-        // Preferred: explicit subdirectory lookup (name WITHOUT folder or ".json")
         if let anim = LottieAnimation.named(name, bundle: .module) {
             animationView.animation = anim
             animationView.play()
             return container
         }
 
-        // Fallback: URL lookup
         if let url = Bundle.module.url(forResource: name, withExtension: "json"),
            let anim = LottieAnimation.filepath(url.path) {
             animationView.animation = anim
