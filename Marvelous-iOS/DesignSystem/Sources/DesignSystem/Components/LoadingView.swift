@@ -13,7 +13,7 @@ public struct LoadingView: View {
         VStack(spacing: DSSpacing.medium) {
             // This can be moved to inside LottieView, instead of do the logic here
             if Bundle.module.url(forResource: animationName, withExtension: "json") != nil {
-                LottieView(name: animationName)
+                LottieView(name: animationName, accessibilityLabel: title)
                     .frame(width: 250, height: 120)
                     .accessibilityIdentifier("loadingAnimation")
             } else {

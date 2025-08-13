@@ -2,8 +2,10 @@ import SwiftUI
 import Lottie
 
 public struct LottieView: UIViewRepresentable {
-    let name: String
+    let name: String                 // "Loading"
     var loopMode: LottieLoopMode = .loop
+    var accessibilityLabel: String?
+    var accessibilityHint: String?
 
     public func makeUIView(context: Context) -> UIView {
         let container = UIView()
@@ -20,22 +22,23 @@ public struct LottieView: UIViewRepresentable {
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = loopMode
 
+        // Preferred: explicit subdirectory lookup (name WITHOUT folder or ".json")
         if let anim = LottieAnimation.named(name, bundle: .module) {
             animationView.animation = anim
-            animationView.play()
-            return container
-        }
-
-        if let url = Bundle.module.url(forResource: name, withExtension: "json"),
-           let anim = LottieAnimation.filepath(url.path) {
+        } else if let url = Bundle.module.url(forResource: name, withExtension: "json"),
+                  let anim = LottieAnimation.filepath(url.path) {
             animationView.animation = anim
-            animationView.play()
-            return container
         }
 
-        #if DEBUG
-        print("❌ Lottie asset not found: name='\(name)')'")
-        #endif
+        if let label = accessibilityLabel {
+            animationView.isAccessibilityElement = true
+            animationView.accessibilityLabel = label
+        }
+        if let hint = accessibilityHint {
+            animationView.accessibilityHint = hint
+        }
+
+        animationView.play()
         return container
     }
 

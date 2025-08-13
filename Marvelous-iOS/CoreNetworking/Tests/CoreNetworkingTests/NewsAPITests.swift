@@ -3,7 +3,7 @@ import CoreModels
 @testable import CoreNetworking
 
 final class NewsAPITests: XCTestCase {
-    
+
     private func createMockSession(_ data: Data, statusCode: Int, mockError: Error? = nil) -> URLSessionMock? {
         guard let dummyURL = URL(string: "https://example.com"),
             let resp = HTTPURLResponse(
@@ -21,14 +21,14 @@ final class NewsAPITests: XCTestCase {
         session.mockData = data
         session.mockResponse = resp
         session.mockError = mockError
-        
+
         return session
     }
-    
+
     func testEverythingBuildsRequestAndParses() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -62,7 +62,7 @@ final class NewsAPITests: XCTestCase {
             XCTFail("Failed to create mock session")
             return
         }
-        
+
         let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
 
         do {
@@ -97,12 +97,12 @@ final class NewsAPITests: XCTestCase {
 
     func testEverythingHandlesTransportError() async throws {
         let data = Data()
-        
+
         guard let session = createMockSession(data, statusCode: 200, mockError: URLError(.notConnectedToInternet)) else {
             XCTFail("Failed to create mock session")
             return
         }
-        
+
         let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
 
         do {
@@ -126,7 +126,7 @@ final class NewsAPITests: XCTestCase {
     func testSearchBuildsRequestAndParses() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -143,7 +143,7 @@ final class NewsAPITests: XCTestCase {
     func testSearchWithEmptyQuery() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -159,7 +159,7 @@ final class NewsAPITests: XCTestCase {
     func testSearchWithSpecialCharacters() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -175,7 +175,7 @@ final class NewsAPITests: XCTestCase {
     func testSearchWithLongQuery() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -192,7 +192,7 @@ final class NewsAPITests: XCTestCase {
     func testEverythingWithDifferentPages() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -213,7 +213,7 @@ final class NewsAPITests: XCTestCase {
     func testSearchWithDifferentPages() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -231,7 +231,7 @@ final class NewsAPITests: XCTestCase {
     func testEverythingWithDefaultPage() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -246,7 +246,7 @@ final class NewsAPITests: XCTestCase {
     func testSearchWithDefaultPage() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return
@@ -261,7 +261,7 @@ final class NewsAPITests: XCTestCase {
     func testAPIKeyIsSetInRequest() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
-        
+
         guard let session = createMockSession(data, statusCode: 200) else {
             XCTFail("Failed to create mock session")
             return

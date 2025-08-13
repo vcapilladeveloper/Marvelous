@@ -6,12 +6,14 @@ public struct AsyncRemoteImage: View {
     let width: CGFloat
     let height: CGFloat
     let cornerRadius: CGFloat
+    let accessibilityLabel: String
 
-    public init(url: URL?, width: CGFloat, height: CGFloat, cornerRadius: CGFloat = 10) {
+    public init(url: URL?, width: CGFloat, height: CGFloat, cornerRadius: CGFloat = 10, accessibilityLabel: String) {
         self.url = url
         self.width = width
         self.height = height
         self.cornerRadius = cornerRadius
+        self.accessibilityLabel = accessibilityLabel
     }
 
     public var body: some View {
@@ -43,12 +45,13 @@ public struct AsyncRemoteImage: View {
             }
         }
         .shadow(color: DSPalette.shadow.opacity(0.4), radius: 4, x: 4, y: 4)
-        .accessibilityHidden(true)
+        .accessibilityLabel(Text(accessibilityLabel))
+        .accessibilityAddTraits(.isImage)
     }
 }
 
 #Preview("AsyncRemoteImage") {
-    AsyncRemoteImage(url: URL(string: "https://picsum.photos/200"), width: 100, height: 120)
+    AsyncRemoteImage(url: URL(string: "https://picsum.photos/200"), width: 100, height: 120, accessibilityLabel: "Placeholder image")
         .padding()
         .background(DSPalette.background)
 }
