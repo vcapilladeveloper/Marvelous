@@ -1,9 +1,10 @@
 # DesignSystem Module
 
 ## Overview
-The DesignSystem module provides a comprehensive set of UI components, styles, and animations for the Marvelous News iOS app. It implements a consistent design language using SwiftUI, follows atomic design principles, and promotes accessibility and best practices.
+The DesignSystem module provides a comprehensive set of UI components, styles, and animations for the Marvelous News iOS app. It implements a consistent design language using SwiftUI, follows atomic design principles, y promueve accesibilidad y buenas prácticas.
 
 ## Architecture
+
 
 ### 🏗 Structure
 ```
@@ -24,11 +25,11 @@ DesignSystem/
 │       │   └── DSGrid.swift
 │       └── Resources/
 │           └── Animations/
-│               └── Loading.json
+│           |   └── Loading.json
+│           └── Colors.xcassets/
 └── Tests/
    └── DesignSystemTests/
-      ├── LoadingViewTests.swift
-      └── ArticleCardTests.swift
+      └── LoadingViewTests.swift
 ```
 
 ### 📦 Key Components
@@ -44,7 +45,12 @@ DesignSystem/
 - **ArticleCard**: News article display card
 - **ErrorView**: Error state handling
 - **LoadingView**: Loading state with Lottie animation
+- **LottieView**: UIKit wrapper for SwiftUI
 - **Shimmer**: Loading state animation effect
+
+#### 3. Resources
+- **Animations/Loading.jsn**: Lottie file with the animation
+- **Colors.xcassets**: Color collection to make easy to define Light and Dark Themes
 
 #### Example Usage
 ```swift
@@ -55,22 +61,14 @@ ArticleCard(article: article)
 ```
 
 ## Accessibility
-- All components include `accessibilityLabel` and `accessibilityHint`
-- Colors and typography meet minimum contrast requirements
-- Recommended to test with VoiceOver and Dynamic Type
-- Semantic element grouping for better screen reader experience
+- Todos los componentes incluyen `accessibilityLabel` y `accessibilityHint`.
+- Colores y tipografía cumplen contraste mínimo recomendado.
+- Se recomienda testear con VoiceOver y Dynamic Type.
 
 ## Good Practices
-- Reusable and documented components
-- No force unwraps in production code
+- Reusable components
 - Visual and accessibility tests
 - Consistent design tokens
-
-## Testing
-To run tests for this module:
-```sh
-xcodebuild test -scheme DesignSystem
-```
 
 ## Implementation Details
 
@@ -95,13 +93,13 @@ public enum DSTypography {
 ### Color System
 ```swift
 public enum DSPalette {
-    public static let background = Color("Background")
-    public static let surface = Color("Surface")
-    public static let textPrimary = Color("TextPrimary")
-    public static let textSecondary = Color("TextSecondary")
-    public static let brand = Color("Brand")
-    public static let error = Color("Error")
-    public static let shadow = Color("Shadow")
+    public static let brand = Color("Brand", bundle: .module)
+    public static let textPrimary = Color("TextPrimary", bundle: .module)
+    public static let textSecondary = Color("TextSecondary", bundle: .module)
+    public static let background = Color("Background", bundle: .module)
+    public static let surface = Color("Surface", bundle: .module)
+    public static let error = Color("Error", bundle: .module)
+    public static let shadow = Color("Shadow", bundle: .module)
 }
 ```
 
@@ -110,7 +108,6 @@ public enum DSPalette {
 - Support for Dynamic Type
 - VoiceOver optimization
 - Semantic element grouping
-- High contrast support
 
 ### Best Practices
 1. ✅ SwiftUI previews for all components
@@ -119,32 +116,6 @@ public enum DSPalette {
 4. ✅ Accessibility support
 5. ✅ Unit tests with ViewInspector
 
-## Component Details
-
-### ArticleCard
-- Displays article information in a card format
-- Supports optional images with fallback
-- Responsive layout for different content lengths
-- Accessibility labels for all elements
-
-### PrimaryButton
-- Consistent button styling across the app
-- Support for different states (enabled, disabled, loading)
-- Accessibility traits and labels
-- Touch target size compliance
-
-### LoadingView
-- Lottie animation integration
-- Customizable loading messages
-- Accessibility support for screen readers
-- Smooth animation transitions
-
-### Shimmer
-- Loading state animation effect
-- Customizable shimmer properties
-- Performance optimized
-- SwiftUI modifier pattern
-
 ## Testing
 
 The module includes UI component tests using ViewInspector:
@@ -152,20 +123,17 @@ The module includes UI component tests using ViewInspector:
 - Interaction tests
 - Accessibility tests
 - State management tests
-- Visual regression tests
 
 ## Dependencies
 - Lottie (Airbnb) for animations
 - ViewInspector for testing
-- iOS 16.6+ support
-- Swift 6.0+
+- iOS 15.0+ support
+- Swift 6.1+
 
 ## Areas for Improvement
 
 1. **Theme Support**
-   - Add dark mode support
    - Implement theme switching
-   - Color asset integration
 
 2. **Component Coverage**
    - Add more common components
@@ -187,32 +155,5 @@ The module includes UI component tests using ViewInspector:
    - Reduce memory footprint
    - Cache commonly used resources
 
-6. **Accessibility**
-   - Add more accessibility features
-   - Support for different accessibility modes
-   - Accessibility testing tools integration
-
 ## Integration
-The module is integrated as a local Swift Package in the main Marvelous iOS app target and used by all feature modules for consistent UI components.
-
-## Design System Guidelines
-
-### Typography Scale
-- Use predefined typography tokens
-- Maintain consistent hierarchy
-- Support Dynamic Type scaling
-
-### Color Usage
-- Use semantic color names
-- Ensure sufficient contrast ratios
-- Support both light and dark themes
-
-### Spacing System
-- Use predefined spacing values
-- Maintain consistent rhythm
-- Scale appropriately for different screen sizes
-
-### Component Composition
-- Build complex UIs from simple components
-- Maintain consistent behavior patterns
-- Ensure accessibility compliance
+The module is integrated as a local Swift Package in the main Marvelous iOS app target.
