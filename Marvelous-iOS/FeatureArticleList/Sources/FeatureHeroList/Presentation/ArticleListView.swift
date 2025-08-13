@@ -59,6 +59,8 @@ public struct ArticleListView: View {
             ForEach(viewStore.items) { article in
                 articleCell(article, viewStore: viewStore)
                     .onTapGesture { viewStore.send(.didSelect(article)) }
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityHint("Double tap to view article details.")
                     .onAppear {
                         if article.id == viewStore.items.last?.id {
                             viewStore.send(.loadMore)

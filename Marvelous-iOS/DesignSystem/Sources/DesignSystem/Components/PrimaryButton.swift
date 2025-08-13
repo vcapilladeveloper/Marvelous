@@ -2,10 +2,12 @@ import SwiftUI
 
 public struct PrimaryButton: View {
     let title: String
+    let accessibilityHint: String?
     let action: () -> Void
 
-    public init(_ title: String, action: @escaping () -> Void) {
+    public init(_ title: String, accessibilityHint: String? = nil, action: @escaping () -> Void) {
         self.title = title
+        self.accessibilityHint = accessibilityHint
         self.action = action
     }
 
@@ -20,6 +22,7 @@ public struct PrimaryButton: View {
                 .cornerRadius(12)
         }
         .accessibilityLabel(Text(title))
+        .accessibilityHint(Text(accessibilityHint ?? ""))
         .accessibilityAddTraits(.isButton)
     }
 }

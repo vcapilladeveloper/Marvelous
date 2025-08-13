@@ -17,7 +17,7 @@ public struct ErrorView: View {
                 .font(DSTypography.body)
                 .foregroundColor(DSPalette.error)
                 .multilineTextAlignment(.center)
-            PrimaryButton(retryTitle, action: onRetry)
+            PrimaryButton(retryTitle, accessibilityHint: "Retries the failed operation.", action: onRetry)
                 .padding(.horizontal)
         }
         .padding()
