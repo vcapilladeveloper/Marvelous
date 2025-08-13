@@ -1,5 +1,7 @@
 
-# Marvelous News iOS
+# ~~Marvelous~~ News iOS
+
+**IMPORTANT: This project began by using the Marvel API, but after four days of trying to get it to work, I decided to change the API, even though the name of the project may be misleading.**
 
 A modern iOS application showcasing advanced iOS development practices, clean architecture, and comprehensive testing. Built for a Staff iOS Engineer technical test, this project demonstrates expertise in TCA (The Composable Architecture), Clean Architecture principles, accessibility, and modern Swift development.
 
@@ -21,20 +23,20 @@ A modern iOS application showcasing advanced iOS development practices, clean ar
 ### Architecture Layers
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Presentation Layer                       │
-│              SwiftUI + TCA + Design System                 │
+│                      Presentation Layer                     │
+│                 SwiftUI + TCA + Design System               │
 ├─────────────────────────────────────────────────────────────┤
-│                     Feature Layer                           │
-│           FeatureArticleList + FeatureArticleDetails       │
+│                        Feature Layer                        │
+│           FeatureArticleList + FeatureArticleDetails        │
 ├─────────────────────────────────────────────────────────────┤
-│                      Domain Layer                           │
-│              Use Cases + Repository Interfaces             │
+│                        Domain Layer                         │
+│                Use Cases + Repository Interfaces            │
 ├─────────────────────────────────────────────────────────────┤
-│                      Data Layer                            │
-│              Repositories + API Clients                    │
+│                         Data Layer                          │
+│                Repositories + API Clients                   │
 ├─────────────────────────────────────────────────────────────┤
 │                     Infrastructure Layer                    │
-│              Networking + Configuration                     │
+│                 Networking + Configuration                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -44,7 +46,7 @@ A modern iOS application showcasing advanced iOS development practices, clean ar
 - **Platform**: iOS 16.6+
 - **Language**: Swift 6.0+
 - **UI Framework**: SwiftUI
-- **Architecture**: TCA (The Composable Architecture)
+- **Architecture**: TCA (The Composable Architecture) + Clean Architecture
 - **Concurrency**: Swift Concurrency (async/await)
 - **Testing**: XCTest + ViewInspector
 
@@ -55,14 +57,14 @@ A modern iOS application showcasing advanced iOS development practices, clean ar
 
 ### Development Tools
 - **SwiftLint**: Code quality and consistency
-- **Xcode 15.0+**: Latest development environment
+- **Xcode 16.0+**: Latest development environment
 - **Git**: Version control with conventional commits
 
 ## 📱 Features
 
 ### Core Functionality
 - **News Article Display**: Tech news articles with rich content
-- **Search & Filtering**: Real-time search with debouncing
+- **Search**: Real-time search with debouncing
 - **Pagination**: Infinite scrolling (limited to 100 articles for performance)
 - **Article Details**: Comprehensive article information display
 - **Error Handling**: Graceful error states with retry mechanisms
@@ -71,7 +73,6 @@ A modern iOS application showcasing advanced iOS development practices, clean ar
 ### Advanced Features
 - **Accessibility**: VoiceOver support, Dynamic Type, semantic grouping
 - **Performance**: Efficient list rendering, image loading, state management
-- **Offline Resilience**: Graceful degradation when network unavailable
 - **Modern UI**: SwiftUI with custom design system components
 
 ## 🎬 Demo & Screenshots
@@ -119,33 +120,28 @@ Marvelous-iOS/
 #### **DesignSystem Module**
 - Reusable UI components
 - Design tokens (colors, typography, spacing)
-- Accessibility-first component design
+- Accessibility component design
 
 #### **FeatureArticleList Module**
-- Article list display and management
+- Article list display
 - Search functionality
-- Pagination and infinite scrolling
+- Pagination and infinite scrolling (Limited to 100 due API restrictions)
 - TCA state management
 
 #### **FeatureArticleDetails Module**
 - Article detail presentation
 - Share functionality
 - Browser integration
+- TCA state management
 
 ## 🔍 Code Quality & Standards
 
 ### SwiftLint Configuration
 Each module has tailored SwiftLint rules:
-- **Strict type safety** for CoreModels
-- **Network-specific rules** for CoreNetworking
-- **UI-focused rules** for DesignSystem
-- **TCA-specific patterns** for Feature modules
+- **Strict type safety** for the project and also Modules
 
 ### Code Standards
 - **Naming Convention**: camelCase for functions and variables
-- **Documentation**: Comprehensive inline documentation
-- **Error Handling**: Structured error types with user-friendly messages
-- **Concurrency**: Swift 6.0 concurrency safety with actors
 
 ### Testing Strategy
 - **Unit Tests**: Business logic and data layer testing
@@ -196,37 +192,12 @@ xcodebuild test -scheme Marvelous-iOS -destination 'platform=iOS Simulator,name=
 ### Test Execution
 ```bash
 # Run all tests
-xcodebuild test -scheme Marvelous-iOS
-
-# Run specific module tests
-xcodebuild test -scheme CoreModels
-xcodebuild test -scheme CoreNetworking
-xcodebuild test -scheme DesignSystem
-xcodebuild test -scheme FeatureArticleList
-xcodebuild test -scheme FeatureArticleDetails
+xcodebuild test-without-building \
+    -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
+    -scheme Marvelous-iOS \
+    -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+    -skipMacroValidation
 ```
-
-### Test Coverage
-- **Unit Tests**: Business logic, data models, networking
-- **Integration Tests**: Feature workflows, API integration
-- **UI Tests**: SwiftUI components, accessibility
-- **Performance Tests**: List rendering, memory usage
-
-## 🔧 Development Workflow
-
-### Git Practices
-- **Conventional Commits**: Structured commit messages
-- **Feature Branches**: Isolated development work
-- **Pull Request Reviews**: Code quality and architecture review
-- **Semantic Versioning**: Clear version management
-
-### Code Review Checklist
-- [ ] Architecture principles followed
-- [ ] TCA patterns implemented correctly
-- [ ] Accessibility requirements met
-- [ ] Test coverage adequate
-- [ ] Performance considerations addressed
-- [ ] Documentation updated
 
 ## 📚 Module Documentation
 
@@ -238,61 +209,42 @@ Each module contains comprehensive documentation:
 - [FeatureArticleList](Marvelous-iOS/FeatureArticleList/README.md): Article list feature
 - [FeatureArticleDetails](Marvelous-iOS/FeatureArticleDetails/README.md): Article details feature
 
-## 🎯 Staff Engineer Considerations
+# Future Improvements
 
-### Architecture Decisions
-- **Modular Design**: Enables team scalability and parallel development
-- **Protocol-Oriented**: Swift-first approach with clear interfaces
-- **TCA Implementation**: Demonstrates advanced state management knowledge
-- **Clean Architecture**: Shows understanding of enterprise-level patterns
+I have written this section to highlight things that I have not had time to do and that I'm aware I should have done for the project. These suggestions focus on refining the development process, improving code quality, and expanding the testing suite.
 
-### Performance & Scalability
-- **Efficient List Rendering**: Lazy loading and view recycling
-- **Memory Management**: Proper use of value types and actors
-- **Network Optimization**: Request batching and caching strategies
-- **State Management**: Efficient TCA state updates and side effects
+---
 
-### Quality Assurance
-- **Comprehensive Testing**: Unit, integration, and UI test coverage
-- **Code Quality Tools**: SwiftLint integration and custom rules
-- **Accessibility**: WCAG compliance and inclusive design
-- **Error Handling**: Graceful degradation and user experience
+## Code and Project Structure
+* **Branching and Committing:** I'll adopt a more structured approach to branch management and commit history. This will involve using smaller, more focused branches and commits, making pull request reviews more straightforward and reducing the risk of introducing multiple changes at once.
+* **Module Dependencies:** I've identified a dependency where `FeatureArticleList` relies on `FeatureArticleDetails`. I would refactor this to decouple the modules, improving the project's modularity and maintainability.
+* **SwiftLint Configuration:** I've adjusted the **SwiftLint** configuration to only check code within specific modules, excluding third-party dependencies like **Lottie**. This prevents unnecessary linting errors and keeps the focus on project-specific code quality.
 
-## 🚀 Future Improvements
+---
 
-### Technical Enhancements
-- **Offline Support**: Core Data integration and sync
-- **Performance Monitoring**: Metrics collection and analysis
-- **Advanced Caching**: Image and response caching strategies
-- **Analytics**: User behavior tracking and insights
+## Testing
+* **UI Testing:** I'll expand the UI test coverage to include tests for the user experience (UX) flow. I also plan to move away from the **ViewInspector** library and implement a **snapshot testing** framework to ensure UI consistency.
+* **Integration Testing:** I will implement **Pact tests** to create robust integration tests for the API. This will guarantee that our API contracts are consistent and prevent breaking changes with each release. Also define some Intergration test to ensure the integration between modules work as we spect.
+* **Unit Testing:** I will focus on writing more effective unit tests and remove any that do not provide meaningful value.
+* **Missing Tests:** I plan to add unit tests for the `FeatureArticleList` module to ensure its functionality is fully covered.
 
-### Architecture Evolution
-- **Multi-platform**: macOS and watchOS support
-- **Modularization**: Further feature isolation
-- **Dependency Injection**: Advanced DI container implementation
-- **Plugin Architecture**: Extensible feature system
+---
 
-### Development Infrastructure
-- **CI/CD Pipeline**: Automated testing and deployment
-- **Code Generation**: Sourcery for boilerplate reduction
-- **Documentation**: DocC integration and API documentation
-- **Performance Testing**: Automated performance regression detection
+## CI/CD and Configuration
+* **CI Configuration:** I would enhance the Continuous Integration (CI) configuration file to be more sophisticated. This would include setting up new runners for specific actions, such as creating release builds when merging to the `main` branch or deploying beta versions when merging to a `develop` branch.
+* **Secrets Management:** I'll add a note to the Readme about the importance of the **Secrets.xcconfig** file. Without it, the `Config.Secrets` file won't work, which is a critical setup step.
 
-## 👥 Contributing
+---
 
-### Development Guidelines
-1. **Follow TCA patterns** for feature development
-2. **Maintain test coverage** above 90%
-3. **Ensure accessibility** compliance
-4. **Document architectural decisions**
-5. **Follow SwiftLint rules** for code consistency
+## User Interface and Functionality
+* **Article List Limitations:** I would remove the hardcoded limitation of only 100 articles and make the API call more dynamic. I would also add the ability to customize the default search parameters (`pageSize`, `language`, and `domain`).
+* **Retry Button:** A retry button will be implemented for network requests that fail, improving the user experience during connectivity issues.
+* **Data Loading:** I would explore alternative methods for loading data, such as loading models from a JSON file, to avoid potential security risks associated with public access control.
 
-### Pull Request Process
-1. Create feature branch from `main`
-2. Implement changes with comprehensive tests
-3. Update documentation as needed
-4. Ensure all tests pass
-5. Submit PR with detailed description
+---
+
+## Architectural Reflection
+I chose to use **The Composable Architecture (TCA)** for this project. While I believe it’s a powerful architecture, I acknowledge that it might have been an over-engineering choice for a project of this scope, especially as it was my first time implementing it in a serious app.
 
 ## 📄 License
 

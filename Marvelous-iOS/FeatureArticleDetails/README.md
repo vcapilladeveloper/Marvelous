@@ -12,11 +12,13 @@ FeatureArticleDetails/
 ├── Sources/
 │   └── FeatureArticleDetails/
 │       └── Presentation/
-│           ├── ArticleDetailsFeature.swift
-│           └── ArticleDetailsView.swift
+│       |   ├── ArticleDetailsFeature.swift
+│       |   └── ArticleDetailsView.swift
+|       └── Utilities/
+|           └── Date+ISO8601.swift
 └── Tests/
    └── FeatureArticleDetailsTests/
-      └── ArticleDetailsFeatureTests.swift
+      └── ArticleDetailsReducerTests.swift
 ```
 
 ### 📦 Key Components
@@ -27,6 +29,7 @@ public struct ArticleDetailsFeature: Reducer {
    public struct State: Equatable, Sendable {
       public let article: Article
       public var isShareSheetPresented = false
+      // ...existing code...
    }
 
    public enum Action: Equatable, Sendable {
@@ -34,6 +37,7 @@ public struct ArticleDetailsFeature: Reducer {
       case openInBrowserTapped
       case shareTapped
       case shareDismissed
+      // ...existing code...
    }
 
    public var body: some ReducerOf<Self> { /* ... */ }
@@ -54,49 +58,35 @@ let store = Store(initialState: ArticleDetailsFeature.State(article: article)) {
 ArticleDetailsView(store: store)
 ```
 
-#### 2. View Layer
+#### 1. View Layer
 - SwiftUI view with TCA store integration
 - Displays article image, title, author, source, date, description, and content
 - Action buttons for "Open in Browser" and "Share"
 - Presents share sheet when requested
 
-#### 3. UI Details
+#### 2. UI Details
 - Uses DesignSystem components (PrimaryButton, AsyncRemoteImage)
 - Accessibility labels and hints for all elements
 - Responsive layout and color contrast
-- Sheet presentation for modal display
 
 ## Principles & Patterns
-- **TCA**: Reducer, State, Action, Environment
-- **SOLID**: Single responsibility for each feature/component
-- **Clean Architecture**: Separation of presentation, domain, and data
-- **Accessibility First**: Inclusive design principles
-
-## Testing
-To run tests for this module:
-```sh
-xcodebuild test -scheme FeatureArticleDetails
-```
+- TCA: Reducer, State, Action, Environment
+- SOLID: Single responsibility for each feature/component
+- Clean Architecture: Separation of presentation, domain, and data
 
 ## Good Practices
-- Unit and integration tests
+- Unit tests
 - Use of mocks for dependencies
-- Documentation for features and components
-- Accessibility labels and hints for all UI elements
-- Comprehensive test coverage
+- Accessibility labels and hints for UI elements
 
 ## Accessibility
 - All components include `accessibilityLabel` and `accessibilityHint`
 - Colors and typography meet minimum contrast requirements
 - Recommended to test with VoiceOver and Dynamic Type
-- Semantic element grouping for better screen reader experience
-- Touch target size compliance
 
 ## How to Use
 - Integrate with ArticleListFeature for navigation
 - Pass selected article to ArticleDetailsFeature.State
-- Present as sheet or full-screen modal
-- Handle user interactions through TCA actions
 
 ## Feature Capabilities
 
@@ -188,7 +178,6 @@ xcodebuild test -scheme FeatureArticleDetails
 - CoreModels module
 - DesignSystem module
 - SwiftUI
-- Combine
 
 ## Integration
 The module is integrated as a local Swift Package and coordinates with FeatureArticleList for article selection and navigation.
