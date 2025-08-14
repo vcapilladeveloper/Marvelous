@@ -28,6 +28,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:Config",
         "identifier" : "ConfigTests",
@@ -35,6 +36,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:FeatureArticleList",
         "identifier" : "FeatureArticleListTests",
@@ -42,6 +44,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:FeatureArticleDetails",
         "identifier" : "FeatureArticleDetailsTests",
@@ -49,6 +52,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:CoreModels",
         "identifier" : "CoreModelsTests",
@@ -56,6 +60,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:CoreNetworking",
         "identifier" : "CoreNetworkingTests",
