@@ -1,7 +1,12 @@
 import Foundation
 import CoreModels
 
-public struct NewsAPI: Sendable {
+public protocol NewsAPIProtocol: Sendable {
+    func everything(page: Int) async throws -> NewsAPIResponse
+    func search(query: String, page: Int) async throws -> NewsAPIResponse
+}
+
+public struct NewsAPI: NewsAPIProtocol {
     private let base = URL(string: "https://newsapi.org/v2")
     private let apiKey: String
     private let client: any APIRequestable
