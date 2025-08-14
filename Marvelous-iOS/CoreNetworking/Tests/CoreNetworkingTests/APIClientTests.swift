@@ -7,7 +7,10 @@ final class APIClientTests: XCTestCase {
         let data = try JSONSerialization.data(withJSONObject: ["test": "value"])
         let (sut, session) = makeSUT(data: data, response: httpURLResponse(statusCode: 200))
 
-        let request = anyRequest()
+        guard let request = anyRequest() else {
+            XCTFail("Failed to create request")
+            return
+        }
 
         let result = try await sut.fetch([String: String].self, from: request)
 
@@ -19,7 +22,10 @@ final class APIClientTests: XCTestCase {
     func testFetchThrowsInvalidURLOnNonHTTPResponse() async {
         let (sut, _) = makeSUT(data: anyData(), response: nonHTTPURLResponse())
 
-        let request = anyRequest()
+        guard let request = anyRequest() else {
+            XCTFail("Failed to create request")
+            return
+        }
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
@@ -37,7 +43,10 @@ final class APIClientTests: XCTestCase {
     func testFetchThrowsRequestFailedOnNon200HTTPResponse() async {
         let (sut, _) = makeSUT(data: anyData(), response: httpURLResponse(statusCode: 500))
 
-        let request = anyRequest()
+        guard let request = anyRequest() else {
+            XCTFail("Failed to create request")
+            return
+        }
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
@@ -57,7 +66,10 @@ final class APIClientTests: XCTestCase {
         let invalidJSON = Data("invalid json".utf8)
         let (sut, _) = makeSUT(data: invalidJSON, response: httpURLResponse(statusCode: 200))
 
-        let request = anyRequest()
+        guard let request = anyRequest() else {
+            XCTFail("Failed to create request")
+            return
+        }
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
@@ -77,7 +89,10 @@ final class APIClientTests: XCTestCase {
         let requestError = NetworkError.unknown(testError)
         let (sut, session) = makeSUT(error: requestError)
 
-        let request = anyRequest()
+        guard let request = anyRequest() else {
+            XCTFail("Failed to create request")
+            return
+        }
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
@@ -99,7 +114,10 @@ final class APIClientTests: XCTestCase {
     func testFetchThrowsDecodingErrorOn200HTTPResponseWithEmptyData() async {
         let (sut, _) = makeSUT(data: Data(), response: httpURLResponse(statusCode: 200))
 
-        let request = anyRequest()
+        guard let request = anyRequest() else {
+            XCTFail("Failed to create request")
+            return
+        }
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
@@ -125,23 +143,26 @@ final class APIClientTests: XCTestCase {
         return (sut, session)
     }
 
-    private func anyURL() -> URL {
-        return URL(string: "http://any-url.com")!
+    private func anyURL() -> URL? {
+        return URL(string: "http://any-url.com")
     }
 
-    private func anyRequest() -> URLRequest {
-        return URLRequest(url: anyURL())
+    private func anyRequest() -> URLRequest? {
+        guard let url = anyURL() else { return nil }
+        return URLRequest(url: url)
     }
 
     private func anyData() -> Data {
         return Data("any data".utf8)
     }
 
-    private func nonHTTPURLResponse() -> URLResponse {
-        return URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+    private func nonHTTPURLResponse() -> URLResponse? {
+        guard let url = anyURL() else { return nil }
+        return URLResponse(url: url, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
     }
 
-    private func httpURLResponse(statusCode: Int) -> HTTPURLResponse {
-        return HTTPURLResponse(url: anyURL(), statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+    private func httpURLResponse(statusCode: Int) -> HTTPURLResponse? {
+        guard let url = anyURL() else { return nil }
+        return HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil)
     }
 }
