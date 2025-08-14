@@ -41,8 +41,7 @@ public struct ArticleDetailsView: View {
                                 )
                             }
                             if let author = viewStore.article.author,
-                                !author.isEmpty
-                            {
+                                !author.isEmpty {
                                 metaRow(
                                     icon: "person.fill",
                                     text: author,
