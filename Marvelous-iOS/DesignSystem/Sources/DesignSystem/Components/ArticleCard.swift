@@ -20,7 +20,7 @@ public struct ArticleCard: View, Identifiable {
                 .multilineTextAlignment(.center)
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text(title))
+        .accessibilityLabel(title)
     }
 }
 
