@@ -1,7 +1,4 @@
 import SwiftUI
-import Config
-import CoreNetworking
-import CoreModels
 import DesignSystem
 import FeatureArticleList
 import ComposableArchitecture
@@ -9,29 +6,10 @@ import ComposableArchitecture
 @main
 struct MarvelousiOSApp: App {
     @State private var errorMessage: String?
-    private let secrets: SecretsProvider?
-
     private let store: StoreOf<ArticleListFeature>?
 
     init() {
-        do {
-            let secrets = try Secrets()
-            self.secrets = secrets
-            let apiKey = secrets.newsAPIKey
-
-            let api = NewsAPI(apiKey: apiKey, client: APIClient())
-            let repo = NewsArticlesRepository(api: api)
-            let feature = ArticleListFeature { query, page in
-                try await repo.fetchArticles(query: query, page: page)
-            }
-
-            self.store = Store(initialState: .init(), reducer: { feature })
-
-        } catch {
-            self.secrets = nil
-            self.errorMessage = "Failed to load secrets. Configure your keys (NewsAPI) in Info.plist or your Config package."
-            self.store = nil
-        }
+        self.store = Store(initialState: .init(), reducer: { ArticleListFeature() })
     }
 
     @State private var showSplash = true

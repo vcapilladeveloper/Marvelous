@@ -1,21 +1,23 @@
 import ComposableArchitecture
+import CoreModels
+import CoreNetworking
+import Config
 
-// Dependency registration for the Articles use case.
-// We intentionally do not provide a concrete live implementation here,
-// so the app composition layer must inject it (e.g., in @main).
-enum FetchArticlesUseCaseKey: DependencyKey {
-    static var liveValue: FetchArticlesUseCase {
-        fatalError("FetchArticlesUseCase not set. Provide it at composition time.")
-    }
-    static var testValue: FetchArticlesUseCase {
-        fatalError("FetchArticlesUseCase test value not set. Override in tests.")
-    }
-    static var previewValue: FetchArticlesUseCase {
-        fatalError("FetchArticlesUseCase preview value not set. Override in previews.")
-    }
+struct FetchArticlesUseCaseKey: DependencyKey {
+    static let liveValue: FetchArticlesUseCase = {
+        do {
+            let secrets = try Secrets()
+            let apiClient = APIClient()
+            let newsAPI = NewsAPI(apiKey: secrets.newsAPIKey, client: apiClient)
+            let repository = NewsArticlesRepository(api: newsAPI)
+            return FetchArticlesUseCase(repo: repository)
+        } catch {
+            fatalError("Failed to load secrets: \(error)")
+        }
+    }()
 }
 
-public extension DependencyValues {
+extension DependencyValues {
     var fetchArticlesUseCase: FetchArticlesUseCase {
         get { self[FetchArticlesUseCaseKey.self] }
         set { self[FetchArticlesUseCaseKey.self] = newValue }
