@@ -1,15 +1,17 @@
 import CoreModels
 import CoreNetworking
 
+enum ArticlesRepoError: Error { case invalidPage }
 public struct NewsArticlesRepository: ArticlesRepository, Sendable {
     private let api: any NewsAPIProtocol
     public init(api: any NewsAPIProtocol) { self.api = api }
 
     public func fetchArticles(query: String, page: Int) async throws -> ([Article], total: Int) {
-        let response = try await (
-            query.isBlank
+        guard page >= 1 else { throw ArticlesRepoError.invalidPage }
+        let cleaned = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let response = try await (cleaned.isEmpty
             ? api.everything(page: page)
-            : api.search(query: query.trimmingCharacters(in: .whitespacesAndNewlines), page: page)
+            : api.search(query: cleaned, page: page)
         )
         return (response.articles ?? [], response.totalResults ?? 0)
     }
