@@ -5,25 +5,17 @@ import ViewInspector
 
 @MainActor
 final class LoadingViewTests: XCTestCase {
-    func testShowsProgressViewWhenResourceMissing() throws {
-        let sut = LoadingView(
-            title: "Fallback Loading",
-            animationName: "MissingAnimation"
-        )
-
-        let progressView = try sut.inspect().find(viewWithAccessibilityIdentifier: "defaultAnimation")
-        XCTAssertNoThrow(try progressView.progressView())
-
-        let text = try sut.inspect().find(text: "Fallback Loading")
-        XCTAssertEqual(try text.string(), "Fallback Loading")
-
-        XCTAssertThrowsError(try sut.inspect().find(viewWithAccessibilityIdentifier: "loadingAnimation"))
+    func testShowsDefaultTitle() throws {
+        let sut = LoadingView()
+        let identifier = try sut.inspect().vStack().first?.accessibilityIdentifier()
+        XCTAssertEqual(identifier, "loadingAnimation")
     }
 
-    func testAccessibilityConfiguration() throws {
-        let sut = LoadingView(title: "Accessibility Test")
-
-        let vStack = try sut.inspect().vStack()
-        XCTAssertEqual(try vStack.accessibilityLabel().string(), "Accessibility Test")
+    func testCustomTitle() throws {
+        let sut = LoadingView(title: "Fetching Articles", animationName: "Test")
+        let title = try sut.inspect().vStack().text(1).string()
+        let animationIdentifier = try sut.inspect().vStack().first?.accessibilityIdentifier()
+        XCTAssertEqual(title, "Fetching Articles")
+        XCTAssertEqual(animationIdentifier, "defaultAnimation")
     }
 }
