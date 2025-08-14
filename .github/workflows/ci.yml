@@ -27,14 +27,14 @@ jobs:
       - name: Run SwiftLint
         run: swiftlint
 
-      # - name: Build for testing
-      #   run: |
-      #     xcodebuild build-for-testing \
-      #       -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
-      #       -scheme Marvelous-iOS \
-      #       -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
-      #       -skipMacroValidation \
-      #       CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+      - name: Build for testing
+        run: |
+          xcodebuild build-for-testing \
+            -project Marvelous-iOS/Marvelous-iOS.xcodeproj \
+            -scheme Marvelous-iOS \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -skipMacroValidation \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
 
       - name: Run tests
         run: |
