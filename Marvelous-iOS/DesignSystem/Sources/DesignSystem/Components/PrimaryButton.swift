@@ -21,8 +21,8 @@ public struct PrimaryButton: View {
                 .background(DSPalette.brand)
                 .cornerRadius(12)
         }
-        .accessibilityLabel(Text(title))
-        .accessibilityHint(Text(accessibilityHint ?? ""))
+        .accessibilityLabel(title)
+        .accessibilityHint(accessibilityHint ?? "")
         .accessibilityAddTraits(.isButton)
     }
 }

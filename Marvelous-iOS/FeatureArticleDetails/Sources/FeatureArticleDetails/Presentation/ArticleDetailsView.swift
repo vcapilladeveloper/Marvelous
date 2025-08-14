@@ -101,8 +101,8 @@ public struct ArticleDetailsView: View {
         .font(DSTypography.caption)
         .foregroundColor(DSPalette.textSecondary)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text(text))
-        .accessibilityHint(Text(hint))
+        .accessibilityLabel(text)
+        .accessibilityHint(hint)
     }
 }
 
