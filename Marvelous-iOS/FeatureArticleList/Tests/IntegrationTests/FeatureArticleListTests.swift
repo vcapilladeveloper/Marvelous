@@ -246,7 +246,10 @@ final class FeatureArticleListTests: XCTestCase {
 
     func testDidSelectAndDismissDetail() async {
         let article = Article.mock
-        let store = TestStore(initialState: ArticleListFeature.State(), reducer: { ArticleListFeature() }) { _ in }
+        let store = TestStore(
+            initialState: ArticleListFeature.State(),
+            reducer: { ArticleListFeature() }
+        ) { _ in }
 
         await store.send(.didSelect(article)) { state in
             state.selected = article
