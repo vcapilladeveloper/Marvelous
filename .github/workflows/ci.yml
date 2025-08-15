@@ -25,6 +25,7 @@ jobs:
         env:
           XCCONFIG_SECRETS: ${{ secrets.XCCONFIG_SECRETS }}
         run: |
+          ls
           echo "$XCCONFIG_SECRETS" > Marvelous/Marvelous-iOS/Marvelous-iOS/Config/Secrets.xcconfig
 
       - name: Install SwiftLint
