@@ -1,28 +1,25 @@
 # FeatureArticleList Module
 
 ## Overview
-The FeatureArticleList module implements the news article list feature using The Composable Architecture (TCA). It provides a scalable and maintainable implementation for displaying and managing news article data, siguiendo Clean Architecture y SOLID.
+The FeatureArticleList module implements the main news article list screen using The Composable Architecture (TCA). It provides a scalable and maintainable implementation for displaying, searching, and managing news article data, following Clean Architecture and SOLID principles.
 
 ## Architecture
-
 
 ### 🏗 Structure
 ```
 FeatureArticleList/
 ├── Sources/
 │   └── FeatureArticleList/
-│       ├── Feature/
+│       ├── Presentation/
 │       │   ├── ArticleListFeature.swift
 │       │   └── ArticleListView.swift
-│       ├── Components/
-│       │   └── ArticleListCell.swift
-│       └── Client/
-│           └── ArticleListClient.swift
+│       └── Components/
+│           └── ArticleListCell.swift
 └── Tests/
+    └── ... (Tests to be added)
 ```
 
 ### 📦 Key Components
-
 
 #### 1. Feature
 ```swift
@@ -35,145 +32,61 @@ public struct ArticleListFeature {
       public var searchQuery: String = ""
       public var page = 1
       public var total = 0
-      public var selected: Article?
+      public var selectedArticle: Identified<Article.ID, ArticleDetailsFeature.State?>?
       public var canLoadMore: Bool { items.count < min(total, 100) }
    }
+
    public enum Action {
       case onAppear
       case loadMore
       case searchQueryChanged(String)
       case retry
       case articlesResponse(Result<([Article], total: Int), Error>)
-      case didSelect(Article)
-      case dismissDetail
+      case articleTapped(Article)
+      case details(PresentationAction<ArticleDetailsFeature.Action>)
    }
-   // ...existing code...
+   // ...reducer body...
 }
 ```
-- TCA-based feature implementation
-- Clean separation of state and actions
-- Side effect management
-- Pagination limited to 100 articles (`canLoadMore`)
-- Search resets collection and reloads
-- Retry clears state and reloads articles (Not implemented)
-- Navigation to detail via sheet using `selected` article
+- A TCA-based feature that manages the state and logic for the article list.
+- Handles pagination (limited to 100 articles due to API constraints), search, and loading states.
+- Manages navigation to the article details screen.
 
-
-#### Example Usage
-```swift
-import FeatureArticleList
-import ComposableArchitecture
-
-let store = Store(initialState: ArticleListFeature.State()) {
-   ArticleListFeature(fetch: myFetchClosure)
-}
-ArticleListView(store: store)
-```
-
-#### 1. View Layer
-- SwiftUI views with TCA store integration
-- Reusable components
-- Design System integration
-- Navigation to detail via sheet
-
-#### 2. Domain Layer
-- **ArticlesRepository**: Protocol for data access
-- **FetchArticlesUseCase**: Business logic for fetching articles
-- Clean separation of concerns
-
-#### 3. Data Layer
-- **NewsArticlesRepository**: Concrete implementation
-- API integration via CoreNetworking
-- Data transformation and caching
+#### 2. View Layer
+- SwiftUI views that are driven by the TCA `Store`.
+- Composed of a main list view and reusable cell components.
+- Integrates with the `DesignSystem` for a consistent look and feel.
+- Navigation to the detail screen is handled via `sheet` or `navigationDestination`.
 
 ## Principles & Patterns
-- **TCA**: Reducer, State, Action, Environment
-- **SOLID**: Each feature and client has a single responsibility and can be extended
-- **Clean Architecture**: Clear separation between presentation, domain, and data
-- **Robust error handling** and retry logic (Not Implemented)
+- **TCA**: The core of the feature, managing state, actions, and side effects.
+- **SOLID**: The feature has a single responsibility: displaying and managing the list of articles.
+- **Clean Architecture**: Clear separation between the presentation layer and business logic.
+- **Error Handling**: Manages and displays error states gracefully.
 
 ## Implementation Details
 
 ### State Management
-- Proper state isolation
-- Immutable data structures
-- Clear state transitions
+- The `State` struct holds all necessary data, including the list of articles, loading/error states, and search queries.
+- State is mutated only by the reducer in response to actions.
 
-### Actions
-- Well-defined action types
-- Side effect handling
-- Error management
-
-## Best Practices
-
-1. ✅ TCA Guidelines
-   - Pure reducers
-   - Controlled side effects
-   - Dependency injection
-
-2. ✅ SwiftUI Integration
-   - Store management
-   - View composition
-   - Performance optimization
-
-3. ✅ Error Handling
-   - User-friendly errors
-   - Retry mechanisms
-   - Loading states
+### Dependency Injection
+- The feature relies on an `ArticleListClient` (defined in the same file) to fetch articles. This client is injected into the reducer, allowing for easy mocking in tests.
 
 ## Dependencies
 - The Composable Architecture
-- CoreModels module
-- CoreNetworking module
-- DesignSystem module
+- `CoreModels` module
+- `CoreNetworking` module
+- `DesignSystem` module
+- `FeatureArticleDetails` module
 - SwiftUI
 
 ## Areas for Improvement
 
-1. **Pagination**
-   - Cache management
-   - Prefetching
-
-2. **Search**
-   - Search result caching
-   - Search history
-
-3. **Offline Support**
-   - Local storage
-   - Sync mechanism
-   - Conflict resolution
-
-4. **Performance**
-   - List optimization
-   - Image caching
-   - State updates
-
-5. **Testing**
-   - Add UI, Unit and Integration tests
-   - Performance testing
-
-## Feature Capabilities
-
-### Article Display
-- Grid layout for articles
-- Image loading with fallbacks
-- Article metadata display
-
-### Search Functionality
-- Real-time search input
-- Query debouncing
-- Search result highlighting
-
-### Pagination
-- Load more on scroll
-- Progress indicators
-- Error handling for failed loads
-- Maximum article limit (100)
-
-### Error Handling
-- Network error states
-- Retry functionality (Not implemented)
-- User-friendly error messages
+1. **Testing**: The module currently lacks unit and integration tests. Adding them is a high priority.
+2. **Pagination**: The experience could be improved with caching and pre-fetching.
+3. **Search**: Search could be enhanced with result caching and search history.
+4. **Offline Support**: Implement local storage and a sync mechanism for offline access.
 
 ## Integration
-The module is integrated as a local Swift Package in the main Marvelous iOS app target.
+The module is integrated as a local Swift Package and serves as the main entry point of the application.

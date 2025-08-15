@@ -5,15 +5,13 @@ The CoreModels module contains the core data models for the Marvelous News iOS a
 
 ## Architecture
 
-
 ### 🏗 Structure
 ```
 CoreModels/
 ├── Sources/
 │   └── CoreModels/
 │       ├── NewsAPIResponse.swift
-│       ├── Article.swift
-│       └── Thumbnail.swift
+│       └── Article.swift
 └── Tests/
     └── CoreModelsTests/
         └── ArticleDecodingTests.swift
@@ -22,55 +20,13 @@ CoreModels/
 ### 📦 Key Components
 
 #### 1. Core Models
-- **Article**: The main model representing a news article
-- **Thumbnail**: Image handling model with HTTPS URL conversion
-- **NewsAPIResponse**: Generic wrapper for News API responses
+- **Article**: The main model representing a news article.
+- **Source**: A model for the article's source (e.g., BBC News).
+- **NewsAPIResponse**: A generic wrapper for News API responses.
 
-
-#### Example Usage
+#### 2. Article Model
 ```swift
-import CoreModels
-
-let article = Article(
-    source: Source(id: "techcrunch", name: "TechCrunch"),
-    author: "Jane Doe",
-    title: "Breaking News",
-    description: "Latest tech news...",
-    url: "https://news.com/article",
-    urlToImage: "https://news.com/image.jpg",
-    publishedAt: "2025-08-11T12:00:00Z",
-    content: "Full article content..."
-)
-print(article.title)
-print(article.id) // Derived from url or UUID
-print(article.imageURL) // Computed property for image URL
-print(article.webURL)   // Computed property for web URL
-```
-
-
-#### 2. Response Containers
-```swift
-public struct NewsAPIResponse<T: Decodable & Sendable>
-public struct NewsAPIDataContainer<T: Decodable & Sendable>
-```
-- Generic response wrappers
-- Support for pagination
-- Type-safe data containers
-
-
-#### 3. Related Models
-- Source, Author, and other metadata
-- All conform to `Decodable` and `Sendable`
-
-## Principles & Patterns
-- SOLID: Cada modelo tiene una única responsabilidad y se puede extender sin modificar el código existente.
-- Clean Architecture: Los modelos no dependen de frameworks externos.
-
-## Implementation Details
-
-### Article Model
-```swift
-public struct Article: Decodable, Identifiable, Sendable, Equatable {
+public struct Article: Codable, Identifiable, Sendable, Equatable {
     public var id: String { url ?? UUID().uuidString } // stable enough for UI lists
     public let source: Source?
     public let author: String?
@@ -84,55 +40,56 @@ public struct Article: Decodable, Identifiable, Sendable, Equatable {
     public var imageURL: URL? { URL(string: urlToImage ?? "") }
     public var webURL: URL? { URL(string: url ?? "") }
 }
-    public let publishedAt: Date?
-    public let content: String?
-}
 ```
 
+## Principles & Patterns
+- **SOLID**: Each model has a single responsibility and can be extended without modifying existing code.
+- **Clean Architecture**: The models do not depend on external frameworks.
+
+## Implementation Details
+
 ### Security & Performance
-1. ✅ All types are `Sendable` for concurrent operations
-2. ✅ Immutable properties prevent state inconsistencies
-3. ✅ Efficient memory usage with value types
-4. ✅ HTTPS enforcement in image URLs
+1. ✅ All types are `Sendable` for safe use in concurrent operations.
+2. ✅ Immutable properties (`let`) prevent inconsistent states.
+3. ✅ Value types (`struct`) ensure efficient memory usage.
 
 ### Best Practices
-1. ✅ Clear model separation
-2. ✅ Protocol conformance for SwiftUI integration
-3. ✅ Comprehensive test coverage
-4. ✅ Type-safe generic containers
-5. ✅ URL safety handling
+1. ✅ Clear separation of models.
+2. ✅ Conformance to standard protocols (`Codable`, `Identifiable`, `Equatable`) for easy integration.
+3. ✅ Comprehensive test coverage for decoding.
+4. ✅ URL safety handling with optional `URL` computed properties.
 
 ## Testing
 
-The module includes detailed tests in `HeroDecodingTests.swift`:
-- JSON decoding validation
-- URL conversion testing
-- Data structure integrity checks
+The module includes detailed tests in `ArticleDecodingTests.swift` that validate:
+- Correct JSON decoding of all models.
+- Data structure integrity.
+- Handling of optional or missing values.
 
 ## Usage Example
 
 ```swift
-// Decode a Hero from JSON
+// Decode an Article from JSON
 let decoder = JSONDecoder()
-let hero = try decoder.decode(APIResponse<Hero>.self, from: jsonData)
+let response = try decoder.decode(NewsAPIResponse.self, from: jsonData)
 
-// Access hero properties
-let heroName = hero.data.results.first?.name
-let thumbnailURL = hero.data.results.first?.thumbnail.url
+// Access article properties
+if let firstArticle = response.articles?.first {
+    let articleTitle = firstArticle.title
+    let imageURL = firstArticle.imageURL
+}
 ```
 
 ## Areas for Improvement
 
-1. **Validation**: Add value validation for critical fields
-2. **Codable**: Implement custom encoding if needed
-3. **Documentation**: Add DocC documentation
-4. **Equatable**: Add Equatable conformance to all types
-5. **Property Wrappers**: Consider custom property wrappers for common transformations
+1. **Date Formatting**: The `publishedAt` field is currently a `String`. This could be decoded into a `Date` object using a custom decoding strategy for easier manipulation.
+2. **Validation**: Add value validation for critical fields (e.g., ensuring URLs are valid).
+3. **Documentation**: Add DocC documentation for all public models and properties.
 
 ## Dependencies
 - No external dependencies
-- Requires iOS 15.0+
+- Requires iOS 16.0+
 - Swift 6.0+
 
 ## Integration
-The module is integrated as a local Swift Package and used by both the main app and CoreNetworking module.
+The module is integrated as a local Swift Package and is a dependency for `CoreNetworking`, the Feature modules, and the main application.

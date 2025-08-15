@@ -23,111 +23,63 @@ Config/
 #### 1. SecretsProvider Protocol
 ```swift
 public protocol SecretsProvider {
-    var newsApiKey: String { get }
+    var newsAPIKey: String { get }
 }
 ```
-- Defines the contract for accessing News API key
-- Enables dependency injection and testability
-- Follows Interface Segregation Principle
+- Defines the contract for accessing the News API key.
+- Enables dependency injection and testability.
+- Follows the Interface Segregation Principle.
 
 #### 2. Secrets Implementation
-- Implements `SecretsProvider` protocol
-- Loads secrets from the app's Info.plist
-- Uses type-safe key management through `SecretsKeys` enum
-- Handles error cases gracefully
+- Implements the `SecretsProvider` protocol.
+- Loads secrets from the app's Info.plist.
+- Uses a type-safe `SecretsKeys` enum to prevent typos.
+- Handles error cases gracefully if a key is missing.
 
 #### 3. Error Handling
-- Custom `SecretsError` enum with localized descriptions
-- Specific error case for missing keys
-- User-friendly error messages with emoji 🔑
+- A custom `SecretsError` enum with localized descriptions.
+- Provides a specific error case for missing keys.
 
 ## Implementation Details
 
 ### Security Considerations
-1. **Secrets are stored in xcconfig files** (gitignored)
-2. **No hardcoded values** in the source code
-3. **Keys are loaded at runtime** from Info.plist
-4. **Environment-specific configuration** support
-
-### Error Handling Strategy
-```swift
-public enum SecretsError: LocalizedError {
-    case missingKey(String)
-    // Provides user-friendly error messages
-}
-```
-
-### Best Practices
-1. ✅ Protocol-based design
-2. ✅ Clear separation of concerns
-3. ✅ Comprehensive unit tests
-4. ✅ Type-safe key management
-5. ✅ Proper error handling
-
-## Testing
-
-The module includes comprehensive tests in `SecretsTests.swift`:
-- Tests successful key loading
-- Tests error handling for missing keys
-- Uses fake test data for predictable results
-
-## Usage Example
-
-```swift
-// Initialize secrets
-do {
-    let secrets = try Secrets()
-    // Use the secrets
-    let apiKey = secrets.newsApiKey
-} catch {
-    // Handle errors
-    print(error.localizedDescription)
-}
-```
+1. **Secrets are stored in xcconfig files** (which are gitignored).
+2. **No hardcoded values** in the source code.
+3. **Keys are loaded at runtime** from the Info.plist, which sources them from the xcconfig file.
+4. **Environment-specific configuration** is supported through different xcconfig files (e.g., Debug.xcconfig, Release.xcconfig).
 
 ## Configuration Setup
 
+To use this module correctly and securely, you must provide your API key in an `.xcconfig` file.
+
 ### 1. Create Secrets.xcconfig
-Create a `Secrets.xcconfig` file in the `Config/` directory:
+Create a `Secrets.xcconfig` file inside the `Marvelous-iOS/Config/` directory:
 
 ```xcconfig
-// Secrets.xcconfig
+// Marvelous-iOS/Config/Secrets.xcconfig
 NEWS_API_KEY = your_news_api_key_here
 ```
 
 ### 2. Add to .gitignore
-Ensure the xcconfig file is not committed:
-```gitignore
-# Configuration
-Config/Secrets.xcconfig
-```
+Ensure this file is never committed to version control. The project's `.gitignore` is already configured to ignore `**/Config/Secrets.xcconfig`.
 
 ### 3. Reference in Info.plist
-The app's Info.plist should reference the xcconfig:
+In your main app target's `Info.plist`, reference the key like this:
 ```xml
-<key>NEWS_API_KEY</key>
+<key>NewsAPIKey</key>
 <string>$(NEWS_API_KEY)</string>
 ```
 
-## Areas for Improvement
-
-1. **Caching**: Consider adding caching for frequently accessed values
-2. **Validation**: Add validation for key formats
-3. **Key Rotation**: Support for key rotation mechanism
-4. **Encryption**: Optional encryption for stored values
-5. **Configuration Profiles**: Support for different environments (dev, staging, prod)
-6. **Multiple API Support**: Extend for additional API keys if needed
-
-## Dependencies
-- No external dependencies
-- Requires iOS 16.6+
-- Swift 6.0+
-
-## Integration
-The module is integrated as a local Swift Package in the main Marvelous iOS app target and used by the CoreNetworking module for API authentication.
+### 4. Link the xcconfig file in Xcode
+In your project settings, under the "Configurations" section, you must assign the `Secrets.xcconfig` file to your build configurations.
 
 ## Security Notes
 
-⚠️ **Important**: Never commit API keys to version control. The `Secrets.xcconfig` file is intentionally excluded from git to prevent accidental exposure of sensitive credentials.
+⚠️ **Important**: Never commit API keys or other secrets to version control. The `Secrets.xcconfig` file is intentionally excluded from git to prevent accidental exposure of sensitive credentials.
 
-For team development, provide a `Secrets.xcconfig.example` file with placeholder values to guide other developers in setting up their local environment.
+For team development, you can create a `Secrets.xcconfig.example` file with placeholder values to guide other developers in setting up their local environment.
+
+## Dependencies
+- No external dependencies.
+- Requires iOS 16.0+
+- Swift 6.0+

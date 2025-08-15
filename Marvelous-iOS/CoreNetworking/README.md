@@ -1,10 +1,9 @@
 # CoreNetworking Module
 
 ## Overview
-The CoreNetworking module provides a robust networking layer for the Marvelous News iOS app, handling News API communication. It follows Clean Architecture and SOLID, with protocol-oriented design, error handling, and testability.
+The CoreNetworking module provides a robust networking layer for the Marvelous News iOS app, handling all communication with the News API. It's designed with a protocol-oriented approach, following Clean Architecture and SOLID principles to ensure testability and maintainability.
 
 ## Architecture
-
 
 ### 🏗 Structure
 ```
@@ -15,7 +14,6 @@ CoreNetworking/
 │       ├── NewsAPI.swift
 │       ├── NetworkError.swift
 │       └── Helpers/
-│           ├── String+MD5.swift
 │           └── URLSessionProtocol.swift
 └── Tests/
     └── CoreNetworkingTests/
@@ -26,35 +24,21 @@ CoreNetworking/
 
 ### 📦 Key Components
 
-
-#### 1. API Client
+#### 1. APIClient
 ```swift
 public protocol APIRequestable: Sendable {
     func fetch<T: Decodable & Sendable>(_ type: T.Type, from request: URLRequest) async throws -> T
 }
 ```
-- Protocol-based design for testability
-- Generic type support (Decodable & Sendable)
-- Uses URLRequest for flexibility
-- Async/await implementation
-- Error handling
+- A protocol-based, generic API client responsible for making network requests.
+- Uses async/await for modern, concurrent operations.
+- Decouples the networking logic, allowing for easy mocking in tests.
 
-#### Example Usage
-```swift
-import CoreNetworking
+#### 2. NewsAPI
+- A concrete implementation that uses the `APIClient` to interact specifically with the News API.
+- Constructs requests, adds the necessary API key authentication, and defines the available endpoints.
 
-let client: APIRequestable = APIClient()
-var request = URLRequest(url: URL(string: "https://newsapi.org/v2/top-headlines")!)
-request.setValue("YOUR_API_KEY", forHTTPHeaderField: "X-Api-Key")
-let response = try await client.fetch(NewsAPIResponse.self, from: request)
-```
-
-
-#### 2. News API Client
-- Handles News API authentication (API key)
-- Manages API endpoints for articles, sources, etc.
-
-#### 3. Error Handling
+#### 3. NetworkError
 ```swift
 public enum NetworkError: Error, LocalizedError {
     case invalidURL
@@ -63,110 +47,61 @@ public enum NetworkError: Error, LocalizedError {
     case unknown(Error)
 }
 ```
+- Provides specific, user-friendly error types for different networking failures.
 
 ## Implementation Details
 
-### Security Features
-1. ✅ Secure hash generation for Marvel API
-2. ✅ HTTPS enforcement
-3. ✅ Proper error handling
-4. ✅ Status code validation
-
-### Networking Best Practices
-1. ✅ Protocol-oriented design
-2. ✅ Modern async/await API
-3. ✅ Proper dependency injection
-4. ✅ Comprehensive error handling
-5. ✅ Unit test coverage with mocks
-
-### Marvel API Integration
-- Timestamp-based authentication
-- MD5 hash generation
-- Query parameter handling
-- Pagination support
+### Best Practices
+1. ✅ **Protocol-Oriented Design**: The use of `APIRequestable` and `URLSessionProtocol` allows for complete test coverage without making actual network calls.
+2. ✅ **Modern Concurrency**: Leverages `async/await` for clean and efficient asynchronous code.
+3. ✅ **Dependency Injection**: Dependencies are injected, making the components flexible and testable.
+4. ✅ **Comprehensive Error Handling**: Provides clear, distinct error cases for better debugging and user feedback.
 
 ## Testing
-
-The module includes comprehensive tests:
-- API client functionality
-- Marvel API authentication
-- Error scenarios
-- Mock URL session implementation
+The module includes comprehensive unit tests that cover:
+- Successful API client decoding.
+- Handling of various network errors (e.g., invalid status codes, decoding failures).
+- Correct URL and request construction.
+- All tests are performed against a mock URL session (`URLSessionMock`).
 
 ## Usage Example
 
 ```swift
-// Initialize the API client
-let apiClient = APIClient()
-let marvelAPI = MarvelAPI(
-    publicKey: publicKey,
-    privateKey: privateKey,
-    apiClient: apiClient
-)
+import CoreNetworking
+import CoreModels
 
-// Fetch characters
+// The APIClient is typically injected into a repository or use case.
+let apiClient: APIRequestable = APIClient()
+
+// Create an instance of the NewsAPI client
+let newsAPI = NewsAPI(apiClient: apiClient, secretsProvider: yourSecretsProvider)
+
+// Fetch top headlines
 do {
-    let response = try await marvelAPI.getCharacters(limit: 20, offset: 0)
-    let heroes = response.data.results
+    let response = try await newsAPI.getTopHeadlines(country: "us", page: 1)
+    let articles = response.articles
+    // Use the articles...
 } catch {
+    // Handle network errors
     print(error.localizedDescription)
 }
 ```
 
 ## Areas for Improvement
-
-1. **Caching**: Implement response caching
-2. **Retry Logic**: Add retry mechanism for failed requests
-3. **Rate Limiting**: Implement API rate limiting
-4. **Request Queueing**: Add request queue management
-5. **Metrics**: Add networking metrics collection
-6. **Logging**: Enhanced network logging system
-7. **Certificate Pinning**: Add SSL certificate pinning
+1. **Response Caching**: Implement a caching mechanism (e.g., `URLCache`) to reduce redundant network calls and improve performance.
+2. **Retry Logic**: Add a retry mechanism for transient network failures.
+3. **Request Queueing**: For more complex scenarios, a request queue could be added to manage request priority and concurrency.
+4. **Certificate Pinning**: For enhanced security, SSL certificate pinning could be implemented.
 
 ## Dependencies
-- CoreModels module
-- Requires iOS 15.0+
+- `CoreModels` module
+- Requires iOS 16.0+
 - Swift 6.0+
-
-## Advanced Features to Consider
-
-### Request Pipeline
-1. Request preparation
-2. Authentication
-3. Execution
-4. Response processing
-5. Error handling
-
-### Middleware Support
-- Request modification
-- Response transformation
-- Logging
-- Analytics
 
 ## Configuration
 
 ### API Key Setup
-The News API requires an API key to be set in the HTTP headers (See Config module documentation):
-```swift
-request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
-```
+The News API requires an API key, which is provided by the `Config` module and added as an `X-Api-Key` header to requests.
 
 ### Base URL
-The module uses the News API v2 base URL:
-```
-https://newsapi.org/v2
-```
-
-## Error Handling
-
-### Network Errors
-- **Invalid URL**: Malformed request URLs
-- **Request Failed**: HTTP status code errors
-- **Decoding Error**: JSON parsing failures
-- **Unknown Error**: Unexpected errors
-
-### Status Code Handling
-The module validates HTTP status codes and throws appropriate errors for non-success responses.
-
-## Integration
-The module is integrated as a local Swift Package and depends on the CoreModels module for data structures.
+The module uses the News API v2 base URL: `https://newsapi.org/v2`

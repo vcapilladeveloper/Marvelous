@@ -1,4 +1,3 @@
-
 # FeatureArticleDetails Module
 
 ## Overview
@@ -12,10 +11,8 @@ FeatureArticleDetails/
 ├── Sources/
 │   └── FeatureArticleDetails/
 │       └── Presentation/
-│       |   ├── ArticleDetailsFeature.swift
-│       |   └── ArticleDetailsView.swift
-|       └── Utilities/
-|           └── Date+ISO8601.swift
+│           ├── ArticleDetailsFeature.swift
+│           └── ArticleDetailsView.swift
 └── Tests/
    └── FeatureArticleDetailsTests/
       └── ArticleDetailsReducerTests.swift
@@ -29,7 +26,6 @@ public struct ArticleDetailsFeature: Reducer {
    public struct State: Equatable, Sendable {
       public let article: Article
       public var isShareSheetPresented = false
-      // ...existing code...
    }
 
    public enum Action: Equatable, Sendable {
@@ -37,181 +33,68 @@ public struct ArticleDetailsFeature: Reducer {
       case openInBrowserTapped
       case shareTapped
       case shareDismissed
-      // ...existing code...
    }
 
    public var body: some ReducerOf<Self> { /* ... */ }
 }
 ```
-- TCA-based reducer for article details
-- State includes selected article and share sheet presentation
-- Actions for appearing, opening in browser, sharing, and dismissing share sheet
+- A TCA-based reducer that manages the state and logic for the article details screen.
+- The `State` holds the selected article and properties for UI state, like presenting a share sheet.
+- `Action` defines all possible user interactions and events.
 
-#### Example Usage
+#### 2. View Layer
+- A SwiftUI view that is driven by a TCA `Store`.
+- Displays the article's image, title, author, source, date, description, and content.
+- Provides buttons for user actions like "Open in Browser" and "Share".
+
+## Principles & Patterns
+- **TCA**: The core of the feature, managing state, actions, and side effects.
+- **SOLID**: The feature has a single responsibility: displaying the details of an article.
+- **Clean Architecture**: Clear separation of concerns (the view is separate from the business logic).
+
+## Accessibility
+- All UI components include an `accessibilityLabel` and `accessibilityHint`.
+- Colors and typography are designed to meet minimum contrast requirements.
+- It is recommended to test with VoiceOver and Dynamic Type to ensure a good experience for all users.
+
+## How to Use
+- This feature is intended to be presented by another feature, like `FeatureArticleList`.
+- To use it, you initialize its `Store` with the selected `Article`:
 ```swift
 import FeatureArticleDetails
 import ComposableArchitecture
 
-let store = Store(initialState: ArticleDetailsFeature.State(article: article)) {
+let store = Store(initialState: ArticleDetailsFeature.State(article: selectedArticle)) {
    ArticleDetailsFeature()
 }
 ArticleDetailsView(store: store)
 ```
 
-#### 1. View Layer
-- SwiftUI view with TCA store integration
-- Displays article image, title, author, source, date, description, and content
-- Action buttons for "Open in Browser" and "Share"
-- Presents share sheet when requested
-
-#### 2. UI Details
-- Uses DesignSystem components (PrimaryButton, AsyncRemoteImage)
-- Accessibility labels and hints for all elements
-- Responsive layout and color contrast
-
-## Principles & Patterns
-- TCA: Reducer, State, Action, Environment
-- SOLID: Single responsibility for each feature/component
-- Clean Architecture: Separation of presentation, domain, and data
-
-## Good Practices
-- Unit tests
-- Use of mocks for dependencies
-- Accessibility labels and hints for UI elements
-
-## Accessibility
-- All components include `accessibilityLabel` and `accessibilityHint`
-- Colors and typography meet minimum contrast requirements
-- Recommended to test with VoiceOver and Dynamic Type
-
-## How to Use
-- Integrate with ArticleListFeature for navigation
-- Pass selected article to ArticleDetailsFeature.State
-
 ## Feature Capabilities
 
 ### Article Display
-- **Header Section**: Article image, title, and metadata
-- **Content Section**: Article description and full content
-- **Metadata Display**: Author, source, publication date
-- **Image Handling**: Async image loading with fallbacks
+- **Header**: Displays the article's main image and title.
+- **Content**: Shows the full description and content of the article.
+- **Metadata**: Clearly presents the author, source, and publication date.
 
 ### User Interactions
-- **Open in Browser**: Direct link to article URL
-- **Share Functionality**: Native iOS share sheet
-- **Navigation**: Modal presentation and dismissal
-
-### State Management
-- **Share Sheet State**: Controls share sheet presentation
-- **Article Data**: Immutable article information
-- **User Actions**: Handles all user interactions
-
-## Implementation Details
-
-### TCA Integration
-- Pure reducer implementation
-- Controlled side effects
-- Immutable state management
-- Action-based user interactions
-
-### SwiftUI Features
-- Sheet presentation
-- Async image loading
-- Custom button styling
-- Responsive layout
-
-### Design System Integration
-- PrimaryButton component usage
-- Consistent typography and spacing
-- Color palette integration
-- Accessibility patterns
+- **Open in Browser**: Allows the user to open the original article URL in their default browser.
+- **Share**: Presents the native iOS share sheet to share the article URL.
 
 ## Testing Strategy
 
 ### Unit Tests
-- State management testing
-- Action handling verification
-- Reducer logic validation
-- Edge case coverage
-
-### Integration Tests
-- Feature coordination testing
-- Navigation flow verification
-- User interaction testing
-- Error handling validation
-
-### UI Tests
-- Component rendering tests
-- Accessibility compliance
-- User interaction flows
-- Visual state verification
+- The reducer logic is tested in `ArticleDetailsReducerTests.swift`.
+- Tests cover state changes in response to actions and ensure logic is correct.
 
 ## Areas for Improvement
 
-1. **Enhanced Sharing**
-   - Custom share options
-   - Social media integration
-   - Share analytics
-
-2. **Content Enhancement**
-   - Related articles
-   - Reading time estimation
-   - Content bookmarking
-
-3. **Performance**
-   - Image optimization
-   - Lazy content loading
-   - Memory management
-
-4. **Accessibility**
-   - Enhanced VoiceOver support
-   - Custom accessibility actions
-   - Accessibility testing tools
-
-5. **Testing**
-   - UI test coverage
-   - Performance testing
-   - Accessibility testing
+1. **Content Enhancement**: Add related articles or a "read more" section.
+2. **Performance**: For very long articles, content could be loaded lazily.
+3. **Accessibility**: Add custom accessibility actions for power users (e.g., an action to read the author's name).
 
 ## Dependencies
 - The Composable Architecture
-- CoreModels module
-- DesignSystem module
+- `CoreModels` module
+- `DesignSystem` module
 - SwiftUI
-
-## Integration
-The module is integrated as a local Swift Package and coordinates with FeatureArticleList for article selection and navigation.
-
-## Performance Considerations
-
-### Image Loading
-- Async image loading
-- Memory-efficient caching
-- Fallback handling
-- Progressive loading
-
-### State Updates
-- Minimal state changes
-- Efficient re-rendering
-- Background task handling
-- Memory management
-
-## Future Enhancements
-
-### Content Features
-- Article bookmarking
-- Reading progress tracking
-- Offline content caching
-- Content recommendations
-
-### User Experience
-- Custom animations
-- Gesture-based navigation
-- Haptic feedback
-- Dark mode support
-
-### Analytics
-- User interaction tracking
-- Content engagement metrics
-- Performance monitoring
-- Error tracking
