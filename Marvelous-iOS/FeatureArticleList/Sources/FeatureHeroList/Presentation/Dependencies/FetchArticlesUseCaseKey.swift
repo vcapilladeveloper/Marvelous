@@ -5,15 +5,15 @@ import Config
 
 struct FetchArticlesUseCaseKey: DependencyKey {
     static let liveValue: FetchArticlesUseCase = {
-        do {
-            let secrets = try Secrets()
-            let apiClient = APIClient()
-            let newsAPI = NewsAPI(apiKey: secrets.newsAPIKey, client: apiClient)
-            let repository = NewsArticlesRepository(api: newsAPI)
-            return FetchArticlesUseCase(repo: repository)
-        } catch {
-            fatalError("Failed to load secrets: \(error)")
+        var apiKey = "TEXT_API_KEY"
+        if let secrets = try? Secrets() {
+            apiKey = secrets.newsAPIKey
         }
+
+        let apiClient = APIClient()
+        let newsAPI = NewsAPI(apiKey: apiKey, client: apiClient)
+        let repository = NewsArticlesRepository(api: newsAPI)
+        return FetchArticlesUseCase(repo: repository)
     }()
 }
 
