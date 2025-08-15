@@ -13,6 +13,7 @@
   },
   "testTargets" : [
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:DesignSystem",
         "identifier" : "DesignSystemTests",
@@ -20,7 +21,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:Marvelous-iOS.xcodeproj",
         "identifier" : "F70E67FD2E44E75900024654",
@@ -28,7 +28,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:Config",
         "identifier" : "ConfigTests",
@@ -36,7 +35,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:FeatureArticleList",
         "identifier" : "FeatureArticleListTests",
@@ -44,7 +42,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:FeatureArticleDetails",
         "identifier" : "FeatureArticleDetailsTests",
@@ -52,7 +49,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:CoreModels",
         "identifier" : "CoreModelsTests",
@@ -60,7 +56,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:CoreNetworking",
         "identifier" : "CoreNetworkingTests",
