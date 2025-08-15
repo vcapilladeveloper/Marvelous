@@ -45,7 +45,7 @@ public struct AsyncRemoteImage: View {
             }
         }
         .shadow(color: DSPalette.shadow.opacity(0.4), radius: 4, x: 4, y: 4)
-        .accessibilityLabel(Text(accessibilityLabel))
+        .accessibilityLabel(accessibilityLabel)
         .accessibilityAddTraits(.isImage)
     }
 }

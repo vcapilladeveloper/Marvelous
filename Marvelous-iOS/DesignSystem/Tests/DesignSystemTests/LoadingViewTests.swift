@@ -12,10 +12,10 @@ final class LoadingViewTests: XCTestCase {
     }
 
     func testCustomTitle() throws {
-        let sut = LoadingView(title: "Fetching Heroes", animationName: "Test")
+        let sut = LoadingView(title: "Fetching Articles", animationName: "Test")
         let title = try sut.inspect().vStack().text(1).string()
         let animationIdentifier = try sut.inspect().vStack().first?.accessibilityIdentifier()
-        XCTAssertEqual(title, "Fetching Heroes")
+        XCTAssertEqual(title, "Fetching Articles")
         XCTAssertEqual(animationIdentifier, "defaultAnimation")
     }
 }

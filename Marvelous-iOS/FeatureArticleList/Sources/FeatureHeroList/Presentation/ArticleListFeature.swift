@@ -27,7 +27,7 @@ public struct ArticleListFeature: Reducer {
         }
     }
 
-    public enum Action: Sendable {
+    public enum Action: Sendable, Equatable {
         case onAppear
         case loadMore
         case searchQueryChanged(String)

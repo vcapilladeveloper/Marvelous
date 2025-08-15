@@ -27,7 +27,7 @@ public struct LoadingView: View {
         }
         .padding()
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text(title))
+        .accessibilityLabel(title)
     }
 }
 

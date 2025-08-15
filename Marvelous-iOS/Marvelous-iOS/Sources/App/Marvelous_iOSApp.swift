@@ -5,7 +5,6 @@ import ComposableArchitecture
 
 @main
 struct MarvelousiOSApp: App {
-    @State private var errorMessage: String?
     private let store: StoreOf<ArticleListFeature>?
 
     init() {
@@ -18,27 +17,27 @@ struct MarvelousiOSApp: App {
         WindowGroup {
             ZStack {
                 NavigationStack {
-                    if let errorMessage {
-                        ErrorView(message: errorMessage, onRetry: {})
-                            .padding()
-                    } else if let store {
+                    if let store {
                         ArticleListView(store: store)
                     } else {
                         LoadingView()
                     }
                 }
                 if showSplash {
-                    Color(.systemBackground)
-                        .ignoresSafeArea()
-                    VStack {
-                        Spacer()
-                        Text("TechNews")
-                            .font(.system(size: 48, weight: .bold, design: .rounded))
-                            .foregroundColor(DSPalette.brand)
-                            .opacity(showSplash ? 1 : 0)
-                            .transition(.opacity)
-                        Spacer()
+                    Group {
+                        Color(.systemBackground)
+                            .ignoresSafeArea()
+                        VStack {
+                            Spacer()
+                            Text("TechNews")
+                                .font(.system(size: 48, weight: .bold, design: .rounded))
+                                .foregroundColor(DSPalette.brand)
+                                .opacity(showSplash ? 1 : 0)
+                                .transition(.opacity)
+                            Spacer()
+                        }
                     }
+                    .accessibilityIdentifier("SplashScreen")
                 }
             }
             .onAppear {

@@ -22,7 +22,7 @@ public struct ErrorView: View {
         }
         .padding()
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(Text(message))
+        .accessibilityLabel(message)
     }
 }
 

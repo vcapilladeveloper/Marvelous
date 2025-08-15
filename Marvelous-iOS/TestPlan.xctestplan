@@ -13,10 +13,11 @@
   },
   "testTargets" : [
     {
+      "enabled" : false,
       "target" : {
-        "containerPath" : "container:CoreModels",
-        "identifier" : "CoreModelsTests",
-        "name" : "CoreModelsTests"
+        "containerPath" : "container:DesignSystem",
+        "identifier" : "DesignSystemTests",
+        "name" : "DesignSystemTests"
       }
     },
     {
@@ -29,20 +30,12 @@
     },
     {
       "target" : {
-        "containerPath" : "container:DesignSystem",
-        "identifier" : "DesignSystemTests",
-        "name" : "DesignSystemTests"
-      }
-    },
-    {
-      "target" : {
         "containerPath" : "container:Config",
         "identifier" : "ConfigTests",
         "name" : "ConfigTests"
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:FeatureArticleList",
         "identifier" : "FeatureArticleListTests",
@@ -54,6 +47,13 @@
         "containerPath" : "container:FeatureArticleDetails",
         "identifier" : "FeatureArticleDetailsTests",
         "name" : "FeatureArticleDetailsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:CoreModels",
+        "identifier" : "CoreModelsTests",
+        "name" : "CoreModelsTests"
       }
     },
     {
