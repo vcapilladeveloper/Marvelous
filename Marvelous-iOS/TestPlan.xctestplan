@@ -20,6 +20,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:Marvelous-iOS.xcodeproj",
         "identifier" : "F70E67FD2E44E75900024654",
