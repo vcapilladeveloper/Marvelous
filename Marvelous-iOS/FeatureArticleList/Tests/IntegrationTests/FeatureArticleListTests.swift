@@ -32,10 +32,11 @@ final class FeatureArticleListTests: XCTestCase {
 
         let store = TestStore(
             initialState: ArticleListFeature.State(),
-            reducer: {  ArticleListFeature() }
-        ) {
-            $0.fetchArticlesUseCase = useCaseMock
-        }
+            reducer: {  ArticleListFeature() },
+            withDependencies: {
+                $0.fetchArticlesUseCase = useCaseMock
+            }
+        )
 
         await store.send(.onAppear) {
             $0.isLoading = true
@@ -58,10 +59,11 @@ final class FeatureArticleListTests: XCTestCase {
 
         let store = TestStore(
             initialState: ArticleListFeature.State(),
-            reducer: { ArticleListFeature() }
-        ) {
-            $0.fetchArticlesUseCase = useCaseMock
-        }
+            reducer: { ArticleListFeature() },
+            withDependencies: {
+                $0.fetchArticlesUseCase = useCaseMock
+            }
+        )
 
         await store.send(.onAppear) { state in
             state.isLoading = true
@@ -85,9 +87,13 @@ final class FeatureArticleListTests: XCTestCase {
         initial.total = 10
         initial.errorMessage = "Boom"
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) {
-            $0.fetchArticlesUseCase = useCaseMock
-        }
+        let store = TestStore(
+            initialState: initial,
+            reducer: { ArticleListFeature() },
+            withDependencies: {
+                $0.fetchArticlesUseCase = useCaseMock
+            }
+        )
 
         await store.send(.retry) { state in
             state.items = []
@@ -122,9 +128,13 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = false
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) {
-            $0.fetchArticlesUseCase = useCaseMock
-        }
+        let store = TestStore(
+            initialState: initial,
+            reducer: { ArticleListFeature() },
+            withDependencies: {
+                $0.fetchArticlesUseCase = useCaseMock
+            }
+        )
 
         await store.send(.loadMore) { state in
             state.isLoading = true
@@ -146,7 +156,7 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) { _ in }
+        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
         await store.send(.loadMore)
     }
@@ -158,7 +168,7 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = false
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) { _ in }
+        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
         await store.send(.loadMore)
     }
@@ -178,9 +188,13 @@ final class FeatureArticleListTests: XCTestCase {
         initial.total = 9
         initial.page = 3
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) {
-            $0.fetchArticlesUseCase = useCaseMock
-        }
+        let store = TestStore(
+            initialState: initial,
+            reducer: { ArticleListFeature() },
+            withDependencies: {
+                $0.fetchArticlesUseCase = useCaseMock
+            }
+        )
 
         await store.send(.searchQueryChanged("swift")) { state in
             state.searchQuery = "swift"
@@ -203,7 +217,7 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) { _ in }
+        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
         let fresh = makeArticles(3)
         let response = ArticleListFeature.ArticlesResponse(articles: fresh, total: fresh.count)
@@ -220,7 +234,7 @@ final class FeatureArticleListTests: XCTestCase {
         initial.items = makeArticles(98)
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) { _ in }
+        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
         let incoming = makeArticles(10)
         let response = ArticleListFeature.ArticlesResponse(articles: incoming, total: 200)
@@ -236,7 +250,7 @@ final class FeatureArticleListTests: XCTestCase {
         var initial = ArticleListFeature.State()
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }) { _ in }
+        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
         await store.send(.articlesResponseFailure(.invalidURL)) { state in
             state.isLoading = false
@@ -248,8 +262,9 @@ final class FeatureArticleListTests: XCTestCase {
         let article = Article.mock
         let store = TestStore(
             initialState: ArticleListFeature.State(),
-            reducer: { ArticleListFeature() }
-        ) { _ in }
+            reducer: { ArticleListFeature() },
+            withDependencies: { _ in }
+        )
 
         await store.send(.didSelect(article)) { state in
             state.selected = article
