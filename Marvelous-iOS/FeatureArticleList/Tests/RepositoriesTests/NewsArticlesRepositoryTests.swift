@@ -33,8 +33,10 @@ final class NewsArticlesRepositoryTests: XCTestCase {
         do {
             _ = try await repo.fetchArticles(query: "swift", page: 0)
             XCTFail("Expected invalid page to throw")
+        } catch let error as ArticlesRepoError {
+            XCTAssertEqual(error, .invalidPage)
         } catch {
-            
+            XCTFail("An unexpected error was thrown: \(error)")
         }
     }
 }

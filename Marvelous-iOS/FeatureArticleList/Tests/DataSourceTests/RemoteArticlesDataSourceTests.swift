@@ -13,29 +13,29 @@ final class RemoteArticlesDataSourceTests: XCTestCase {
                 return .init(status: "", totalResults: 1, articles: [Article.mock])
             }
         )
-        let ds = RemoteArticlesDataSource(api: api)
+        let dataSource = RemoteArticlesDataSource(api: api)
 
-        let (items, total) = try await ds.fetchArticles(query: "   ", page: 2)
+        let (items, total) = try await dataSource.fetchArticles(query: "   ", page: 2)
 
         XCTAssertEqual(items.count, 1)
         XCTAssertEqual(total, 1)
     }
 
-func testNonBlankQueryCallsSearchWithTrimmedQuery() async throws {
-    let api = NewsAPIMock(
-        searchHandler: { query, page in
-            XCTAssertEqual(query, "swift")
-            XCTAssertEqual(page, 1)
-            return .init(status: "", totalResults: 42, articles: [Article.mock, Article.mock])
-        }
-    )
-    let ds = RemoteArticlesDataSource(api: api)
+    func testNonBlankQueryCallsSearchWithTrimmedQuery() async throws {
+        let api = NewsAPIMock(
+            searchHandler: { query, page in
+                XCTAssertEqual(query, "swift")
+                XCTAssertEqual(page, 1)
+                return .init(status: "", totalResults: 42, articles: [Article.mock, Article.mock])
+            }
+        )
+        let dataSource = RemoteArticlesDataSource(api: api)
 
-    let (items, total) = try await ds.fetchArticles(query: "  swift  ", page: 1)
+        let (items, total) = try await dataSource.fetchArticles(query: "  swift  ", page: 1)
 
-    XCTAssertEqual(items.count, 2)
-    XCTAssertEqual(total, 42)
-}
+        XCTAssertEqual(items.count, 2)
+        XCTAssertEqual(total, 42)
+    }
 
     func testMapsNilOptionalsToEmptyAndZero() async throws {
         let api = NewsAPIMock(
@@ -43,9 +43,9 @@ func testNonBlankQueryCallsSearchWithTrimmedQuery() async throws {
                     .init(status: "", totalResults: nil, articles: nil)
             }
         )
-        let ds = RemoteArticlesDataSource(api: api)
+        let dataSource = RemoteArticlesDataSource(api: api)
 
-        let (items, total) = try await ds.fetchArticles(query: "", page: 1)
+        let (items, total) = try await dataSource.fetchArticles(query: "", page: 1)
 
         XCTAssertEqual(items, [])
         XCTAssertEqual(total, 0)
@@ -56,10 +56,10 @@ func testNonBlankQueryCallsSearchWithTrimmedQuery() async throws {
         let api = NewsAPIMock(
             everythingHandler: { _ in throw Boom() }
         )
-        let ds = RemoteArticlesDataSource(api: api)
+        let dataSource = RemoteArticlesDataSource(api: api)
 
         do {
-            _ = try await ds.fetchArticles(query: "", page: 1)
+            _ = try await dataSource.fetchArticles(query: "", page: 1)
             XCTFail("Expected to throw Boom")
         } catch {
             XCTAssertTrue(error is Boom)
@@ -72,8 +72,14 @@ struct NewsAPIMock: NewsAPIProtocol, Sendable {
     var searchHandler: @Sendable (_ query: String, _ page: Int) async throws -> NewsAPIResponse
 
     init(
-        everythingHandler: @escaping @Sendable (Int) async throws -> NewsAPIResponse = { _ in .init(status: "", totalResults: 0, articles: []) },
-        searchHandler: @escaping @Sendable (String, Int) async throws -> NewsAPIResponse = { _, _ in .init(status: "", totalResults: 0, articles: []) }
+        everythingHandler: @escaping @Sendable (Int) async throws ->
+            NewsAPIResponse = { _ in
+                .init(status: "", totalResults: 0, articles: [])
+            },
+        searchHandler: @escaping @Sendable (String, Int) async throws ->
+            NewsAPIResponse = { _, _ in
+                .init(status: "", totalResults: 0, articles: [])
+            }
     ) {
         self.everythingHandler = everythingHandler
         self.searchHandler = searchHandler
