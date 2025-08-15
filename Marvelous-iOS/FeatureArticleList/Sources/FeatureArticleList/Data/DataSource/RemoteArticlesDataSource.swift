@@ -1,8 +1,7 @@
 import CoreModels
 import CoreNetworking
 
-enum ArticlesRepoError: Error { case invalidPage }
-public struct NewsArticlesRepository: ArticlesRepository, Sendable {
+public struct RemoteArticlesDataSource: ArticlesDataSource, Sendable {
     private let api: any NewsAPIProtocol
     public init(api: any NewsAPIProtocol) { self.api = api }
 
@@ -16,6 +15,7 @@ public struct NewsArticlesRepository: ArticlesRepository, Sendable {
         return (response.articles ?? [], response.totalResults ?? 0)
     }
 }
+
 extension String {
     var isBlank: Bool { trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
 }

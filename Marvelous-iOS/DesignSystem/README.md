@@ -1,10 +1,9 @@
 # DesignSystem Module
 
 ## Overview
-The DesignSystem module provides a comprehensive set of UI components, styles, and animations for the Marvelous News iOS app. It implements a consistent design language using SwiftUI, follows atomic design principles, y promueve accesibilidad y buenas prácticas.
+The DesignSystem module provides a comprehensive set of UI components, styles, and animations for the Marvelous News iOS app. It implements a consistent design language using SwiftUI, follows atomic design principles, and promotes accessibility and best practices.
 
 ## Architecture
-
 
 ### 🏗 Structure
 ```
@@ -35,40 +34,22 @@ DesignSystem/
 ### 📦 Key Components
 
 #### 1. Foundation Layer
-- **Typography**: Consistent text styles and fonts
-- **Color Palette**: Brand colors with fallback support
-- **Spacing**: Standardized spacing values
-- **Grid**: Layout guidelines and components
+- **Typography**: Consistent text styles and fonts.
+- **Color Palette**: Brand colors with support for Light and Dark modes.
+- **Spacing**: Standardized spacing values.
+- **Grid**: Layout guidelines and components.
 
 #### 2. Components
-- **PrimaryButton**: Main action button component
-- **ArticleCard**: News article display card
-- **ErrorView**: Error state handling
-- **LoadingView**: Loading state with Lottie animation
-- **LottieView**: UIKit wrapper for SwiftUI
-- **Shimmer**: Loading state animation effect
+- **PrimaryButton**: Main action button component.
+- **ArticleCard**: News article display card.
+- **ErrorView**: A view for displaying error states.
+- **LoadingView**: A loading state view using a Lottie animation.
+- **LottieView**: A UIKit wrapper for using Lottie animations in SwiftUI.
+- **Shimmer**: A loading animation effect.
 
 #### 3. Resources
-- **Animations/Loading.jsn**: Lottie file with the animation
-- **Colors.xcassets**: Color collection to make easy to define Light and Dark Themes
-
-#### Example Usage
-```swift
-import DesignSystem
-
-ArticleCard(article: article)
-   .accessibilityLabel(article.title)
-```
-
-## Accessibility
-- Todos los componentes incluyen `accessibilityLabel` y `accessibilityHint`.
-- Colores y tipografía cumplen contraste mínimo recomendado.
-- Se recomienda testear con VoiceOver y Dynamic Type.
-
-## Good Practices
-- Reusable components
-- Visual and accessibility tests
-- Consistent design tokens
+- **Animations/Loading.json**: The Lottie animation file.
+- **Colors.xcassets**: The color asset catalog, defining colors for Light and Dark themes.
 
 ## Implementation Details
 
@@ -104,56 +85,39 @@ public enum DSPalette {
 ```
 
 ### Accessibility
-- Proper accessibility labels and traits
-- Support for Dynamic Type
-- VoiceOver optimization
-- Semantic element grouping
+- All components include proper accessibility labels and traits.
+- Support for Dynamic Type.
+- VoiceOver optimization.
+- Semantic element grouping.
+- It is recommended to test with VoiceOver and Dynamic Type.
 
 ### Best Practices
-1. ✅ SwiftUI previews for all components
-2. ✅ Consistent spacing and typography
-3. ✅ Reusable components
-4. ✅ Accessibility support
-5. ✅ Unit tests with ViewInspector
+1. ✅ SwiftUI previews for all components.
+2. ✅ Consistent spacing and typography.
+3. ✅ Reusable and composable components.
+4. ✅ Strong accessibility support.
+5. ✅ Unit tests with ViewInspector.
 
 ## Testing
-
-The module includes UI component tests using ViewInspector:
-- Component rendering tests
-- Interaction tests
-- Accessibility tests
-- State management tests
+The module includes UI component tests using ViewInspector for:
+- Component rendering.
+- Interaction logic.
+- Accessibility properties.
+- State management.
 
 ## Dependencies
-- Lottie (Airbnb) for animations
-- ViewInspector for testing
-- iOS 15.0+ support
-- Swift 6.1+
+- Lottie (for animations)
+- ViewInspector (for testing)
+- Requires iOS 16.0+
+- Swift 6.0+
 
 ## Areas for Improvement
 
-1. **Theme Support**
-   - Implement theme switching
-
-2. **Component Coverage**
-   - Add more common components
-   - Create component variants
-   - Add component documentation
-
-3. **Testing**
-   - Increase test coverage
-   - Add snapshot tests
-   - Add accessibility tests
-
-4. **Documentation**
-   - Add DocC documentation
-   - Create usage examples
-   - Add component catalog
-
-5. **Performance**
-   - Optimize animations
-   - Reduce memory footprint
-   - Cache commonly used resources
+1. **Theme Support**: Implement a more robust theme-switching mechanism.
+2. **Component Coverage**: Add more common components and variants.
+3. **Testing**: Increase test coverage with snapshot tests and dedicated accessibility tests.
+4. **Documentation**: Add DocC documentation and create a component catalog/gallery.
+5. **Performance**: Optimize animations and reduce the memory footprint of components.
 
 ## Integration
-The module is integrated as a local Swift Package in the main Marvelous iOS app target.
+The module is integrated as a local Swift Package and is used by the feature modules.
