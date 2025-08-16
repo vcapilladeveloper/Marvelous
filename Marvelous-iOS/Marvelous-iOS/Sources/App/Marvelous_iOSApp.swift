@@ -1,43 +1,29 @@
 import SwiftUI
 import DesignSystem
+import CoreModels
 import FeatureArticleList
+import FeatureArticleDetails
 import ComposableArchitecture
 
 @main
 struct MarvelousiOSApp: App {
-    private let store: StoreOf<ArticleListFeature>?
-
-    init() {
-        self.store = Store(initialState: .init(), reducer: { ArticleListFeature() })
-    }
-
     @State private var showSplash = true
+    @State private var selectedArticle: Article?
 
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                NavigationStack {
-                    if let store {
-                        ArticleListView(store: store)
-                    } else {
-                        LoadingView()
-                    }
-                }
+            Group {
                 if showSplash {
-                    Group {
-                        Color(.systemBackground)
-                            .ignoresSafeArea()
-                        VStack {
-                            Spacer()
-                            Text("TechNews")
-                                .font(.system(size: 48, weight: .bold, design: .rounded))
-                                .foregroundColor(DSPalette.brand)
-                                .opacity(showSplash ? 1 : 0)
-                                .transition(.opacity)
-                            Spacer()
+                    SplashView()
+                } else {
+                    NavigationStack {
+                        ArticleListCoordinator { article in
+                            selectedArticle = article
+                        }
+                        .sheet(item: $selectedArticle) { article in
+                            ArticleDetailCoordinator(article: article)
                         }
                     }
-                    .accessibilityIdentifier("SplashScreen")
                 }
             }
             .onAppear {

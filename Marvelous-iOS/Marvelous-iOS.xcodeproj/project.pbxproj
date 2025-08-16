@@ -10,6 +10,7 @@
 		F71428B62E45E1C6002601AA /* Config in Frameworks */ = {isa = PBXBuildFile; productRef = F71428B52E45E1C6002601AA /* Config */; };
 		F77813A02E4901AF00B76C6D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = F778139F2E4901AF00B76C6D /* DesignSystem */; };
 		F77813A32E4901BA00B76C6D /* FeatureArticleList in Frameworks */ = {isa = PBXBuildFile; productRef = F77813A22E4901BA00B76C6D /* FeatureArticleList */; };
+		F77DDDEE2E5088BF00F6946F /* FeatureArticleDetails in Frameworks */ = {isa = PBXBuildFile; productRef = F77DDDED2E5088BF00F6946F /* FeatureArticleDetails */; };
 		F7C3A9262E4648750007175C /* CoreNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A9252E4648750007175C /* CoreNetworking */; };
 		F7C3A9292E4648920007175C /* CoreNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A9282E4648920007175C /* CoreNetworking */; };
 		F7C3A92C2E4648A30007175C /* CoreModels in Frameworks */ = {isa = PBXBuildFile; productRef = F7C3A92B2E4648A30007175C /* CoreModels */; };
@@ -73,6 +74,7 @@
 				F77813A32E4901BA00B76C6D /* FeatureArticleList in Frameworks */,
 				F77813A02E4901AF00B76C6D /* DesignSystem in Frameworks */,
 				F7F36A592E49049E0060A070 /* ComposableArchitecture in Frameworks */,
+				F77DDDEE2E5088BF00F6946F /* FeatureArticleDetails in Frameworks */,
 				F71428B62E45E1C6002601AA /* Config in Frameworks */,
 				F7C3A9262E4648750007175C /* CoreNetworking in Frameworks */,
 				F7C3A9292E4648920007175C /* CoreNetworking in Frameworks */,
@@ -152,6 +154,7 @@
 				F778139F2E4901AF00B76C6D /* DesignSystem */,
 				F77813A22E4901BA00B76C6D /* FeatureArticleList */,
 				F7F36A582E49049E0060A070 /* ComposableArchitecture */,
+				F77DDDED2E5088BF00F6946F /* FeatureArticleDetails */,
 			);
 			productName = "Marvelous-iOS";
 			productReference = F70E67F12E44E75800024654 /* Marvelous-iOS.app */;
@@ -217,6 +220,7 @@
 				F778139E2E4901AF00B76C6D /* XCLocalSwiftPackageReference "DesignSystem" */,
 				F77813A12E4901BA00B76C6D /* XCLocalSwiftPackageReference "FeatureArticleList" */,
 				F7F36A572E49049E0060A070 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				F77DDDEC2E5088BF00F6946F /* XCLocalSwiftPackageReference "FeatureArticleDetails" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F70E67F22E44E75800024654 /* Products */;
@@ -571,6 +575,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = FeatureArticleList;
 		};
+		F77DDDEC2E5088BF00F6946F /* XCLocalSwiftPackageReference "FeatureArticleDetails" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = FeatureArticleDetails;
+		};
 		F7C3A9272E4648920007175C /* XCLocalSwiftPackageReference "CoreNetworking" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = CoreNetworking;
@@ -612,6 +620,10 @@
 		F77813A22E4901BA00B76C6D /* FeatureArticleList */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeatureArticleList;
+		};
+		F77DDDED2E5088BF00F6946F /* FeatureArticleDetails */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureArticleDetails;
 		};
 		F7C3A9252E4648750007175C /* CoreNetworking */ = {
 			isa = XCSwiftPackageProductDependency;

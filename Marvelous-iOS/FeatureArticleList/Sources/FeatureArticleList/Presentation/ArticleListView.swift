@@ -2,11 +2,18 @@ import SwiftUI
 import DesignSystem
 import CoreModels
 import ComposableArchitecture
-import FeatureArticleDetails
 
 public struct ArticleListView: View {
     let store: StoreOf<ArticleListFeature>
-    public init(store: StoreOf<ArticleListFeature>) { self.store = store }
+    let onArticleSelected: (Article) -> Void
+
+    public init(
+        store: StoreOf<ArticleListFeature>,
+        onArticleSelected: @escaping (Article) -> Void
+    ) {
+        self.store = store
+        self.onArticleSelected = onArticleSelected
+    }
 
     public var body: some View {
         WithViewStore(store, observe: { $0 }, content: { viewStore in
@@ -21,21 +28,15 @@ public struct ArticleListView: View {
                     )
                     .onAppear { viewStore.send(.onAppear) }
                     .overlay { errorOverlay(viewStore: viewStore) }
-                    .sheet(
-                        isPresented: viewStore.binding(
-                            get: { $0.selected != nil },
-                            send: { $0 ? .onAppear : .dismissDetail }
-                        ),
-                        content: {
-                            if let article = viewStore.selected {
-                                ArticleDetailsView(
-                                    store: Store(initialState: .init(article: article)) {
-                                        ArticleDetailsFeature()
-                                    }
-                                )
-                            }
+                    .onChange(of: viewStore.selected) { article in
+                        if let article {
+                            onArticleSelected(article)
+                            viewStore.send(.dismissDetail)
                         }
-                    )
+                    }
+            }
+            .onAppear {
+                viewStore.send(.onAppear)
             }
         })
     }
@@ -76,6 +77,7 @@ public struct ArticleListView: View {
             title: article.title ?? "(No title)",
             imageURL: article.imageURL
         )
+        .contentShape(Rectangle())
     }
 
     @ViewBuilder
