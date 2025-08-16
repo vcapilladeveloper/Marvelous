@@ -10,9 +10,10 @@ The FeatureArticleDetails module displays detailed information about a selected 
 FeatureArticleDetails/
 ├── Sources/
 │   └── FeatureArticleDetails/
-│       └── Presentation/
-│           ├── ArticleDetailsFeature.swift
-│           └── ArticleDetailsView.swift
+│       ├── Presentation/
+│       │   ├── ArticleDetailsFeature.swift
+│       │   └── ArticleDetailsView.swift
+│       └── Utilities/
 └── Tests/
    └── FeatureArticleDetailsTests/
       └── ArticleDetailsReducerTests.swift

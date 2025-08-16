@@ -14,7 +14,8 @@ CoreNetworking/
 │       ├── NewsAPI.swift
 │       ├── NetworkError.swift
 │       └── Helpers/
-│           └── URLSessionProtocol.swift
+│           ├── URLSessionProtocol.swift
+│           └── String+MD5.swift
 └── Tests/
     └── CoreNetworkingTests/
         ├── APIClientTests.swift
