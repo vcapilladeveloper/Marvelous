@@ -6,6 +6,12 @@ import CoreNetworking
 @MainActor
 final class RemoteArticlesDataSourceTests: XCTestCase {
 
+    /// These tests intentionally avoid using `setUp` and `tearDown`.
+    /// Each test case creates its own `NewsAPIMock` and `RemoteArticlesDataSource`,
+    /// keeping initialization explicit and localized. This makes the tests easier
+    /// to read and ensures that the state under test is fully visible within
+    /// each individual test.
+    
     func testBlankQueryCallsEverything() async throws {
         let api = NewsAPIMock(
             everythingHandler: { page in
@@ -13,9 +19,9 @@ final class RemoteArticlesDataSourceTests: XCTestCase {
                 return .init(status: "", totalResults: 1, articles: [Article.mock])
             }
         )
-        let dataSource = RemoteArticlesDataSource(api: api)
+        let sut = RemoteArticlesDataSource(api: api)
 
-        let (items, total) = try await dataSource.fetchArticles(query: "   ", page: 2)
+        let (items, total) = try await sut.fetchArticles(query: "   ", page: 2)
 
         XCTAssertEqual(items.count, 1)
         XCTAssertEqual(total, 1)
@@ -29,9 +35,9 @@ final class RemoteArticlesDataSourceTests: XCTestCase {
                 return .init(status: "", totalResults: 42, articles: [Article.mock, Article.mock])
             }
         )
-        let dataSource = RemoteArticlesDataSource(api: api)
+        let sut = RemoteArticlesDataSource(api: api)
 
-        let (items, total) = try await dataSource.fetchArticles(query: "  swift  ", page: 1)
+        let (items, total) = try await sut.fetchArticles(query: "  swift  ", page: 1)
 
         XCTAssertEqual(items.count, 2)
         XCTAssertEqual(total, 42)
@@ -43,26 +49,26 @@ final class RemoteArticlesDataSourceTests: XCTestCase {
                     .init(status: "", totalResults: nil, articles: nil)
             }
         )
-        let dataSource = RemoteArticlesDataSource(api: api)
+        let sut = RemoteArticlesDataSource(api: api)
 
-        let (items, total) = try await dataSource.fetchArticles(query: "", page: 1)
+        let (items, total) = try await sut.fetchArticles(query: "", page: 1)
 
         XCTAssertEqual(items, [])
         XCTAssertEqual(total, 0)
     }
 
     func testPropagatesErrors() async {
-        struct Boom: Error {}
+        struct CriticalError: Error {}
         let api = NewsAPIMock(
-            everythingHandler: { _ in throw Boom() }
+            everythingHandler: { _ in throw CriticalError() }
         )
-        let dataSource = RemoteArticlesDataSource(api: api)
+        let sut = RemoteArticlesDataSource(api: api)
 
         do {
-            _ = try await dataSource.fetchArticles(query: "", page: 1)
-            XCTFail("Expected to throw Boom")
+            _ = try await sut.fetchArticles(query: "", page: 1)
+            XCTFail("Expected to throw CriticalError")
         } catch {
-            XCTAssertTrue(error is Boom)
+            XCTAssertTrue(error is CriticalError)
         }
     }
 }

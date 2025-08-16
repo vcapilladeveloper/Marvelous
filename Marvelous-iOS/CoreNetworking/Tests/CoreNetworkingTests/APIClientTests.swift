@@ -2,15 +2,18 @@ import XCTest
 @testable import CoreNetworking
 
 final class APIClientTests: XCTestCase {
+    
+    /// Tests for `APIClient`.
+    ///
+    /// No `setUp` or `tearDown` methods are used here because each test builds
+    /// its own `APIClient` (SUT) and `URLSessionMock` with specific data/response/error.
+    /// Keeping the setup inline makes each scenario explicit and avoids hidden state.
 
     func testFetchDeliversDecodedObjectOn200HTTPResponseWithValidJSON() async throws {
         let data = try JSONSerialization.data(withJSONObject: ["test": "value"])
         let (sut, session) = makeSUT(data: data, response: httpURLResponse(statusCode: 200))
 
-        guard let request = anyRequest() else {
-            XCTFail("Failed to create request")
-            return
-        }
+        let request = anyRequest()
 
         let result = try await sut.fetch([String: String].self, from: request)
 
@@ -22,18 +25,17 @@ final class APIClientTests: XCTestCase {
     func testFetchThrowsInvalidURLOnNonHTTPResponse() async {
         let (sut, _) = makeSUT(data: anyData(), response: nonHTTPURLResponse())
 
-        guard let request = anyRequest() else {
-            XCTFail("Failed to create request")
-            return
-        }
+        let request = anyRequest()
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
             XCTFail("Expected error to be thrown")
         } catch let error as NetworkError {
-            guard case .invalidURL = error else {
+            switch error {
+            case .invalidURL:
+                break // expected
+            default:
                 XCTFail("Expected .invalidURL error, got \(error)")
-                return
             }
         } catch {
             XCTFail("Expected NetworkError, got \(error)")
@@ -43,20 +45,18 @@ final class APIClientTests: XCTestCase {
     func testFetchThrowsRequestFailedOnNon200HTTPResponse() async {
         let (sut, _) = makeSUT(data: anyData(), response: httpURLResponse(statusCode: 500))
 
-        guard let request = anyRequest() else {
-            XCTFail("Failed to create request")
-            return
-        }
+        let request = anyRequest()
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
             XCTFail("Expected error to be thrown")
         } catch let error as NetworkError {
-            guard case .requestFailed(let statusCode) = error else {
+            switch error {
+            case .requestFailed(let statusCode):
+                XCTAssertEqual(statusCode, 500)
+            default:
                 XCTFail("Expected .requestFailed error, got \(error)")
-                return
             }
-            XCTAssertEqual(statusCode, 500)
         } catch {
             XCTFail("Expected NetworkError, got \(error)")
         }
@@ -66,18 +66,16 @@ final class APIClientTests: XCTestCase {
         let invalidJSON = Data("invalid json".utf8)
         let (sut, _) = makeSUT(data: invalidJSON, response: httpURLResponse(statusCode: 200))
 
-        guard let request = anyRequest() else {
-            XCTFail("Failed to create request")
-            return
-        }
+        let request = anyRequest()
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
             XCTFail("Expected error to be thrown")
         } catch let error as NetworkError {
-            guard case .decodingError = error else {
+            if case .decodingError = error {
+                // expected
+            } else {
                 XCTFail("Expected .decodingError, got \(error)")
-                return
             }
         } catch {
             XCTFail("Expected NetworkError, got \(error)")
@@ -89,20 +87,18 @@ final class APIClientTests: XCTestCase {
         let requestError = NetworkError.unknown(testError)
         let (sut, session) = makeSUT(error: requestError)
 
-        guard let request = anyRequest() else {
-            XCTFail("Failed to create request")
-            return
-        }
+        let request = anyRequest()
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
             XCTFail("Expected error to be thrown")
         } catch let error as NetworkError {
-            guard case .unknown(let underlyingError) = error else {
+            switch error {
+            case .unknown(let underlyingError):
+                XCTAssertEqual(underlyingError as NSError, testError)
+            default:
                 XCTFail("Expected .unknown error, got \(error)")
-                return
             }
-            XCTAssertEqual(underlyingError as NSError, testError)
         } catch {
             XCTFail("Expected NetworkError, got \(error)")
         }
@@ -114,18 +110,16 @@ final class APIClientTests: XCTestCase {
     func testFetchThrowsDecodingErrorOn200HTTPResponseWithEmptyData() async {
         let (sut, _) = makeSUT(data: Data(), response: httpURLResponse(statusCode: 200))
 
-        guard let request = anyRequest() else {
-            XCTFail("Failed to create request")
-            return
-        }
+        let request = anyRequest()
 
         do {
             _ = try await sut.fetch([String: String].self, from: request)
             XCTFail("Expected error to be thrown")
         } catch let error as NetworkError {
-            guard case .decodingError = error else {
+            if case .decodingError = error {
+                // expected
+            } else {
                 XCTFail("Expected .decodingError, got \(error)")
-                return
             }
         } catch {
             XCTFail("Expected NetworkError, got \(error)")
@@ -143,26 +137,24 @@ final class APIClientTests: XCTestCase {
         return (sut, session)
     }
 
-    private func anyURL() -> URL? {
-        return URL(string: "http://any-url.com")
+    private func anyURL() -> URL {
+        // Safe to force-unwrap because the URL literal is valid
+        return URL(string: "http://any-url.com")!
     }
 
-    private func anyRequest() -> URLRequest? {
-        guard let url = anyURL() else { return nil }
-        return URLRequest(url: url)
+    private func anyRequest() -> URLRequest {
+        return URLRequest(url: anyURL())
     }
 
     private func anyData() -> Data {
         return Data("any data".utf8)
     }
 
-    private func nonHTTPURLResponse() -> URLResponse? {
-        guard let url = anyURL() else { return nil }
-        return URLResponse(url: url, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+    private func nonHTTPURLResponse() -> URLResponse {
+        return URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
     }
 
-    private func httpURLResponse(statusCode: Int) -> HTTPURLResponse? {
-        guard let url = anyURL() else { return nil }
-        return HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil)
+    private func httpURLResponse(statusCode: Int) -> HTTPURLResponse {
+        return HTTPURLResponse(url: anyURL(), statusCode: statusCode, httpVersion: nil, headerFields: nil)!
     }
 }

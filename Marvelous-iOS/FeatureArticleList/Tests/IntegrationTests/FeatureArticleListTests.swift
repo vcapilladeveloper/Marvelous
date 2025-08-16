@@ -30,7 +30,7 @@ final class FeatureArticleListTests: XCTestCase {
             })
         )
 
-        let store = TestStore(
+        let sut = TestStore(
             initialState: ArticleListFeature.State(),
             reducer: {  ArticleListFeature() },
             withDependencies: {
@@ -38,12 +38,12 @@ final class FeatureArticleListTests: XCTestCase {
             }
         )
 
-        await store.send(.onAppear) {
+        await sut.send(.onAppear) {
             $0.isLoading = true
         }
 
         let response = ArticleListFeature.ArticlesResponse(articles: mockArticles, total: mockArticles.count)
-        await store.receive(ArticleListFeature.Action.articlesResponseSuccess(response)) {
+        await sut.receive(ArticleListFeature.Action.articlesResponseSuccess(response)) {
             $0.isLoading = false
             $0.items = mockArticles
             $0.total = mockArticles.count
@@ -57,7 +57,7 @@ final class FeatureArticleListTests: XCTestCase {
             })
         )
 
-        let store = TestStore(
+        let sut = TestStore(
             initialState: ArticleListFeature.State(),
             reducer: { ArticleListFeature() },
             withDependencies: {
@@ -65,11 +65,11 @@ final class FeatureArticleListTests: XCTestCase {
             }
         )
 
-        await store.send(.onAppear) { state in
+        await sut.send(.onAppear) { state in
             state.isLoading = true
         }
 
-        await store.receive(.articlesResponseFailure(.requestFailed(statusCode: 500))) { state in
+        await sut.receive(.articlesResponseFailure(.requestFailed(statusCode: 500))) { state in
             state.isLoading = false
             state.errorMessage = NetworkError.requestFailed(statusCode: 500).localizedDescription
         }
@@ -87,7 +87,7 @@ final class FeatureArticleListTests: XCTestCase {
         initial.total = 10
         initial.errorMessage = "Boom"
 
-        let store = TestStore(
+        let sut = TestStore(
             initialState: initial,
             reducer: { ArticleListFeature() },
             withDependencies: {
@@ -95,7 +95,7 @@ final class FeatureArticleListTests: XCTestCase {
             }
         )
 
-        await store.send(.retry) { state in
+        await sut.send(.retry) { state in
             state.items = []
             state.page = 1
             state.total = 0
@@ -104,7 +104,7 @@ final class FeatureArticleListTests: XCTestCase {
         }
 
         let response = ArticleListFeature.ArticlesResponse(articles: returned, total: returned.count)
-        await store.receive(.articlesResponseSuccess(response)) { state in
+        await sut.receive(.articlesResponseSuccess(response)) { state in
             state.isLoading = false
             state.items = returned
             state.total = returned.count
@@ -128,7 +128,7 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = false
 
-        let store = TestStore(
+        let sut = TestStore(
             initialState: initial,
             reducer: { ArticleListFeature() },
             withDependencies: {
@@ -136,13 +136,13 @@ final class FeatureArticleListTests: XCTestCase {
             }
         )
 
-        await store.send(.loadMore) { state in
+        await sut.send(.loadMore) { state in
             state.isLoading = true
             state.page = 2
         }
 
         let response = ArticleListFeature.ArticlesResponse(articles: nextPageItems, total: nextPageItems.count)
-        await store.receive(.articlesResponseSuccess(response)) { state in
+        await sut.receive(.articlesResponseSuccess(response)) { state in
             state.isLoading = false
             state.total = nextPageItems.count
             state.items = initialItems + nextPageItems
@@ -156,9 +156,9 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
+        let sut = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
-        await store.send(.loadMore)
+        await sut.send(.loadMore)
     }
 
     func testLoadMoreIgnoredWhenCannotLoadMore() async {
@@ -168,9 +168,9 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = false
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
+        let sut = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
-        await store.send(.loadMore)
+        await sut.send(.loadMore)
     }
 
     func testSearchQueryChangedResetsAndFetches() async {
@@ -188,7 +188,7 @@ final class FeatureArticleListTests: XCTestCase {
         initial.total = 9
         initial.page = 3
 
-        let store = TestStore(
+        let sut = TestStore(
             initialState: initial,
             reducer: { ArticleListFeature() },
             withDependencies: {
@@ -196,7 +196,7 @@ final class FeatureArticleListTests: XCTestCase {
             }
         )
 
-        await store.send(.searchQueryChanged("swift")) { state in
+        await sut.send(.searchQueryChanged("swift")) { state in
             state.searchQuery = "swift"
             state.page = 1
             state.items = []
@@ -205,7 +205,7 @@ final class FeatureArticleListTests: XCTestCase {
         }
 
         let response = ArticleListFeature.ArticlesResponse(articles: returned, total: returned.count)
-        await store.receive(.articlesResponseSuccess(response)) { state in
+        await sut.receive(.articlesResponseSuccess(response)) { state in
             state.isLoading = false
             state.items = returned
             state.total = returned.count
@@ -217,11 +217,11 @@ final class FeatureArticleListTests: XCTestCase {
         initial.page = 1
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
+        let sut = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
         let fresh = makeArticles(3)
         let response = ArticleListFeature.ArticlesResponse(articles: fresh, total: fresh.count)
-        await store.send(.articlesResponseSuccess(response)) { state in
+        await sut.send(.articlesResponseSuccess(response)) { state in
             state.isLoading = false
             state.total = fresh.count
             state.items = fresh
@@ -234,11 +234,11 @@ final class FeatureArticleListTests: XCTestCase {
         initial.items = makeArticles(98)
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
+        let sut = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
         let incoming = makeArticles(10)
         let response = ArticleListFeature.ArticlesResponse(articles: incoming, total: 200)
-        await store.send(.articlesResponseSuccess(response)) { [weak self] state in
+        await sut.send(.articlesResponseSuccess(response)) { [weak self] state in
             guard let self = self else { return }
             state.isLoading = false
             state.total = 200
@@ -250,9 +250,9 @@ final class FeatureArticleListTests: XCTestCase {
         var initial = ArticleListFeature.State()
         initial.isLoading = true
 
-        let store = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
+        let sut = TestStore(initialState: initial, reducer: { ArticleListFeature() }, withDependencies: { _ in })
 
-        await store.send(.articlesResponseFailure(.invalidURL)) { state in
+        await sut.send(.articlesResponseFailure(.invalidURL)) { state in
             state.isLoading = false
             state.errorMessage = NetworkError.invalidURL.localizedDescription
         }
@@ -260,17 +260,17 @@ final class FeatureArticleListTests: XCTestCase {
 
     func testDidSelectAndDismissDetail() async {
         let article = Article.mock
-        let store = TestStore(
+        let sut = TestStore(
             initialState: ArticleListFeature.State(),
             reducer: { ArticleListFeature() },
             withDependencies: { _ in }
         )
 
-        await store.send(.didSelect(article)) { state in
+        await sut.send(.didSelect(article)) { state in
             state.selected = article
         }
 
-        await store.send(.dismissDetail) { state in
+        await sut.send(.dismissDetail) { state in
             state.selected = nil
         }
     }

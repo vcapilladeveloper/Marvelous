@@ -2,40 +2,44 @@ import XCTest
 import CoreModels
 @testable import CoreNetworking
 
+/// Tests for `NewsAPI`.
+///
+/// The SUT is `NewsAPI`; `APIClient` and `URLSessionMock` are collaborators.
+/// We avoid `setUp`/`tearDown` because each test needs a specific session
+/// configuration (status, data, or injected error), so keeping setup inline
+/// makes each scenario explicit and isolated.
 final class NewsAPITests: XCTestCase {
 
-    private func createMockSession(_ data: Data, statusCode: Int, mockError: Error? = nil) -> URLSessionMock? {
-        guard let dummyURL = URL(string: "https://example.com"),
-            let resp = HTTPURLResponse(
-                url: dummyURL,
-                statusCode: statusCode,
-                httpVersion: nil,
-                headerFields: nil
-            )
-        else {
-            XCTFail("Failed to create dummy URL or response")
-            return nil
-        }
+    private func createMockSession(_ data: Data, statusCode: Int, mockError: Error? = nil) -> URLSessionMock {
+        let dummyURL = URL(string: "https://example.com")!
+        let resp = HTTPURLResponse(
+            url: dummyURL,
+            statusCode: statusCode,
+            httpVersion: nil,
+            headerFields: nil
+        )!
 
         let session = URLSessionMock()
         session.mockData = data
         session.mockResponse = resp
         session.mockError = mockError
-
         return session
+    }
+
+    @discardableResult
+    private func makeAPI(data: Data, status: Int, error: Error? = nil, apiKey: String = "TEST_KEY") -> (sut: NewsAPI, session: URLSessionMock) {
+        let session = createMockSession(data, statusCode: status, mockError: error)
+        let api = NewsAPI(apiKey: apiKey, client: APIClient(session: session))
+        return (sut: api, session: session)
     }
 
     func testEverythingBuildsRequestAndParses() async throws {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-        let result = try await api.everything(page: 1)
+        let result = try await sut.everything(page: 1)
         XCTAssertEqual(result.status, "ok")
         XCTAssertEqual(result.articles?.count, 2)
         XCTAssertEqual(result.totalResults, 2)
@@ -58,15 +62,10 @@ final class NewsAPITests: XCTestCase {
     func testEverythingHandlesNon200Status() async throws {
         let sample = "{}"
         let data = Data(sample.utf8)
-        guard let session = createMockSession(data, statusCode: 500) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
-
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
+        let (sut, _) = makeAPI(data: data, status: 500)
 
         do {
-            _ = try await api.everything(page: 1)
+            _ = try await sut.everything(page: 1)
             XCTFail("Expected everything(page:) to throw on non-200 status")
         } catch {
             XCTAssertFalse(error is DecodingError, "Unexpected DecodingError for non-200 status: \(error)")
@@ -78,15 +77,10 @@ final class NewsAPITests: XCTestCase {
     func testEverythingHandlesInvalidJSON() async throws {
         let invalid = "not-json"
         let data = Data(invalid.utf8)
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
-
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
+        let (sut, _) = makeAPI(data: data, status: 200)
 
         do {
-            _ = try await api.everything(page: 1)
+            _ = try await sut.everything(page: 1)
             XCTFail("Expected everything(page:) to throw on invalid JSON")
         } catch let netErr as NetworkError {
             XCTAssertTrue(true, "Expected NetworkError for invalid JSON, got: \(netErr)")
@@ -98,15 +92,10 @@ final class NewsAPITests: XCTestCase {
     func testEverythingHandlesTransportError() async throws {
         let data = Data()
 
-        guard let session = createMockSession(data, statusCode: 200, mockError: URLError(.notConnectedToInternet)) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
-
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
+        let (sut, _) = makeAPI(data: data, status: 200, error: URLError(.notConnectedToInternet))
 
         do {
-            _ = try await api.everything(page: 1)
+            _ = try await sut.everything(page: 1)
             XCTFail("Expected everything(page:) to throw on transport error")
         } catch {
             if let urlError = error as? URLError {
@@ -127,14 +116,9 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-
-        let result = try await api.search(query: "technology", page: 1)
+        let result = try await sut.search(query: "technology", page: 1)
         XCTAssertEqual(result.status, "ok")
         XCTAssertEqual(result.articles?.count, 2)
         XCTAssertEqual(result.totalResults, 2)
@@ -144,14 +128,9 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-
-        let result = try await api.search(query: "", page: 1)
+        let result = try await sut.search(query: "", page: 1)
         XCTAssertEqual(result.status, "ok")
         XCTAssertEqual(result.articles?.count, 2)
     }
@@ -160,14 +139,9 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-
-        let result = try await api.search(query: "AI & Machine Learning", page: 1)
+        let result = try await sut.search(query: "AI & Machine Learning", page: 1)
         XCTAssertEqual(result.status, "ok")
         XCTAssertEqual(result.articles?.count, 2)
     }
@@ -176,15 +150,10 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
-
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
+        let (sut, _) = makeAPI(data: data, status: 200)
 
         let longQuery = String(repeating: "a", count: 1000)
-        let result = try await api.search(query: longQuery, page: 1)
+        let result = try await sut.search(query: longQuery, page: 1)
         XCTAssertEqual(result.status, "ok")
         XCTAssertEqual(result.articles?.count, 2)
     }
@@ -193,20 +162,15 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-
-        let result1 = try await api.everything(page: 1)
+        let result1 = try await sut.everything(page: 1)
         XCTAssertEqual(result1.status, "ok")
 
-        let result2 = try await api.everything(page: 5)
+        let result2 = try await sut.everything(page: 5)
         XCTAssertEqual(result2.status, "ok")
 
-        let result3 = try await api.everything(page: 100)
+        let result3 = try await sut.everything(page: 100)
         XCTAssertEqual(result3.status, "ok")
     }
 
@@ -214,17 +178,12 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-
-        let result1 = try await api.search(query: "tech", page: 1)
+        let result1 = try await sut.search(query: "tech", page: 1)
         XCTAssertEqual(result1.status, "ok")
 
-        let result2 = try await api.search(query: "tech", page: 10)
+        let result2 = try await sut.search(query: "tech", page: 10)
         XCTAssertEqual(result2.status, "ok")
     }
 
@@ -232,14 +191,9 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-
-        let result = try await api.everything()
+        let result = try await sut.everything()
         XCTAssertEqual(result.status, "ok")
     }
 
@@ -247,14 +201,9 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
+        let (sut, _) = makeAPI(data: data, status: 200)
 
-        let api = NewsAPI(apiKey: "TEST_KEY", client: APIClient(session: session))
-
-        let result = try await api.search(query: "technology")
+        let result = try await sut.search(query: "technology")
         XCTAssertEqual(result.status, "ok")
     }
 
@@ -262,15 +211,10 @@ final class NewsAPITests: XCTestCase {
         let sample = NewsAPIResponse.mockJSONString
         let data = Data(sample.utf8)
 
-        guard let session = createMockSession(data, statusCode: 200) else {
-            XCTFail("Failed to create mock session")
-            return
-        }
-
         let apiKey = "TEST_API_KEY_123"
-        let api = NewsAPI(apiKey: apiKey, client: APIClient(session: session))
+        let (sut, _) = makeAPI(data: data, status: 200, apiKey: apiKey)
 
-        let result = try await api.everything(page: 1)
+        let result = try await sut.everything(page: 1)
         XCTAssertEqual(result.status, "ok")
     }
 }

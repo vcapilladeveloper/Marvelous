@@ -4,23 +4,30 @@ import CoreModels
 @testable import FeatureArticleDetails
 
 final class ArticleDetailsReducerTests: XCTestCase {
+    
+    /// These tests intentionally avoid using `setUp` and `tearDown` methods.
+    /// Each test case creates its own `Article` and `TestStore` instance,
+    /// keeping the setup explicit and localized. This improves readability
+    /// and makes it easier to understand the initial state and expectations
+    /// of each test in isolation.
+    
     func testShareToggle() async {
         let article = Article.mock
-        let store = await TestStore(initialState: .init(article: article)) {
+        let sut = await TestStore(initialState: .init(article: article)) {
             ArticleDetailsFeature()
         }
 
-        await store.send(.shareTapped) { $0.isShareSheetPresented = true }
-        await store.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut.send(.shareDismissed) { $0.isShareSheetPresented = false }
     }
 
     func testInitialState() async {
         let article = Article.mock
-        let store = await TestStore(initialState: .init(article: article)) {
+        let sut = await TestStore(initialState: .init(article: article)) {
             ArticleDetailsFeature()
         }
 
-        await store.assert { state in
+        await sut.assert { state in
             state.article == article
             state.isShareSheetPresented == false
         }
@@ -39,36 +46,36 @@ final class ArticleDetailsReducerTests: XCTestCase {
             content: "Test Content"
         )
 
-        let store1 = await TestStore(initialState: .init(article: article1)) {
+        let sut1 = await TestStore(initialState: .init(article: article1)) {
             ArticleDetailsFeature()
         }
 
-        let store2 = await TestStore(initialState: .init(article: article2)) {
+        let sut2 = await TestStore(initialState: .init(article: article2)) {
             ArticleDetailsFeature()
         }
 
-        await store1.send(.shareTapped) { $0.isShareSheetPresented = true }
-        await store1.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut1.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut1.send(.shareDismissed) { $0.isShareSheetPresented = false }
 
-        await store2.send(.shareTapped) { $0.isShareSheetPresented = true }
-        await store2.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut2.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut2.send(.shareDismissed) { $0.isShareSheetPresented = false }
     }
 
     func testShareToggleStatePersistence() async {
         let article = Article.mock
-        let store = await TestStore(initialState: .init(article: article)) {
+        let sut = await TestStore(initialState: .init(article: article)) {
             ArticleDetailsFeature()
         }
 
-        await store.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut.send(.shareTapped) { $0.isShareSheetPresented = true }
 
-        await store.assert { state in
+        await sut.assert { state in
             state.isShareSheetPresented == true
         }
 
-        await store.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut.send(.shareDismissed) { $0.isShareSheetPresented = false }
 
-        await store.assert { state in
+        await sut.assert { state in
             state.isShareSheetPresented == false
         }
     }
@@ -85,17 +92,17 @@ final class ArticleDetailsReducerTests: XCTestCase {
             content: nil
         )
 
-        let store = await TestStore(initialState: .init(article: articleWithNilFields)) {
+        let sut = await TestStore(initialState: .init(article: articleWithNilFields)) {
             ArticleDetailsFeature()
         }
 
-        await store.assert { state in
+        await sut.assert { state in
             state.article == articleWithNilFields
             state.isShareSheetPresented == false
         }
 
-        await store.send(.shareTapped) { $0.isShareSheetPresented = true }
-        await store.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut.send(.shareDismissed) { $0.isShareSheetPresented = false }
     }
 
     func testArticleDetailsWithEmptyStrings() async {
@@ -110,17 +117,17 @@ final class ArticleDetailsReducerTests: XCTestCase {
             content: ""
         )
 
-        let store = await TestStore(initialState: .init(article: articleWithEmptyStrings)) {
+        let sut = await TestStore(initialState: .init(article: articleWithEmptyStrings)) {
             ArticleDetailsFeature()
         }
 
-        await store.assert { state in
+        await sut.assert { state in
             state.article == articleWithEmptyStrings
             state.isShareSheetPresented == false
         }
 
-        await store.send(.shareTapped) { $0.isShareSheetPresented = true }
-        await store.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut.send(.shareDismissed) { $0.isShareSheetPresented = false }
     }
 
     func testArticleDetailsWithVeryLongContent() async {
@@ -136,17 +143,17 @@ final class ArticleDetailsReducerTests: XCTestCase {
             content: longContent
         )
 
-        let store = await TestStore(initialState: .init(article: articleWithLongContent)) {
+        let sut = await TestStore(initialState: .init(article: articleWithLongContent)) {
             ArticleDetailsFeature()
         }
 
-        await store.assert { state in
+        await sut.assert { state in
             state.article == articleWithLongContent
             state.isShareSheetPresented == false
         }
 
-        await store.send(.shareTapped) { $0.isShareSheetPresented = true }
-        await store.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut.send(.shareDismissed) { $0.isShareSheetPresented = false }
     }
 
     func testArticleDetailsWithSpecialCharacters() async {
@@ -162,33 +169,33 @@ final class ArticleDetailsReducerTests: XCTestCase {
             content: specialContent
         )
 
-        let store = await TestStore(initialState: .init(article: articleWithSpecialChars)) {
+        let sut = await TestStore(initialState: .init(article: articleWithSpecialChars)) {
             ArticleDetailsFeature()
         }
 
-        await store.assert { state in
+        await sut.assert { state in
             state.article == articleWithSpecialChars
             state.isShareSheetPresented == true
         }
 
-        await store.send(.shareTapped) { $0.isShareSheetPresented = true }
-        await store.send(.shareDismissed) { $0.isShareSheetPresented = false }
+        await sut.send(.shareTapped) { $0.isShareSheetPresented = true }
+        await sut.send(.shareDismissed) { $0.isShareSheetPresented = false }
     }
 
     func testArticleDetailsStateEquality() async {
         let article1 = Article.mock
         let article2 = Article.mock
 
-        let store1 = await TestStore(initialState: .init(article: article1)) {
+        let sut1 = await TestStore(initialState: .init(article: article1)) {
             ArticleDetailsFeature()
         }
 
-        let store2 = await TestStore(initialState: .init(article: article2)) {
+        let sut2 = await TestStore(initialState: .init(article: article2)) {
             ArticleDetailsFeature()
         }
 
-        let state1 = await store1.state
-        let state2 = await store2.state
+        let state1 = await sut1.state
+        let state2 = await sut2.state
 
         XCTAssertEqual(state1.article, state2.article)
         XCTAssertEqual(state1.isShareSheetPresented, state2.isShareSheetPresented)
