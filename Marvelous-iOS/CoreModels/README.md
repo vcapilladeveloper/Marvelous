@@ -10,8 +10,7 @@ The CoreModels module contains the core data models for the Marvelous News iOS a
 CoreModels/
 ├── Sources/
 │   └── CoreModels/
-│       ├── NewsAPIResponse.swift
-│       └── Article.swift
+│       └── NewsAPIResponse.swift
 └── Tests/
     └── CoreModelsTests/
         └── ArticleDecodingTests.swift

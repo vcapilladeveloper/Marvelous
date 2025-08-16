@@ -10,13 +10,30 @@ The FeatureArticleList module implements the main news article list screen using
 FeatureArticleList/
 ├── Sources/
 │   └── FeatureArticleList/
-│       ├── Presentation/
-│       │   ├── ArticleListFeature.swift
-│       │   └── ArticleListView.swift
-│       └── Components/
-│           └── ArticleListCell.swift
+│       ├── Data/
+│       │   ├── DataSource/
+│       │   │   ├── ArticlesDataSource.swift
+│       │   │   └── RemoteArticlesDataSource.swift
+│       │   └── Repositories/
+│       │       └── NewsArticlesRepository.swift
+│       ├── Domain/
+│       │   ├── Repositories/
+│       │   │   └── ArticlesRepository.swift
+│       │   └── UseCases/
+│       │       └── FetchArticlesUseCase.swift
+│       └── Presentation/
+│           ├── Dependencies/
+│           │   └── FetchArticlesUseCaseKey.swift
+│           ├── ArticleListCoordinator.swift
+│           ├── ArticleListFeature.swift
+│           └── ArticleListView.swift
 └── Tests/
-    └── ... (Tests to be added)
+    ├── DataSourceTests/
+    │   └── RemoteArticlesDataSourceTests.swift
+    ├── IntegrationTests/
+    │   └── FeatureArticleListTests.swift
+    └── RepositoriesTests/
+        └── NewsArticlesRepositoryTests.swift
 ```
 
 ### 📦 Key Components
