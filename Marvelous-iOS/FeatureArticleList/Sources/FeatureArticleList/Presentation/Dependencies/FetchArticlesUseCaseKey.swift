@@ -5,7 +5,7 @@ import Config
 
 struct FetchArticlesUseCaseKey: DependencyKey {
     static var liveValue: FetchArticlesUseCase {
-        let apiKey: String = (try? Secrets())?.newsAPIKey ?? "TEXT_API_KEY"
+        let apiKey: String = (try? Secrets())?.newsAPIKey ?? "TEST_API_KEY"
         let apiClient = APIClient()
         let newsAPI = NewsAPI(apiKey: apiKey, client: apiClient)
         let remote = RemoteArticlesDataSource(api: newsAPI)

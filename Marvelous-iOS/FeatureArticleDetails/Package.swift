@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "FeatureArticleDetails",
+    defaultLocalization: "en",
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "FeatureArticleDetails", targets: ["FeatureArticleDetails"])
@@ -19,6 +20,9 @@ let package = Package(
                 "CoreModels",
                 "DesignSystem",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
         .testTarget(

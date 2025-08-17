@@ -22,22 +22,22 @@ public struct ArticleDetailsView: View {
                                 height: 180,
                                 cornerRadius: 12,
                                 accessibilityLabel: viewStore.article.title
-                                    ?? "Article image"
+                                ?? String(localized: "Article image")
                             )
                             .frame(maxWidth: .infinity, alignment: .center)
                         }
 
-                        Text(viewStore.article.title ?? "(No title)")
+                    Text(viewStore.article.title ?? String(localized: "(No title)"))
                         .font(DSTypography.title)
                         .foregroundColor(DSPalette.textPrimary)
-                        .accessibilityLabel(viewStore.article.title ?? "Article title")
+                        .accessibilityLabel(viewStore.article.title ?? String(localized: "Article title"))
 
                     VStack(alignment: .leading, spacing: DSSpacing.extraSmall) {
                             if let source = viewStore.article.source?.name {
                                 metaRow(
                                     icon: "newspaper",
                                     text: source,
-                                    hint: "Article source"
+                                    hint: String(localized: "Article source")
                                 )
                             }
                             if let author = viewStore.article.author,
@@ -45,11 +45,15 @@ public struct ArticleDetailsView: View {
                                 metaRow(
                                     icon: "person.fill",
                                     text: author,
-                                    hint: "Article author"
+                                    hint: String(localized: "Article author")
                                 )
                             }
                         if let iso = viewStore.article.publishedAt, let date = Date.iso8601(iso) {
-                            metaRow(icon: "calendar", text: date.formatted(date: .abbreviated, time: .shortened), hint: "Published date")
+                            metaRow(
+                                icon: "calendar",
+                                text: date.formatted(date: .abbreviated, time: .shortened),
+                                hint: String(localized: "Published date")
+                            )
                         }
                     }
 
@@ -67,19 +71,25 @@ public struct ArticleDetailsView: View {
                     }
 
                     VStack(spacing: DSSpacing.medium) {
-                        PrimaryButton("Open in Browser", accessibilityHint: "Opens the full article in your default web browser.") {
+                        PrimaryButton(
+                            String(localized: "Open in Browser"),
+                            accessibilityHint: String(localized: "Opens the full article in your default web browser.")
+                        ) {
                             store.send(.openInBrowserTapped)
                             if let url = viewStore.article.webURL { openURL(url) }
                         }
 
-                        PrimaryButton("Share", accessibilityHint: "Shares the article with other apps.") {
+                        PrimaryButton(
+                            String(localized: "Share"),
+                            accessibilityHint: String(localized: "Shares the article with other apps.")
+                        ) {
                             store.send(.shareTapped)
                         }
                     }
                 }
                 .padding()
             }
-            .navigationTitle(viewStore.article.source?.name ?? "Article")
+            .navigationTitle(viewStore.article.source?.name ?? String(localized: "Article"))
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: viewStore.binding(
                 get: \.isShareSheetPresented,
@@ -123,5 +133,16 @@ private struct ActivityView: UIViewControllerRepresentable {
         ArticleDetailsView(store: Store(initialState: .init(article: article)) {
             ArticleDetailsFeature()
         })
+    }
+}
+
+extension String {
+    init(
+        localized keyAndValue: String.LocalizationValue,
+        table: String? = nil,
+        locale: Locale = .current,
+        comment: StaticString? = nil
+    ) {
+        self.init(localized: keyAndValue, table: table, bundle: .module, locale: locale, comment: comment)
     }
 }
