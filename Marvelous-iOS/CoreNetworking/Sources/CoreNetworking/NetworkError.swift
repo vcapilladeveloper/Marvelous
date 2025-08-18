@@ -9,13 +9,13 @@ public enum NetworkError: Error, LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidURL:
-            return "Invalid URL."
+            return String(localized: "Invalid URL.")
         case .requestFailed(let statusCode):
-            return "Request failed with status code \(statusCode)."
+            return String(localized: "Request failed with status code \(statusCode).")
         case .decodingError(let error):
-            return "Decoding failed: \(error.localizedDescription)"
+            return String(localized: "Decoding failed: \(error.localizedDescription)")
         case .unknown(let error):
-            return "Unknown error: \(error.localizedDescription)"
+            return String(localized: "Unknown error: \(error.localizedDescription)")
         }
     }
 }
@@ -34,5 +34,16 @@ extension NetworkError: Equatable {
         default:
             return false
         }
+    }
+}
+
+extension String {
+    init(
+        localized keyAndValue: String.LocalizationValue,
+        table: String? = nil,
+        locale: Locale = .current,
+        comment: StaticString? = nil
+    ) {
+        self.init(localized: keyAndValue, table: table, bundle: .module, locale: locale, comment: comment)
     }
 }

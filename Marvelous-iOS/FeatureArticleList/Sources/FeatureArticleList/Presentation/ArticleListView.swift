@@ -19,7 +19,7 @@ public struct ArticleListView: View {
         WithViewStore(store, observe: { $0 }, content: { viewStore in
             NavigationStack {
                 content(viewStore: viewStore)
-                    .navigationTitle("News")
+                    .navigationTitle(String(localized: "News"))
                     .searchable(
                         text: viewStore.binding(
                             get: \.searchQuery,
@@ -61,7 +61,7 @@ public struct ArticleListView: View {
                 articleCell(article, viewStore: viewStore)
                     .onTapGesture { viewStore.send(.didSelect(article)) }
                     .accessibilityAddTraits(.isButton)
-                    .accessibilityHint("Double tap to view article details.")
+                    .accessibilityHint(String(localized: "Double tap to view article details."))
                     .onAppear {
                         if article.id == viewStore.items.last?.id {
                             viewStore.send(.loadMore)
@@ -74,7 +74,7 @@ public struct ArticleListView: View {
     @ViewBuilder
     private func articleCell(_ article: Article, viewStore _: ViewStoreOf<ArticleListFeature>) -> some View {
         ArticleCard(
-            title: article.title ?? "(No title)",
+            title: article.title ?? String(localized: "(No title)"),
             imageURL: article.imageURL
         )
         .contentShape(Rectangle())
@@ -96,5 +96,16 @@ public struct ArticleListView: View {
         } else {
             EmptyView()
         }
+    }
+}
+
+extension String {
+    init(
+        localized keyAndValue: String.LocalizationValue,
+        table: String? = nil,
+        locale: Locale = .current,
+        comment: StaticString? = nil
+    ) {
+        self.init(localized: keyAndValue, table: table, bundle: .module, locale: locale, comment: comment)
     }
 }

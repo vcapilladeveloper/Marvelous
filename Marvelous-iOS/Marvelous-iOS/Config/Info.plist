@@ -5,5 +5,11 @@
 	<!-- Only NewsAPIKey is needed for this project -->
 	<key>NewsAPIKey</key>
 	<string>$(NEWS_API_KEY)</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>es</string>
+		<string>ca</string>
+	</array>
 </dict>
 </plist>

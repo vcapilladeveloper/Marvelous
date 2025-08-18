@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "CoreNetworking",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v16)
     ],
@@ -19,7 +20,12 @@ let package = Package(
     targets: [
         .target(
             name: "CoreNetworking",
-            dependencies: ["CoreModels"]
+            dependencies: [
+                "CoreModels"
+            ],
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "CoreNetworkingTests",

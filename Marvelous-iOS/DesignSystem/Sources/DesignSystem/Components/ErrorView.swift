@@ -5,7 +5,7 @@ public struct ErrorView: View {
     let retryTitle: String
     let onRetry: () -> Void
 
-    public init(message: String, retryTitle: String = "Retry", onRetry: @escaping () -> Void) {
+    public init(message: String, retryTitle: String = String(localized: "Retry"), onRetry: @escaping () -> Void) {
         self.message = message
         self.retryTitle = retryTitle
         self.onRetry = onRetry
@@ -17,7 +17,7 @@ public struct ErrorView: View {
                 .font(DSTypography.body)
                 .foregroundColor(DSPalette.error)
                 .multilineTextAlignment(.center)
-            PrimaryButton(retryTitle, accessibilityHint: "Retries the failed operation.", action: onRetry)
+            PrimaryButton(retryTitle, accessibilityHint: String(localized: "Retries the failed operation."), action: onRetry)
                 .padding(.horizontal)
         }
         .padding()
