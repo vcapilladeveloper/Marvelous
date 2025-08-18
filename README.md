@@ -4,7 +4,7 @@
 
 **API ISSUES: Not only the restriction of 100 max articles per user, also on search option, some duplicated elements into the same response.**
 
-![API Duplicated on search](DocResources/APIDuplicatedResponseJSONelements.PNG) 
+![API Duplicated on search](DocResources/APIDuplicatedResponseJSONelements.png) 
 
 A modern iOS application showcasing advanced iOS development practices, clean architecture, and comprehensive testing. Built for a Staff iOS Engineer technical test, this project demonstrates expertise in TCA (The Composable Architecture), Clean Architecture principles, accessibility, and modern Swift development.
 
