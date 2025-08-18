@@ -88,14 +88,18 @@ public struct ArticleListFeature {
 - State is mutated only by the reducer in response to actions.
 
 ### Dependency Injection
-- The feature relies on an `ArticleListClient` (defined in the same file) to fetch articles. This client is injected into the reducer, allowing for easy mocking in tests.
+- The feature relies on a `FetchArticlesUseCase` to abstract the logic for retrieving articles.
+- This use case is injected as a dependency into the TCA environment, allowing for easy mocking in tests and maintaining a clean separation of concerns.
+
+### Integration with other modules
+Navigation to the article detail screen is handled by a parent coordinator that composes this feature with `FeatureArticleDetails`. This is why `FeatureArticleDetails` is not a direct dependency of this module, promoting loose coupling between feature modules.
 
 ## Dependencies
 - The Composable Architecture
+- `Config` module
 - `CoreModels` module
 - `CoreNetworking` module
 - `DesignSystem` module
-- `FeatureArticleDetails` module
 - SwiftUI
 
 ## Areas for Improvement
