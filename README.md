@@ -153,7 +153,9 @@ Each module contains its own comprehensive `README.md` file:
 This section highlights things that I have not had time to do and that I'm aware I should have done for the project.
 
 * **Branching and Committing:** Adopt a more structured approach to branch management and commit history (e.g., smaller, more focused commits).
-* **Module Dependencies:** Refactor the dependency between `FeatureArticleList` and `FeatureArticleDetails` to improve modularity.
+* **Module Dependencies:** 
+    * Refactor the dependency between `FeatureArticleList` and `FeatureArticleDetails` to improve modularity.
+    * Unify external dependency versions (e.g., TCA) across all modules to ensure consistency.
 * **Testing:**
     *   Expand UI test coverage with snapshot tests.
     *   Implement integration tests (e.g., Pact tests) for the API contract.

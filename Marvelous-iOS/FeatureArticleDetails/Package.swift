@@ -11,7 +11,7 @@ let package = Package(
     dependencies: [
         .package(path: "../CoreModels"),
         .package(path: "../DesignSystem"),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.10.0")
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.21.1")
     ],
     targets: [
         .target(
